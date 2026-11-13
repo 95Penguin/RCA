@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "next-minute-rca"
+version = "0.1.0"
+description = "Next-minute user-visible failure prediction and microservice RCA"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "torch>=2.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["constants"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

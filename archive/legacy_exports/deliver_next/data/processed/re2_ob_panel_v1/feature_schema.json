@@ -1,0 +1,34 @@
+{
+  "dataset": "RE2-OB",
+  "services": [
+    "adservice",
+    "cartservice",
+    "checkoutservice",
+    "currencyservice",
+    "emailservice",
+    "frontendservice",
+    "paymentservice",
+    "productcatalogservice",
+    "recommendationservice",
+    "redis",
+    "shippingservice"
+  ],
+  "feature_columns": [
+    "metric_cpu",
+    "metric_mem",
+    "metric_diskio",
+    "metric_socket",
+    "observed_cpu",
+    "observed_mem",
+    "observed_diskio",
+    "observed_socket",
+    "trace_span_count",
+    "trace_error_count",
+    "trace_duration_mean_ms",
+    "log_count",
+    "log_error_count",
+    "log_observed"
+  ],
+  "graph_policy": "child/parent completed before edge observation; symmetric counts",
+  "source_labels": "/Users/95penguin/project/NextMinuteRCA/data/processed/re2_ob_labels_v1/next_minute_labels.csv"
+}

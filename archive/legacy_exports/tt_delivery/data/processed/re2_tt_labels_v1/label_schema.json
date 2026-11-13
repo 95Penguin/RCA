@@ -1,0 +1,39 @@
+{
+  "dataset": "RE2-TT",
+  "case_count": 90,
+  "cases_with_observed_impact": 53,
+  "event_count": 64,
+  "positive_minutes": 436,
+  "valid_target_minutes": 1879,
+  "valid_positive_minutes": 436,
+  "cases_by_fault_type": {
+    "cpu": 15,
+    "delay": 15,
+    "disk": 15,
+    "loss": 15,
+    "mem": 15,
+    "socket": 15
+  },
+  "impact_cases_by_fault_type": {
+    "cpu": 7,
+    "delay": 10,
+    "disk": 6,
+    "mem": 11,
+    "socket": 9,
+    "loss": 10
+  },
+  "prediction_horizon_seconds": 60,
+  "history_minutes": 5,
+  "entry_rule": "root HTTP operation spans with blank parentSpanID",
+  "timestamp_rule": "completed span minute; injection minute excluded as target",
+  "baseline_rule": "median operation p95 over 10 complete pre-injection minutes; at least 5 observed",
+  "min_operation_spans": 20,
+  "latency_ratio": 2.0,
+  "min_latency_increase_seconds": 0.1,
+  "consecutive_minutes": 2,
+  "failure_target": "sustained same-operation entry p95 latency degradation",
+  "root_target": "injected service only for post-injection observed impact events",
+  "split_unit": "whole injected case or service/fault configuration",
+  "source_archive": "/Users/95penguin/project/NextMinuteRCA/data/RCAEval/RE2-TT.zip",
+  "source_audit": "/Users/95penguin/project/NextMinuteRCA/artifacts/re2_tt_source_audit_v1.json"
+}

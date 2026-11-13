@@ -1,0 +1,548 @@
+{
+  "cases": 90,
+  "minutes": 2144,
+  "service_minute_rows": 23584,
+  "minutes_with_edges": 2135,
+  "case_quality": {
+    "RE2-OB_checkoutservice_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 366615,
+      "resolved_cross_service_calls": 168031,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_cpu_2": {
+      "minutes": 13,
+      "trace_parent_candidates": 187771,
+      "resolved_cross_service_calls": 85702,
+      "minutes_with_edges": 13
+    },
+    "RE2-OB_checkoutservice_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 368021,
+      "resolved_cross_service_calls": 168580,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 377409,
+      "resolved_cross_service_calls": 172893,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 372305,
+      "resolved_cross_service_calls": 170669,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 368406,
+      "resolved_cross_service_calls": 168839,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 359361,
+      "resolved_cross_service_calls": 164601,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 374552,
+      "resolved_cross_service_calls": 171524,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 373961,
+      "resolved_cross_service_calls": 171365,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 351620,
+      "resolved_cross_service_calls": 161091,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 380936,
+      "resolved_cross_service_calls": 174617,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 377894,
+      "resolved_cross_service_calls": 173047,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 368221,
+      "resolved_cross_service_calls": 168673,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_mem_2": {
+      "minutes": 20,
+      "trace_parent_candidates": 307189,
+      "resolved_cross_service_calls": 140484,
+      "minutes_with_edges": 20
+    },
+    "RE2-OB_checkoutservice_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 368686,
+      "resolved_cross_service_calls": 168937,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 376417,
+      "resolved_cross_service_calls": 172436,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 371148,
+      "resolved_cross_service_calls": 170003,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_checkoutservice_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 369597,
+      "resolved_cross_service_calls": 169344,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 361990,
+      "resolved_cross_service_calls": 165777,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 363290,
+      "resolved_cross_service_calls": 166529,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 364221,
+      "resolved_cross_service_calls": 166874,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 347882,
+      "resolved_cross_service_calls": 159313,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 352792,
+      "resolved_cross_service_calls": 161695,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 350468,
+      "resolved_cross_service_calls": 160555,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 337113,
+      "resolved_cross_service_calls": 154446,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 368081,
+      "resolved_cross_service_calls": 168588,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 375739,
+      "resolved_cross_service_calls": 172189,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 265577,
+      "resolved_cross_service_calls": 120372,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 340575,
+      "resolved_cross_service_calls": 156025,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 328052,
+      "resolved_cross_service_calls": 150314,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 346932,
+      "resolved_cross_service_calls": 158933,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 351865,
+      "resolved_cross_service_calls": 161250,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 352990,
+      "resolved_cross_service_calls": 161686,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 381474,
+      "resolved_cross_service_calls": 174712,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 369926,
+      "resolved_cross_service_calls": 169538,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_currencyservice_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 358719,
+      "resolved_cross_service_calls": 164348,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 356867,
+      "resolved_cross_service_calls": 163570,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 369306,
+      "resolved_cross_service_calls": 169193,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 385229,
+      "resolved_cross_service_calls": 176537,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 379447,
+      "resolved_cross_service_calls": 173850,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 375697,
+      "resolved_cross_service_calls": 172118,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 371876,
+      "resolved_cross_service_calls": 170380,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 349836,
+      "resolved_cross_service_calls": 160348,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 383419,
+      "resolved_cross_service_calls": 175649,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_disk_3": {
+      "minutes": 23,
+      "trace_parent_candidates": 347220,
+      "resolved_cross_service_calls": 158966,
+      "minutes_with_edges": 23
+    },
+    "RE2-OB_emailservice_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 359443,
+      "resolved_cross_service_calls": 164601,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 371281,
+      "resolved_cross_service_calls": 170142,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 374451,
+      "resolved_cross_service_calls": 171441,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 368001,
+      "resolved_cross_service_calls": 168552,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 380134,
+      "resolved_cross_service_calls": 174185,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 371080,
+      "resolved_cross_service_calls": 165996,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 383776,
+      "resolved_cross_service_calls": 175801,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 378947,
+      "resolved_cross_service_calls": 173635,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_emailservice_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 371640,
+      "resolved_cross_service_calls": 170233,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 363908,
+      "resolved_cross_service_calls": 166879,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 363964,
+      "resolved_cross_service_calls": 166804,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 374311,
+      "resolved_cross_service_calls": 171481,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 330309,
+      "resolved_cross_service_calls": 151337,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 334148,
+      "resolved_cross_service_calls": 153059,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 337148,
+      "resolved_cross_service_calls": 154470,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 354935,
+      "resolved_cross_service_calls": 162596,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 375462,
+      "resolved_cross_service_calls": 172060,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 366733,
+      "resolved_cross_service_calls": 167924,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 237744,
+      "resolved_cross_service_calls": 103059,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 241580,
+      "resolved_cross_service_calls": 107030,
+      "minutes_with_edges": 23
+    },
+    "RE2-OB_productcatalogservice_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 309329,
+      "resolved_cross_service_calls": 141209,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 288436,
+      "resolved_cross_service_calls": 132097,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 289841,
+      "resolved_cross_service_calls": 131166,
+      "minutes_with_edges": 23
+    },
+    "RE2-OB_productcatalogservice_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 253652,
+      "resolved_cross_service_calls": 115143,
+      "minutes_with_edges": 21
+    },
+    "RE2-OB_productcatalogservice_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 347029,
+      "resolved_cross_service_calls": 158924,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 373286,
+      "resolved_cross_service_calls": 170939,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_productcatalogservice_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 380875,
+      "resolved_cross_service_calls": 174511,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 360993,
+      "resolved_cross_service_calls": 165403,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 372713,
+      "resolved_cross_service_calls": 170774,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 371446,
+      "resolved_cross_service_calls": 170225,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 360729,
+      "resolved_cross_service_calls": 165230,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 368145,
+      "resolved_cross_service_calls": 168638,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 372012,
+      "resolved_cross_service_calls": 170435,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 361719,
+      "resolved_cross_service_calls": 165703,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 379316,
+      "resolved_cross_service_calls": 173710,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 380980,
+      "resolved_cross_service_calls": 174559,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 271143,
+      "resolved_cross_service_calls": 121365,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 337300,
+      "resolved_cross_service_calls": 153837,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 328933,
+      "resolved_cross_service_calls": 149516,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 362028,
+      "resolved_cross_service_calls": 165861,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 362837,
+      "resolved_cross_service_calls": 166300,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 367244,
+      "resolved_cross_service_calls": 168246,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 284775,
+      "resolved_cross_service_calls": 129587,
+      "minutes_with_edges": 20
+    },
+    "RE2-OB_recommendationservice_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 378828,
+      "resolved_cross_service_calls": 173584,
+      "minutes_with_edges": 24
+    },
+    "RE2-OB_recommendationservice_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 381541,
+      "resolved_cross_service_calls": 174774,
+      "minutes_with_edges": 24
+    }
+  }
+}

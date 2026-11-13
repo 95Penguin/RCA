@@ -1,0 +1,548 @@
+{
+  "cases": 90,
+  "minutes": 2160,
+  "service_minute_rows": 58320,
+  "minutes_with_edges": 2131,
+  "case_quality": {
+    "RE2-TT_ts-auth-service_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1123339,
+      "resolved_cross_service_calls": 163332,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 804335,
+      "resolved_cross_service_calls": 155479,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 871408,
+      "resolved_cross_service_calls": 155229,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1143436,
+      "resolved_cross_service_calls": 110487,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 622140,
+      "resolved_cross_service_calls": 157314,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 644444,
+      "resolved_cross_service_calls": 159727,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 676964,
+      "resolved_cross_service_calls": 157814,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 641984,
+      "resolved_cross_service_calls": 159586,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 717540,
+      "resolved_cross_service_calls": 154077,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 953669,
+      "resolved_cross_service_calls": 162285,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 744899,
+      "resolved_cross_service_calls": 161012,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 603363,
+      "resolved_cross_service_calls": 80344,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1069610,
+      "resolved_cross_service_calls": 157594,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 1118771,
+      "resolved_cross_service_calls": 154528,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 590807,
+      "resolved_cross_service_calls": 148923,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 817028,
+      "resolved_cross_service_calls": 158145,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 719533,
+      "resolved_cross_service_calls": 153787,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-auth-service_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 926065,
+      "resolved_cross_service_calls": 153740,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 619411,
+      "resolved_cross_service_calls": 159270,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 787088,
+      "resolved_cross_service_calls": 163023,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 842970,
+      "resolved_cross_service_calls": 149582,
+      "minutes_with_edges": 23
+    },
+    "RE2-TT_ts-order-service_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 776427,
+      "resolved_cross_service_calls": 61302,
+      "minutes_with_edges": 18
+    },
+    "RE2-TT_ts-order-service_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 116106,
+      "resolved_cross_service_calls": 28537,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 114400,
+      "resolved_cross_service_calls": 28215,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1045728,
+      "resolved_cross_service_calls": 160227,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 118772,
+      "resolved_cross_service_calls": 29342,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 115624,
+      "resolved_cross_service_calls": 28541,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1245104,
+      "resolved_cross_service_calls": 155838,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 116402,
+      "resolved_cross_service_calls": 28802,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 117376,
+      "resolved_cross_service_calls": 28872,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 596667,
+      "resolved_cross_service_calls": 148494,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 639163,
+      "resolved_cross_service_calls": 158934,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 694611,
+      "resolved_cross_service_calls": 149206,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1160185,
+      "resolved_cross_service_calls": 154204,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 113966,
+      "resolved_cross_service_calls": 28108,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-order-service_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 965031,
+      "resolved_cross_service_calls": 159127,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 716394,
+      "resolved_cross_service_calls": 146207,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 115434,
+      "resolved_cross_service_calls": 28394,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 116822,
+      "resolved_cross_service_calls": 28817,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 756413,
+      "resolved_cross_service_calls": 136137,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 723418,
+      "resolved_cross_service_calls": 140821,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 853651,
+      "resolved_cross_service_calls": 136236,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1275403,
+      "resolved_cross_service_calls": 149670,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 311947,
+      "resolved_cross_service_calls": 22762,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 522421,
+      "resolved_cross_service_calls": 134760,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1170366,
+      "resolved_cross_service_calls": 113908,
+      "minutes_with_edges": 20
+    },
+    "RE2-TT_ts-route-service_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 828136,
+      "resolved_cross_service_calls": 102373,
+      "minutes_with_edges": 23
+    },
+    "RE2-TT_ts-route-service_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 619326,
+      "resolved_cross_service_calls": 156474,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 677593,
+      "resolved_cross_service_calls": 135351,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 619455,
+      "resolved_cross_service_calls": 156366,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 726843,
+      "resolved_cross_service_calls": 154805,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1484948,
+      "resolved_cross_service_calls": 149924,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 624673,
+      "resolved_cross_service_calls": 154767,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-route-service_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 745111,
+      "resolved_cross_service_calls": 155576,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 1019076,
+      "resolved_cross_service_calls": 156897,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 778716,
+      "resolved_cross_service_calls": 160802,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 912242,
+      "resolved_cross_service_calls": 157699,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 974573,
+      "resolved_cross_service_calls": 139024,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 646687,
+      "resolved_cross_service_calls": 139141,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 772696,
+      "resolved_cross_service_calls": 141784,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 738833,
+      "resolved_cross_service_calls": 159188,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 826398,
+      "resolved_cross_service_calls": 155375,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 975825,
+      "resolved_cross_service_calls": 157491,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 989123,
+      "resolved_cross_service_calls": 179637,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 972736,
+      "resolved_cross_service_calls": 155579,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 1032707,
+      "resolved_cross_service_calls": 159890,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 612324,
+      "resolved_cross_service_calls": 151637,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 612913,
+      "resolved_cross_service_calls": 154149,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 746127,
+      "resolved_cross_service_calls": 160621,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 381038,
+      "resolved_cross_service_calls": 27919,
+      "minutes_with_edges": 7
+    },
+    "RE2-TT_ts-train-service_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 1081425,
+      "resolved_cross_service_calls": 159003,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-train-service_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 623646,
+      "resolved_cross_service_calls": 154605,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_cpu_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 703421,
+      "resolved_cross_service_calls": 175195,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_cpu_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 780919,
+      "resolved_cross_service_calls": 160737,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_cpu_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 789794,
+      "resolved_cross_service_calls": 124208,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_delay_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 908513,
+      "resolved_cross_service_calls": 141463,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_delay_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 801495,
+      "resolved_cross_service_calls": 150388,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_delay_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 920929,
+      "resolved_cross_service_calls": 153349,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_disk_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 865768,
+      "resolved_cross_service_calls": 155654,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_disk_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 157632,
+      "resolved_cross_service_calls": 28489,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_disk_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 157836,
+      "resolved_cross_service_calls": 29189,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_loss_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 858679,
+      "resolved_cross_service_calls": 180401,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_loss_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 1188156,
+      "resolved_cross_service_calls": 170049,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_loss_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 1012812,
+      "resolved_cross_service_calls": 179857,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_mem_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 819173,
+      "resolved_cross_service_calls": 151022,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_mem_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 851654,
+      "resolved_cross_service_calls": 144648,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_mem_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 556611,
+      "resolved_cross_service_calls": 142001,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_socket_1": {
+      "minutes": 24,
+      "trace_parent_candidates": 156190,
+      "resolved_cross_service_calls": 29151,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_socket_2": {
+      "minutes": 24,
+      "trace_parent_candidates": 660984,
+      "resolved_cross_service_calls": 165287,
+      "minutes_with_edges": 24
+    },
+    "RE2-TT_ts-travel-service_socket_3": {
+      "minutes": 24,
+      "trace_parent_candidates": 749127,
+      "resolved_cross_service_calls": 162128,
+      "minutes_with_edges": 24
+    }
+  }
+}

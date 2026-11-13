@@ -1,0 +1,54 @@
+{
+  "observed_minutes_min20": 41996,
+  "total_minutes": 44043,
+  "thresholds": {
+    "0.05": {
+      "high_minutes": 34744,
+      "events_2min": 4612,
+      "positive_minutes_2min": 33541,
+      "median_event_duration": 5
+    },
+    "0.1": {
+      "high_minutes": 15002,
+      "events_2min": 2459,
+      "positive_minutes_2min": 10463,
+      "median_event_duration": 2
+    },
+    "0.25": {
+      "high_minutes": 3000,
+      "events_2min": 225,
+      "positive_minutes_2min": 2090,
+      "median_event_duration": 2
+    },
+    "0.5": {
+      "high_minutes": 1490,
+      "events_2min": 160,
+      "positive_minutes_2min": 1403,
+      "median_event_duration": 6
+    },
+    "0.75": {
+      "high_minutes": 471,
+      "events_2min": 10,
+      "positive_minutes_2min": 469,
+      "median_event_duration": 10
+    },
+    "0.9": {
+      "high_minutes": 458,
+      "events_2min": 6,
+      "positive_minutes_2min": 458,
+      "median_event_duration": 10
+    },
+    "0.99": {
+      "high_minutes": 456,
+      "events_2min": 6,
+      "positive_minutes_2min": 456,
+      "median_event_duration": 10
+    },
+    "0.999": {
+      "high_minutes": 455,
+      "events_2min": 6,
+      "positive_minutes_2min": 455,
+      "median_event_duration": 10
+    }
+  }
+}

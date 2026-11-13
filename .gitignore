@@ -1,0 +1,16 @@
+data/raw/**
+data/processed/**
+/data/
+/data/tmp/
+__pycache__/
+*.py[cod]
+.venv/
+
+.DS_Store
+artifacts/
+*.egg-info/
+config/server.local.env
+.ruff_cache/
+
+
+/.tools/

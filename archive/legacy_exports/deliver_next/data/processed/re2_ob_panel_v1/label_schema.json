@@ -1,0 +1,39 @@
+{
+  "dataset": "RE2-OB",
+  "case_count": 90,
+  "cases_with_observed_impact": 51,
+  "event_count": 55,
+  "positive_minutes": 455,
+  "valid_target_minutes": 1944,
+  "valid_positive_minutes": 455,
+  "cases_by_fault_type": {
+    "cpu": 15,
+    "delay": 15,
+    "disk": 15,
+    "loss": 15,
+    "mem": 15,
+    "socket": 15
+  },
+  "impact_cases_by_fault_type": {
+    "delay": 13,
+    "loss": 11,
+    "mem": 11,
+    "cpu": 5,
+    "disk": 5,
+    "socket": 6
+  },
+  "prediction_horizon_seconds": 60,
+  "history_minutes": 5,
+  "entry_service": "frontendservice",
+  "entry_operation": "frontend",
+  "timestamp_rule": "completed span minute; injection minute excluded",
+  "baseline_rule": "median per-minute frontend p95 over 10 complete pre-injection minutes",
+  "min_entry_spans": 100,
+  "latency_ratio": 1.5,
+  "min_latency_increase_seconds": 0.1,
+  "consecutive_minutes": 2,
+  "failure_target": "sustained observable frontend p95 latency degradation",
+  "root_target": "injected service only for post-injection observed impact events",
+  "split_unit": "whole injected case; no case may cross train/validation/test",
+  "source_archive": "/Users/95penguin/project/NextMinuteRCA/data/RCAEval/RE2-OB.zip"
+}
