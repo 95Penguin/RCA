@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from constants import SERVICES
+from data.constants import SERVICES
 from data.config import FEATURES, METRICS
 
 

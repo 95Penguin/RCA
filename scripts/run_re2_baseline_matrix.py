@@ -10,8 +10,13 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from models.factory import MODEL_NAMES  # noqa: E402
+from training.tasks import ForecastTask, TASK_NAMES  # noqa: E402
+
+
 DATASETS = {
     "ob": ROOT / "artifacts/re2_ob_panel_fair_v1",
     "tt": ROOT / "artifacts/re2_tt_panel_fair_v1",
@@ -26,10 +31,7 @@ def _mean_sd(values: list[float]) -> dict[str, float]:
 
 
 def _run_one(dataset: str, model: str, fold: int, args: argparse.Namespace) -> Path:
-    task_tag = (
-        "state_1m" if args.task == "state"
-        else f"first_visible_{args.horizon_minutes}m"
-    )
+    task_tag = ForecastTask(args.task, args.horizon_minutes).slug
     output = ROOT / (
         f"artifacts/re2_{dataset}_{model.replace('-', '_')}_deployment_"
         f"fold{fold}_{task_tag}_fair_{args.epochs}ep_seed{args.seed}_baseline_v1"
@@ -97,11 +99,7 @@ def _run_one(dataset: str, model: str, fold: int, args: argparse.Namespace) -> P
 def _summarize(paths: dict[tuple[str, str], list[Path]], args: argparse.Namespace) -> dict:
     summary: dict[str, object] = {
         "protocol": {
-            "task": (
-                "past five complete minutes predict next-minute degradation state and root service"
-                if args.task == "state" else
-                f"past five complete minutes predict first user-visible failure within {args.horizon_minutes} minute(s) and root service"
-            ),
+            "task": ForecastTask(args.task, args.horizon_minutes).description,
             "task_id": args.task,
             "horizon_minutes": args.horizon_minutes,
             "datasets": ["RE2-OB", "RE2-TT"],
@@ -137,10 +135,7 @@ def main() -> int:
     parser.add_argument(
         "--models",
         nargs="+",
-        choices=(
-            "last-mlp", "tcn", "gru", "gcn-gru", "instantops-adapted",
-            "ltfp", "eadro-adapted",
-        ),
+        choices=MODEL_NAMES,
         default=("last-mlp", "tcn"),
     )
     parser.add_argument("--datasets", nargs="+", choices=tuple(DATASETS), default=tuple(DATASETS))
@@ -150,13 +145,11 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", choices=("auto", "cpu", "mps", "cuda"), default="auto")
     parser.add_argument("--force", action="store_true")
-    parser.add_argument("--task", choices=("state", "first-visible"), default="state")
+    parser.add_argument("--task", choices=TASK_NAMES, default="state")
     parser.add_argument("--horizon-minutes", type=int, default=1)
     args = parser.parse_args()
     if min(args.epochs, args.batch_size, args.horizon_minutes) < 1:
         parser.error("epochs, batch-size and horizon-minutes must be positive")
-    if args.task == "state" and args.horizon_minutes != 1:
-        parser.error("state task only supports a one-minute horizon")
     paths: dict[tuple[str, str], list[Path]] = {}
     for dataset in args.datasets:
         for model in args.models:
@@ -166,7 +159,7 @@ def main() -> int:
     summary = _summarize(paths, args)
     model_tag = "_".join(model.replace("-", "_") for model in args.models)
     dataset_tag = "_".join(args.datasets)
-    task_tag = "state_1m" if args.task == "state" else f"first_visible_{args.horizon_minutes}m"
+    task_tag = ForecastTask(args.task, args.horizon_minutes).slug
     destination = ROOT / (
         f"artifacts/re2_{task_tag}_{dataset_tag}_{model_tag}_"
         f"{args.epochs}ep_seed{args.seed}_v1.json"

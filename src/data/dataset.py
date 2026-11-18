@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import csv
 import json
-from constants import SERVICES
+from data.constants import SERVICES
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -65,6 +65,7 @@ class GraphWindowDataset(Dataset[dict[str, torch.Tensor]]):
 
         features_by_time = self._read_features(Path(feature_csv))
         labels_by_time, failure_by_time, target_times = self._read_labels(Path(label_csv))
+        self.label_target_times = target_times
         self.timestamps = sorted(features_by_time)
         self.timestamp_epochs = [self._parse_timestamp(value) for value in self.timestamps]
         available_timestamps = set(self.timestamps)
@@ -78,6 +79,7 @@ class GraphWindowDataset(Dataset[dict[str, torch.Tensor]]):
             self.complete_minutes if coverage_policy == "complete" else self.available_minutes
         )
         time_indices = {timestamp: index for index, timestamp in enumerate(self.timestamps)}
+        self._time_indices = time_indices
         self.node_targets = np.stack(
             [
                 labels_by_time.get(t, np.zeros(len(self.services), dtype=np.float32))
@@ -88,6 +90,14 @@ class GraphWindowDataset(Dataset[dict[str, torch.Tensor]]):
             [failure_by_time.get(t, 0) for t in self.timestamps], dtype=np.int64
         )
         self.event_ids = [self._event_by_time.get(t, "") for t in self.timestamps]
+        self.root_event_weights = np.ones(len(self.timestamps), dtype=np.float32)
+        self.forecast_end_timestamps = {
+            index: target_times[timestamp]
+            for index, timestamp in enumerate(self.timestamps)
+            if timestamp in target_times
+        }
+        self.forecast_horizon_minutes = 1
+        self.forecast_mode = "point"
         self.sample_indices = [
             end
             for end in range(history - 1, len(self.timestamps))
@@ -280,8 +290,11 @@ class GraphWindowDataset(Dataset[dict[str, torch.Tensor]]):
         end = self.sample_indices[item]
         start = end - self.history + 1
         node_targets = torch.from_numpy(self.node_targets[end].copy())
+        next_timestamp = self.label_target_times[self.timestamps[end]]
+        next_index = self._time_indices[next_timestamp]
         return {
             "node_features": torch.from_numpy(self.features[start : end + 1].copy()),
+            "next_node_features": torch.from_numpy(self.features[next_index].copy()),
             "adjacency": (
                 self.adjacency[start : end + 1]
                 if self.adjacency.ndim == 3
@@ -292,6 +305,9 @@ class GraphWindowDataset(Dataset[dict[str, torch.Tensor]]):
             "node_label_valid": torch.tensor(
                 self._root_label_valid.get(self.timestamps[end],
                                            not self.failure_targets[end] or bool(node_targets.any()))
+            ),
+            "root_event_weight": torch.tensor(
+                self.root_event_weights[end], dtype=torch.float32
             ),
         }
 

@@ -162,7 +162,7 @@ def train_args() -> argparse.Namespace:
 
 def train_main() -> int:
     import numpy as np
-    from constants import SERVICES
+    from data.constants import SERVICES
     from data.dataset import MicrossWindowDataset
     from training.experiment import run_training
 
@@ -216,7 +216,7 @@ def train_main() -> int:
 
 
 def label_main():
-    from constants import SERVICES
+    from data.constants import SERVICES
     from data.labels import write_sla_labels
     from data.prepare import load_injections
 

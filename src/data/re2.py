@@ -412,10 +412,18 @@ def prepare_re2_tt(
 
 
 class Re2WindowDataset(GraphWindowDataset):
-    """Shared graph windows with case, configuration, and deployment splits."""
+    """Point-in-time failure state forecasts with case-safe data splits.
+
+    A horizon of ``h`` predicts the application state and root service at the
+    exact target minute ``t + h``. The default ``h=1`` preserves the original
+    next-minute task.
+    """
 
     def __init__(self, data_dir: str | Path, history: int = 5,
-                 split_policy: str = "repetition", split_fold: int = 0):
+                 split_policy: str = "repetition", split_fold: int = 0,
+                 horizon_minutes: int = 1):
+        if horizon_minutes < 1:
+            raise ValueError("horizon_minutes must be positive")
         if split_policy not in {"repetition", "configuration", "deployment", "session"}:
             raise ValueError("split_policy must be repetition, configuration, deployment or session")
         if not 0 <= split_fold <= 4 or (split_policy == "repetition" and split_fold):
@@ -442,6 +450,16 @@ class Re2WindowDataset(GraphWindowDataset):
             for row in csv.DictReader(handle):
                 case_by_time[row["timestamp_utc"]] = row["case_id"]
         self.case_ids = [case_by_time[stamp] for stamp in self.timestamps]
+        self.fault_type_names = tuple(sorted({
+            case_id.rsplit("_", 2)[-2] for case_id in self.case_ids
+        }))
+        fault_type_index = {
+            name: index for index, name in enumerate(self.fault_type_names)
+        }
+        self.fault_type_targets = np.asarray([
+            fault_type_index[case_id.rsplit("_", 2)[-2]]
+            for case_id in self.case_ids
+        ], dtype=np.int64)
         self.sample_indices = [
             end for end in self.sample_indices
             if len(set(self.case_ids[end - history + 1:end + 1])) == 1
@@ -449,6 +467,7 @@ class Re2WindowDataset(GraphWindowDataset):
             and self.timestamp_epochs[end + 1] == self.timestamp_epochs[end] + 60
             and self.case_ids[end] == self.case_ids[end + 1]
         ]
+        self._apply_point_horizon(horizon_minutes)
         splits = {"train": [], "validation": [], "test": []}
         grouped: dict[str, list[str]] = {}
         group_by_case: dict[str, str] = {}
@@ -534,6 +553,72 @@ class Re2WindowDataset(GraphWindowDataset):
             self.split_report.update({"train_repetition": 1,
                                       "validation_repetition": 2,
                                       "test_repetition": 3})
+        self.split_report.update({
+            "task": "failure_state",
+            "horizon_minutes": horizon_minutes,
+            "target_semantics": f"exact state at t+{horizon_minutes}m",
+        })
+
+    def __getitem__(self, item: int) -> dict[str, torch.Tensor]:
+        """Add case fault type for positive-window auxiliary supervision only."""
+        sample = super().__getitem__(item)
+        end = self.sample_indices[item]
+        sample["fault_type_target"] = torch.tensor(
+            self.fault_type_targets[end], dtype=torch.long
+        )
+        sample["fault_type_valid"] = torch.tensor(bool(self.failure_targets[end]))
+        return sample
+
+    def _apply_point_horizon(self, horizon_minutes: int) -> None:
+        """Shift next-minute panel labels to an exact future target minute."""
+        self.forecast_horizon_minutes = horizon_minutes
+        self.forecast_mode = "point"
+        if horizon_minutes == 1:
+            self.forecast_end_timestamps = {
+                end: self.label_target_times[self.timestamps[end]]
+                for end in self.sample_indices
+            }
+            return
+
+        index_by_epoch = {epoch: index for index, epoch in enumerate(self.timestamp_epochs)}
+        original_failure = self.failure_targets.copy()
+        original_nodes = self.node_targets.copy()
+        original_events = list(self.event_ids)
+        original_root_valid = dict(self._root_label_valid)
+        valid_ends: list[int] = []
+        forecast_ends: dict[int, str] = {}
+        source_offset = (horizon_minutes - 1) * self.bucket_seconds
+        target_offset = horizon_minutes * self.bucket_seconds
+        for end in self.sample_indices:
+            decision_epoch = self.timestamp_epochs[end]
+            source = index_by_epoch.get(decision_epoch + source_offset)
+            if source is None:
+                continue
+            source_timestamp = self.timestamps[source]
+            target_timestamp = self.label_target_times.get(source_timestamp)
+            if target_timestamp is None or not self._label_valid.get(source_timestamp, True):
+                continue
+            target_epoch = self._parse_timestamp(target_timestamp)
+            target = index_by_epoch.get(target_epoch)
+            if target is None or target_epoch - decision_epoch != target_offset:
+                continue
+            if not (
+                self.case_ids[end] == self.case_ids[source] == self.case_ids[target]
+            ):
+                continue
+
+            decision_timestamp = self.timestamps[end]
+            self.failure_targets[end] = original_failure[source]
+            self.node_targets[end] = original_nodes[source]
+            self.event_ids[end] = original_events[source]
+            self._root_label_valid[decision_timestamp] = original_root_valid.get(
+                source_timestamp,
+                not bool(original_failure[source]) or bool(original_nodes[source].any()),
+            )
+            valid_ends.append(end)
+            forecast_ends[end] = target_timestamp
+        self.sample_indices = valid_ends
+        self.forecast_end_timestamps = forecast_ends
 
 
 class Re2FirstVisibleWindowDataset(Re2WindowDataset):
@@ -557,7 +642,13 @@ class Re2FirstVisibleWindowDataset(Re2WindowDataset):
     ) -> None:
         if horizon_minutes < 1:
             raise ValueError("horizon_minutes must be positive")
-        super().__init__(data_dir, history, split_policy, split_fold)
+        super().__init__(
+            data_dir,
+            history,
+            split_policy,
+            split_fold,
+            horizon_minutes=1,
+        )
         directory = Path(data_dir)
         schema = json.loads((directory / "feature_schema.json").read_text())
         source_path = Path(schema["source_labels"])
@@ -648,10 +739,20 @@ class Re2FirstVisibleWindowDataset(Re2WindowDataset):
             **self.split_report,
             "task": "first_user_visible_failure",
             "horizon_minutes": horizon_minutes,
+            "target_semantics": f"first failure onset within (t, t+{horizon_minutes}m]",
             "failure_reference": "first audited business-degradation target minute per case",
             "post_failure_inputs": "excluded",
             "pre_injection_policy": "healthy control",
             "positive_windows": positives_by_split,
             "cases_with_failure_reference": len(onset_by_case),
+        }
+        self.forecast_horizon_minutes = horizon_minutes
+        self.forecast_mode = "window"
+        self.forecast_end_timestamps = {
+            end: datetime.fromtimestamp(
+                self.timestamp_epochs[end] + horizon_seconds,
+                tz=timezone.utc,
+            ).isoformat()
+            for end in valid_ends
         }
         self.first_visible_horizon_minutes = horizon_minutes

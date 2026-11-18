@@ -1,0 +1,731 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-11-18",
+  "purpose": "pinned_author_sources_and_framework_adapters_v1",
+  "project_root": "/Users/95penguin/project/NextMinuteRCA",
+  "project_git_head_at_audit": "e7168868fd0068208f57dd844f8adb817e48208c",
+  "project_has_uncommitted_changes": true,
+  "counts": {
+    "framework_user_selected": 4,
+    "prediction_proposed": 3,
+    "rca_candidate_pool_including_microrank_proposal": 7,
+    "active_pool": 14,
+    "reserve": 1
+  },
+  "excluded_for_this_round": [
+    "DeST",
+    "Persistence",
+    "TCN"
+  ],
+  "status_definitions": {
+    "author_repository": "作者项目README/论文指向的发布仓库；未表示完成运行或全文件审计",
+    "author_maintained_benchmark_integration": "作者维护benchmark中的算法集成，非已确认独立仓库",
+    "author_repository_not_confirmed": "本次检索未确认，不推断不存在",
+    "pinned_commit_null": "尚未获取并固定上游commit",
+    "runtime_verified_for_this_inventory_false": "本轮没有安装或执行此算法；旧工程适配版运行历史另存"
+  },
+  "common_task": {
+    "datasets": [
+      "RE2-OB",
+      "RE2-TT"
+    ],
+    "history_minutes": 5,
+    "horizon_minutes": 1,
+    "target": "exact_future_business_failure_state_including_ongoing_failures",
+    "split": "deployment_held_out_5_fold",
+    "input_cutoff": "completed_observations_at_or_before_t",
+    "root_target": "service_for_attributable_business_positive_target_window"
+  },
+  "existing_panel_snapshot": {
+    "services": {
+      "ob": 11,
+      "tt": 27
+    },
+    "features_per_service_minute": 19,
+    "graph": "symmetric_completed_parent_child_span_counts",
+    "contains_raw_log_text": false,
+    "contains_request_level_traces": false
+  },
+  "methods": [
+    {
+      "id": "ltfp",
+      "name": "LTFP",
+      "group": "framework",
+      "selection_status": "user_selected",
+      "source": {
+        "repository_url": "https://github.com/mlk12333/LTFP",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://www.mdpi.com/1999-4893/19/9/720",
+        "pinned_commit": "be900faf4830dd4c5429d03eb8e7b279b75f11b7",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "future_window_failure_prediction",
+        "responsible_service_ranking"
+      ],
+      "required_input": [
+        "metrics",
+        "logs",
+        "traces",
+        "dependencies",
+        "training_correlations"
+      ],
+      "supervision": "failure_and_root_labels",
+      "upstream_entry_points_to_audit": [
+        "src/ltfp/torch_models.py",
+        "experiments/run_ltfp_model.py",
+        "experiments/run_failure_onset_v2.py"
+      ],
+      "local_implementation": {
+        "model_id": "ltfp",
+        "paths": [
+          "src/models/ltfp.py"
+        ],
+        "kind": "task_aligned_architecture_adaptation",
+        "author_checkout": {
+          "path": "/Users/95penguin/project/LTFP",
+          "observed_head": "be900faf4830dd4c5429d03eb8e7b279b75f11b7",
+          "remote": "git@github.com:mlk12333/LTFP.git",
+          "worktree_clean": false
+        }
+      },
+      "integration_status": "framework_adapter_smoke_verified",
+      "planned_adaptation": "优先固定作者 commit，保留模型机制，将原未来时间窗目标适配为共同 exact-state t+1 目标。",
+      "open_items": [
+        "核对混合图与现有公共调用图差异",
+        "核对特征选择、时序编码、根因监督和主表命名"
+      ],
+      "environment_notes": "作者 README 推荐 Python>=3.10；完整依赖与运行兼容性待核对。",
+      "runtime_verified_for_this_inventory": false,
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-macos-cpu.lock.txt",
+        "implementation_id": "ltfp-upstream-panel-state-v1"
+      }
+    },
+    {
+      "id": "instantops",
+      "name": "InstantOps",
+      "group": "framework",
+      "selection_status": "user_selected",
+      "source": {
+        "repository_url": null,
+        "provenance": "author_repository_not_confirmed",
+        "verification_date": "2026-11-18",
+        "verification_level": "paper_and_targeted_search_no_author_repository_confirmed",
+        "paper_url": "https://research.spec.org/icpe_proceedings/2024/proceedings/p119.pdf",
+        "pinned_commit": null,
+        "downloaded_into_baselines": false
+      },
+      "original_tasks": [
+        "failure_prediction",
+        "permutation_based_root_cause_identification"
+      ],
+      "required_input": [
+        "metrics",
+        "logs_or_events",
+        "trace_call_graph"
+      ],
+      "supervision": "failure_labels_for_predictor",
+      "upstream_entry_points_to_audit": [
+        "作者入口待确认"
+      ],
+      "local_implementation": {
+        "model_id": "instantops-adapted",
+        "paths": [
+          "src/models/instantops.py",
+          "src/rca/ranking.py"
+        ],
+        "kind": "paper_based_architecture_adaptation",
+        "known_difference": "使用服务遮蔽而非已核对的原论文置换归因"
+      },
+      "integration_status": "framework_adapter_smoke_verified",
+      "planned_adaptation": "无作者代码时保留 paper-based 适配标签，先补齐论文实现差异说明及置换归因流程。",
+      "open_items": [
+        "本次未确认作者仓库，不等于证明作者没有发布",
+        "用户工程 origin 95Penguin/InstantOps 不能当成作者发布",
+        "核对时序置换策略及预测时间定义"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false,
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-macos-cpu.lock.txt",
+        "implementation_id": "instantops-paper-panel-permutation-v1"
+      }
+    },
+    {
+      "id": "eadro",
+      "name": "Eadro",
+      "group": "framework",
+      "selection_status": "user_selected",
+      "source": {
+        "repository_url": "https://github.com/BEbillionaireUSD/Eadro",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://arxiv.org/abs/2302.05092",
+        "pinned_commit": "82ff9c9a7a58a9cd2b713aa78754a73c543a15db",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "current_anomaly_detection",
+        "root_cause_localization"
+      ],
+      "required_input": [
+        "metrics",
+        "logs",
+        "traces",
+        "dependency_graph"
+      ],
+      "supervision": "anomaly_and_root_labels",
+      "upstream_entry_points_to_audit": [
+        "codes/model.py",
+        "codes/main.py",
+        "codes/base.py"
+      ],
+      "local_implementation": {
+        "model_id": "eadro-adapted",
+        "paths": [
+          "src/models/eadro.py"
+        ],
+        "kind": "self_written_architecture_adaptation"
+      },
+      "integration_status": "framework_adapter_smoke_verified",
+      "planned_adaptation": "作者实现优先；数据接口和 future target 外层适配，未来任务使用 adapted 实现标识。",
+      "open_items": [
+        "现有自写组件和作者模型逐项核对",
+        "核对日志/Trace预处理要求",
+        "固定未来标签和联合 checkpoint 选择"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false,
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-macos-cpu.lock.txt",
+        "implementation_id": "eadro-upstream-panel-state-v1"
+      },
+      "implemented_adaptation_limitations": [
+        "Uses common minute panel instead of author Hawkes log intensities",
+        "Calls registered author encoder and actual task heads; applies explicit runtime compatibility fixes",
+        "Independent business and root labels; future exact-state target"
+      ]
+    },
+    {
+      "id": "art",
+      "name": "ART",
+      "group": "framework",
+      "selection_status": "user_selected",
+      "source": {
+        "repository_url": "https://github.com/bbyldebb/ART",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://nkcs.iops.ai/wp-content/uploads/2024/09/ART24_to_ASE.pdf",
+        "pinned_commit": "5e177025e1b2c8908bfb906412601c047857ed98",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "anomaly_detection",
+        "failure_triage",
+        "root_cause_localization"
+      ],
+      "required_input": [
+        "multimodal_instance_features",
+        "dependency_graph"
+      ],
+      "supervision": "异常检测与定位的原监督方式、类型任务标签使用需逐阶段核对",
+      "upstream_entry_points_to_audit": [
+        "main.py",
+        "models/",
+        "config/",
+        "utils/"
+      ],
+      "local_implementation": null,
+      "integration_status": "framework_adapter_smoke_verified",
+      "planned_adaptation": "先复用作者数据/模型/评分流程，再审计原分数可用时间及 future-task 适配。",
+      "open_items": [
+        "原故障前后窗口需按预测截止点截断",
+        "实例与宿主机输入能否由RE2提供",
+        "保留原训练阶段与类型监督说明"
+      ],
+      "environment_notes": "作者建议 Python3.9.13/torch1.12.1/DGL0.9.0；未实测。",
+      "runtime_verified_for_this_inventory": false,
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-macos-cpu.lock.txt",
+        "implementation_id": "art-upstream-panel-score-lag-v1"
+      },
+      "implemented_adaptation_limitations": [
+        "Fixes unregistered graph layers, Transformer batch axis, and noncontiguous tensor reshape",
+        "Four observed minutes predict observed t within the five-minute input; residual(t) is evaluated against future y(t+1)",
+        "Window cosine ILD/SLD root ranking; no post-fault case aggregation or failure-type task"
+      ]
+    },
+    {
+      "id": "maat",
+      "name": "Maat",
+      "group": "prediction",
+      "selection_status": "assistant_proposed",
+      "source": {
+        "repository_url": "https://github.com/BEbillionaireUSD/Maat",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://arxiv.org/abs/2308.07676",
+        "pinned_commit": "af0136bfc70fefd902b89aa02d5c0cdb60015b00",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "future_metric_anomaly_anticipation"
+      ],
+      "required_input": [
+        "metric_time_series"
+      ],
+      "supervision": "指标生成与异常检测两阶段；有标签特征选择/初始化的使用待核对",
+      "upstream_entry_points_to_audit": [
+        "src/predict.py",
+        "src/detect.py",
+        "src/extract_feat.py"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "复用未来指标生成与检测流程；业务风险映射只在训练/验证阶段确定。",
+      "open_items": [
+        "指标异常不直接等于业务故障",
+        "对齐1分钟目标及历史可用范围",
+        "明确连续风险输出和验证阈值"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "anofusion",
+      "name": "AnoFusion",
+      "group": "prediction",
+      "selection_status": "assistant_proposed",
+      "source": {
+        "repository_url": "https://github.com/AIOps-Lab-NKU/AnoFusion",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://arxiv.org/abs/2305.18985",
+        "pinned_commit": "ae3c4ea98509008844a3eecf7c0bd1529faaba67",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "unsupervised_instance_failure_detection"
+      ],
+      "required_input": [
+        "metric_channels",
+        "log_channels",
+        "trace_channels",
+        "heterogeneous_channel_graph"
+      ],
+      "supervision": "normal_pattern_unsupervised_training",
+      "upstream_entry_points_to_audit": [
+        "utils/main.py",
+        "utils/generate_channels.py",
+        "model/AnoFusion.py"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "先保留作者截至t的检测分数，作为score-lag预测对照；若增加future head，单独命名 adapted。",
+      "open_items": [
+        "预测残差需要真实观测，不得使用t+1真实数据发出t时刻预测",
+        "实例分数到系统分数的聚合",
+        "作者通道构图与RE2输入核对"
+      ],
+      "environment_notes": "README列torch1.6.0及旧numpy等依赖；兼容性未实测。",
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "hades",
+      "name": "Hades",
+      "group": "prediction",
+      "selection_status": "assistant_proposed",
+      "source": {
+        "repository_url": "https://github.com/BEbillionaireUSD/Hades",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://arxiv.org/abs/2302.06914",
+        "pinned_commit": "bea4fce91e87e793193341d6ee5daa9dfe332b71",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "semi_supervised_current_anomaly_detection"
+      ],
+      "required_input": [
+        "metrics",
+        "log_semantics_and_sequences"
+      ],
+      "supervision": "semi_supervised_with_pseudo_labels",
+      "upstream_entry_points_to_audit": [
+        "hades/",
+        "README.md 中 codes/run.py 历史示例需与实际文件树核对"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "作者跨模态模型优先；明确更换future target的 adapted 版本，或另列历史检测分数对照。",
+      "open_items": [
+        "需要日志语义，不能用计数替代并声称忠实实现",
+        "伪标签与额外标注预算",
+        "核对README运行路径与实际目录"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "diagfusion",
+      "name": "DiagFusion",
+      "group": "rca",
+      "selection_status": "user_candidate_pool",
+      "source": {
+        "repository_url": "https://github.com/AIOps-Lab-NKU/DiagFusion",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://arxiv.org/abs/2302.10512",
+        "pinned_commit": "9ec3f73ad3de15cb7bbd51d02fde90af0af26514",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "root_cause_localization",
+        "failure_type_identification"
+      ],
+      "required_input": [
+        "multimodal_events",
+        "dependency_graph"
+      ],
+      "supervision": "root_and_failure_type_labels",
+      "upstream_entry_points_to_audit": [
+        "main.py",
+        "config/",
+        "detector/",
+        "models/"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "保留作者事件表示与图模型，输入截到共同历史截止点，输出映射到服务候选。",
+      "open_items": [
+        "原始日志事件导出",
+        "训练词表/fastText与数据增强仅训练折拟合",
+        "类型监督额外标签预算"
+      ],
+      "environment_notes": "作者建议Python3.7.13/torch1.10.0/DGL0.9.2/fastText0.9.2；未实测。",
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "tvdiag",
+      "name": "TVDiag",
+      "group": "rca",
+      "selection_status": "user_candidate_pool",
+      "source": {
+        "repository_url": "https://github.com/WHU-AISE/TVDiag",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://arxiv.org/abs/2407.19711",
+        "pinned_commit": "cf6f334887036f363807bac1b8995c3b6f47c5db",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "root_cause_localization",
+        "failure_type_identification"
+      ],
+      "required_input": [
+        "multimodal_events",
+        "dependency_graph"
+      ],
+      "supervision": "root_and_failure_type_labels",
+      "upstream_entry_points_to_audit": [
+        "main.py",
+        "core/TVDiag.py",
+        "core/model/MainModel.py",
+        "process/EventProcess.py"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "复用作者任务表示、跨模态训练和事件提取，采用共同历史截止点及服务排名评价。",
+      "open_items": [
+        "不能把类型识别称为future binary prediction",
+        "补齐事件/图输入",
+        "实例到服务映射及额外标签预算"
+      ],
+      "environment_notes": "README列Python3.8.12/torch2.1.1/fastText0.9.2/DGL2.1.0.cu118；本机兼容性未测。",
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "torai",
+      "name": "TORAI",
+      "group": "rca",
+      "selection_status": "user_candidate_pool",
+      "source": {
+        "repository_url": "https://github.com/phamquiluan/RCAEval",
+        "provenance": "author_maintained_benchmark_integration",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://conf.researchr.org/details/fse-2026/fse-2026-research-papers/64/TORAI-Multi-Source-Root-Cause-Analysis-for-Blind-Spots-in-the-Microservice-Service-C",
+        "pinned_commit": "90b63a46ac1e969f1fa9015318b51e455c62f8c4",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "multi_source_root_cause_analysis"
+      ],
+      "required_input": [
+        "metrics",
+        "logs",
+        "traces_optional",
+        "per_case_multisource_files"
+      ],
+      "supervision": "无监督RCA，实际统计参考窗口与参数选择待核对",
+      "upstream_entry_points_to_audit": [
+        "docs/TORAI.md",
+        "requirements_torai.lock",
+        "script/link-torai.sh",
+        "main.py --method torai"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "优先作者维护集成；固定RCAEval commit及补丁，按RE2共同截止点导出TORAI要求的数据。",
+      "open_items": [
+        "专用torai数据不能直接视为本项目RE2相同预处理",
+        "RCD依赖补丁",
+        "正常/异常窗口需使用可观测规则，不能用未来标签"
+      ],
+      "environment_notes": "Python3.8及patched causal-learn；需要独立环境，未实测。",
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "rcd",
+      "name": "RCD",
+      "group": "rca",
+      "selection_status": "user_candidate_pool",
+      "source": {
+        "repository_url": "https://github.com/azamikram/rcd",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://engineering.purdue.edu/dcsl/publications/papers/2022/rca-neurips22.pdf",
+        "pinned_commit": "373882c6982db7a999ec1ff99ea54c644a48b409",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "causal_root_cause_discovery"
+      ],
+      "required_input": [
+        "normal_metric_samples",
+        "candidate_anomalous_metric_samples"
+      ],
+      "supervision": "unsupervised_causal_discovery",
+      "upstream_entry_points_to_audit": [
+        "README.md 指向的作者入口待源码下载核对"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "优先作者因果发现实现，训练参考与截至t的候选窗口输入，指标排名按固定规则映射服务。",
+      "open_items": [
+        "高频原始样本量",
+        "正常/异常分段不能借未来故障标签",
+        "指标到服务聚合与无效窗口处理"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "circa",
+      "name": "CIRCA",
+      "group": "rca",
+      "selection_status": "user_candidate_pool",
+      "source": {
+        "repository_url": "https://github.com/NetManAIOps/CIRCA",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://netman.aiops.org/wp-content/uploads/2022/08/KDD22-CIRCA.pdf",
+        "pinned_commit": "0215e1880096aa02a305c697f1c23cac4600ebd2",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "intervention_recognition_root_cause_analysis"
+      ],
+      "required_input": [
+        "metric_time_series",
+        "causal_graph",
+        "business_sli",
+        "analysis_timestamp"
+      ],
+      "supervision": "causal_statistical_method",
+      "upstream_entry_points_to_audit": [
+        "circa/alg/ci/",
+        "circa/model/case.py",
+        "README.md 的 Model.analyze 示例"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "保留作者模型与scorer链；只使用截至t的数据、可用SLI和合法参考图。",
+      "open_items": [
+        "detect_time/current/lookup_window语义",
+        "图的来源与训练边界",
+        "不得提供未来报警或真实根因"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "tracerca",
+      "name": "TraceRCA",
+      "group": "rca",
+      "selection_status": "user_candidate_pool",
+      "source": {
+        "repository_url": "https://github.com/NetManAIOps/TraceRCA",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://doi.org/10.1109/IWQOS52092.2021.9521340",
+        "pinned_commit": "b9087c72d201fbb17d724114cd389de4854815ad",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "trace_based_root_cause_localization"
+      ],
+      "required_input": [
+        "request_level_traces",
+        "invocation_features"
+      ],
+      "supervision": "unsupervised_localization_with_normal_anomaly_trace_processing",
+      "upstream_entry_points_to_audit": [
+        "Makefile",
+        "run_anomaly_detection_invo.py",
+        "run_localization_association_rule_mining_20210516.py"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "保留作者特征选择、异常请求与可疑集合挖掘流程，RE2请求级Trace按截止点导出。",
+      "open_items": [
+        "trace/span/parent字段是否完整",
+        "只使用当时已完成可用观测",
+        "分钟均值面板不足以替代请求信息"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "microrank",
+      "name": "MicroRank",
+      "group": "rca",
+      "selection_status": "assistant_proposed_random_walk_representative",
+      "source": {
+        "repository_url": "https://github.com/IntelligentDDS/MicroRank",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "pinned_commit_source_snapshot_hashes",
+        "paper_url": "https://doi.org/10.1145/3442381.3449905",
+        "pinned_commit": "efd85e8e6f0fad30f6f8aaf0555e3324d8f5f982",
+        "downloaded_into_baselines": true
+      },
+      "original_tasks": [
+        "latency_issue_root_cause_localization"
+      ],
+      "required_input": [
+        "request_level_traces",
+        "operation_latency",
+        "normal_anomalous_trace_graphs"
+      ],
+      "supervision": "unsupervised_detection_and_graph_ranking",
+      "upstream_entry_points_to_audit": [
+        "online_rca.py",
+        "pagerank.py",
+        "preprocess_data.py",
+        "anormaly_detector.py"
+      ],
+      "local_implementation": null,
+      "integration_status": "source_pinned_adapter_pending",
+      "planned_adaptation": "以具体作者PageRank+谱分析实现代表Random Walk相关方法，保留操作图后固定聚合到服务层。",
+      "open_items": [
+        "原数据存储接口需外层适配",
+        "服务/操作映射与同分规则",
+        "检测门槛与截至t的调用结构"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    },
+    {
+      "id": "cad",
+      "name": "CAD",
+      "group": "prediction",
+      "selection_status": "reserve_only",
+      "source": {
+        "repository_url": "https://github.com/dawnvince/MTS_CAD",
+        "provenance": "author_repository",
+        "verification_date": "2026-11-18",
+        "verification_level": "repository_readme_and_file_listing",
+        "paper_url": "https://arxiv.org/abs/2308.08915",
+        "pinned_commit": null,
+        "downloaded_into_baselines": false
+      },
+      "original_tasks": [
+        "multivariate_metric_anomaly_detection"
+      ],
+      "required_input": [
+        "metric_time_series"
+      ],
+      "supervision": "unsupervised_anomaly_detection",
+      "upstream_entry_points_to_audit": [
+        "README.md 指向的作者训练/评价入口待核对"
+      ],
+      "local_implementation": null,
+      "integration_status": "reserve_inventory_only",
+      "planned_adaptation": "备选；保留作者异常评分后作score-lag对照，或独立声明future-head适配版。",
+      "open_items": [
+        "是否需要启用备选尚未确定",
+        "原异常评分的实际观测依赖",
+        "指标到业务风险的映射"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": false
+    }
+  ],
+  "shared_alternative_source": {
+    "repository_url": "https://github.com/phamquiluan/RCAEval",
+    "role": "可作为统一RCA接入参考；除TORAI外优先核对各方法作者仓库，不能默认为所有集成都与作者原实现等价",
+    "pinned_commit": null
+  },
+  "source_policy": "prefer_author_code_keep_core_algorithm_record_task_adaptations_do_not_overwrite_historical_implementations",
+  "implementation_date": "2026-11-18"
+}

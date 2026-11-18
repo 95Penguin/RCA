@@ -11,6 +11,19 @@ artifacts/
 *.egg-info/
 config/server.local.env
 .ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Generated root-level study exports belong under artifacts/ or archive/.
+/dataset_readiness_audit.json
+/micross_study_repro.csv
+/micross_study_repro.events.csv
+/micross_study_repro.schema.json
+/micross_threshold_audit.json
+/re2_ob_threshold_audit.json
 
 
 /.tools/

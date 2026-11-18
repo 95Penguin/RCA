@@ -15,7 +15,6 @@ dependencies = [
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-py-modules = ["constants"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

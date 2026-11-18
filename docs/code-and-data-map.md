@@ -5,6 +5,8 @@
 当前实验的主工程是`/Users/95penguin/project/NextMinuteRCA`。新方法、新实验和新文档只在这里修改。
 当前RE2原始ZIP、正式标签、模型面板、训练产物与报告都已位于该目录，日常RE2实验不再依赖旧`InstantOps`工程。
 根目录原有的`deliver`、`deliver_next`和`tt_delivery`只是历史导出副本，已统一归档到`archive/legacy_exports/`，不作为运行入口。
+曾散落在根目录的审计 JSON 和 MicroSS 导出文件已归档到`archive/legacy_outputs/`；
+新的运行结果统一写入`artifacts/`。
 
 ## 代码职责
 
@@ -16,6 +18,8 @@
 | Eadro-adapted | `src/models/eadro.py` |
 | InstantOps-adapted和MTG的GCN+GRU主干 | `src/models/instantops.py` |
 | 通用简单baseline和模型公共组件 | `src/models/baselines.py`、`src/models/common.py` |
+| 模型注册、构建和模型专属训练策略 | `src/models/factory.py` |
+| 预测任务与1/3/5分钟horizon语义 | `src/training/tasks.py` |
 | 模型选择、训练、评价和预测导出 | `src/training/experiment.py` |
 | 单次RE2标签/预处理/训练入口 | `scripts/run_re2.py` |
 | 论文baseline五折批量运行 | `scripts/run_re2_baseline_matrix.py` |

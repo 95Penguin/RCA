@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 
 import numpy as np
 
-from constants import SERVICES
+from data.constants import SERVICES
 from data.dataset import MicrossWindowDataset
 from data.config import MICROSS_PROCESSED_DIR, MICROSS_RAW_DIR, MICROSS_WORK_DIR
 from data.dataset import chronological_split

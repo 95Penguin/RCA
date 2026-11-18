@@ -40,6 +40,46 @@ def classification_metrics(
     }
 
 
+def multiclass_metrics(
+    labels: np.ndarray,
+    probabilities: np.ndarray,
+    class_names: tuple[str, ...],
+) -> dict[str, object]:
+    """Report accuracy and macro-F1 without external metric dependencies."""
+    if probabilities.ndim != 2 or probabilities.shape[0] != labels.size:
+        raise ValueError("multiclass probabilities must be [samples, classes]")
+    if probabilities.shape[1] != len(class_names):
+        raise ValueError("class names do not match multiclass probabilities")
+    predictions = probabilities.argmax(axis=1)
+    per_class: dict[str, dict[str, float | int]] = {}
+    supported_f1_values: list[float] = []
+    for index, name in enumerate(class_names):
+        true = labels == index
+        predicted = predictions == index
+        tp = int(np.logical_and(true, predicted).sum())
+        fp = int(np.logical_and(~true, predicted).sum())
+        fn = int(np.logical_and(true, ~predicted).sum())
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        if true.any():
+            supported_f1_values.append(f1)
+        per_class[name] = {
+            "support": int(true.sum()),
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+        }
+    return {
+        "samples": int(labels.size),
+        "accuracy": float((predictions == labels).mean()) if labels.size else None,
+        "macro_f1": (
+            float(np.mean(supported_f1_values)) if supported_f1_values else None
+        ),
+        "per_class": per_class,
+    }
+
+
 def rca_metrics(node_targets: np.ndarray, node_scores: np.ndarray) -> dict[str, float | int | None]:
     positive_rows = np.flatnonzero(node_targets.sum(axis=1) > 0)
     if not len(positive_rows):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Label, prepare and train RCAEval RE2-OB/TT five-to-one-minute pipelines."""
+"""Label, prepare and train RCAEval RE2-OB/TT future failure forecasts."""
 
 from __future__ import annotations
 
@@ -12,6 +12,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from data.re2_labels import build_re2_ob_labels, build_re2_tt_labels  # noqa: E402
+from models.factory import (  # noqa: E402
+    FEATURE_MODALITIES,
+    MODEL_NAMES,
+    named_feature_groups,
+)
+from training.tasks import ForecastTask, TASK_NAMES  # noqa: E402
 
 
 def label_main(argv: list[str]) -> int:
@@ -76,24 +82,48 @@ def train_main(argv: list[str]) -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--history", type=int, default=5)
     parser.add_argument(
-        "--task", choices=("state", "first-visible"), default="state",
-        help="state predicts next-minute degradation including persistence; first-visible predicts the first audited user-visible failure",
+        "--task",
+        choices=TASK_NAMES,
+        default="state",
+        help=(
+            "state predicts the exact t+h degradation state; first-visible predicts "
+            "whether the first audited user-visible failure occurs within (t, t+h]"
+        ),
     )
     parser.add_argument("--horizon-minutes", type=int, default=1)
+    parser.add_argument(
+        "--modalities",
+        nargs="+",
+        choices=FEATURE_MODALITIES,
+        default=FEATURE_MODALITIES,
+        help=(
+            "telemetry groups retained for this run; entry-operation features are "
+            "trace-derived and belong to trace"
+        ),
+    )
     parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--device", choices=("auto", "cpu", "mps", "cuda"), default="auto")
     parser.add_argument(
         "--model",
-        choices=(
-            "last-mlp", "tcn", "gru", "gcn-gru", "instantops-adapted",
-            "ltfp", "eadro-adapted",
-        ),
+        choices=MODEL_NAMES,
         default="gcn-gru",
         help=(
             "last-mlp uses only the latest minute; tcn and gru model time without a graph; "
             "gcn-gru is supervised MTG; instantops-adapted uses GCN+GRU with "
-            "service-masking RCA; ltfp is task-aligned; eadro-adapted ports Eadro's "
+            "service-masking RCA; ltfp is task-aligned; ltfp-type-aux adds "
+            "positive-window fault-type supervision; ltfp-rc2 derives failure "
+            "prediction and RCA from shared service risks; ltfp-dual-router uses "
+            "separate incident-adaptive routes for prediction and RCA; ltfp-forecast predicts "
+            "next-minute service telemetry before classification; ltfp-task-graph uses "
+            "independent graph experts for prediction and RCA; ltfp-shared-graph-experts "
+            "is its capacity-matched shared control; ltfp-no-graph removes message passing; "
+            "ltfp-null-joint and ltfp-null-marginal compare the same null-anchored "
+            "service-evidence model with and without root supervision; "
+            "ltfp-residual-joint and ltfp-residual-marginal retain the global LTFP "
+            "head and add a zero-initialized service-evidence residual; "
+            "ltfp-transition adds a "
+            "latest-state prior and temporal residual; eadro-adapted ports Eadro's "
             "reactive architecture to the shared future label"
         ),
     )
@@ -102,6 +132,37 @@ def train_main(argv: list[str]) -> int:
     parser.add_argument("--node-loss-weight", type=float, default=1.0)
     parser.add_argument("--joint-service-pooling", action="store_true")
     parser.add_argument("--rank-loss-weight", type=float, default=0.0)
+    parser.add_argument(
+        "--event-balanced-root-loss",
+        action="store_true",
+        help="give every labeled failure event equal total root-ranking weight",
+    )
+    parser.add_argument(
+        "--telemetry-loss-weight",
+        type=float,
+        default=0.0,
+        help="weight for ltfp-forecast next-minute telemetry reconstruction",
+    )
+    parser.add_argument(
+        "--fault-type-loss-weight",
+        type=float,
+        default=0.0,
+        help=(
+            "weight for ltfp-type-aux fault-type classification on positive "
+            "future-failure windows"
+        ),
+    )
+    parser.add_argument(
+        "--evidence-loss-weight",
+        type=float,
+        default=0.0,
+        help="auxiliary normal/failure loss for LTFP residual service evidence",
+    )
+    parser.add_argument(
+        "--checkpoint-selection",
+        choices=("validation-loss", "validation-ap"),
+        default="validation-loss",
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--split-policy", choices=("repetition", "configuration", "deployment", "session"),
                         default="repetition")
@@ -109,11 +170,20 @@ def train_main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
     if min(args.history, args.horizon_minutes, args.epochs, args.batch_size) < 1:
         parser.error("history, horizon-minutes, epochs and batch-size must be positive")
-    if args.task == "state" and args.horizon_minutes != 1:
-        parser.error("state task is defined only for the next one minute")
-    if args.learning_rate <= 0 or min(args.node_loss_weight, args.rank_loss_weight) < 0:
+    if args.learning_rate <= 0 or min(
+        args.node_loss_weight,
+        args.rank_loss_weight,
+        args.telemetry_loss_weight,
+        args.fault_type_loss_weight,
+        args.evidence_loss_weight,
+    ) < 0:
         parser.error("learning-rate must be positive and loss weights nonnegative")
-    if args.task == "first-visible":
+    if args.model == "ltfp-type-aux" and args.fault_type_loss_weight <= 0:
+        parser.error("ltfp-type-aux requires --fault-type-loss-weight > 0")
+    if args.model != "ltfp-type-aux" and args.fault_type_loss_weight:
+        parser.error("--fault-type-loss-weight is only valid for ltfp-type-aux")
+    task = ForecastTask(args.task, args.horizon_minutes)
+    if not task.is_point_forecast:
         dataset = Re2FirstVisibleWindowDataset(
             args.data_dir, history=args.history, split_policy=args.split_policy,
             split_fold=args.split_fold, horizon_minutes=args.horizon_minutes,
@@ -122,20 +192,46 @@ def train_main(argv: list[str]) -> int:
         dataset = Re2WindowDataset(
             args.data_dir, history=args.history,
             split_policy=args.split_policy, split_fold=args.split_fold,
+            horizon_minutes=args.horizon_minutes,
         )
+    requested_modalities = tuple(dict.fromkeys(args.modalities))
+    grouped_columns = named_feature_groups(dataset.feature_columns)
+    missing_modalities = [
+        name for name in requested_modalities if name not in grouped_columns
+    ]
+    if missing_modalities:
+        parser.error(f"selected modalities have no feature columns: {missing_modalities}")
+    selected_indices = sorted(
+        index
+        for name in requested_modalities
+        for index in grouped_columns[name]
+    )
+    dataset.features = dataset.features[..., selected_indices].copy()
+    dataset.feature_columns = tuple(
+        dataset.feature_columns[index] for index in selected_indices
+    )
+    args.modalities = requested_modalities
     definition = json.loads((args.data_dir / "label_schema.json").read_text())
-    if args.task == "first-visible":
-        definition = {
-            **definition,
-            "prediction_task": "first user-visible failure within future horizon",
-            "prediction_horizon_seconds": 60 * args.horizon_minutes,
-            "failure_reference": "first audited degradation target minute per physical case",
-            "post_failure_inputs": "excluded",
-            "pre_injection_policy": "healthy control",
-        }
-    metrics = run_training(dataset, args, str(args.data_dir / "service_adjacency_1m.npz"), definition)
-    source = json.loads((args.data_dir / "feature_schema.json").read_text())["source_labels"]
-    with Path(source).open(newline="", encoding="utf-8") as handle:
+    definition = task.apply_to_label_definition(definition)
+    metrics = run_training(
+        dataset,
+        args,
+        str(args.data_dir / "service_adjacency_1m.npz"),
+        definition,
+    )
+    source = Path(
+        json.loads((args.data_dir / "feature_schema.json").read_text())["source_labels"]
+    )
+    if not source.is_file():
+        portable_source = (
+            ROOT / "data" / "processed" / source.parent.name / source.name
+        )
+        if not portable_source.is_file():
+            raise FileNotFoundError(
+                f"source labels are missing at {source} and {portable_source}"
+            )
+        source = portable_source
+    with source.open(newline="", encoding="utf-8") as handle:
         by_target = {row["target_minute_utc"]: row for row in csv.DictReader(handle)}
     test_ends = dataset.predefined_splits[2]
     flags = []
@@ -156,7 +252,10 @@ def train_main(argv: list[str]) -> int:
             first_by_event.setdefault(row["event_id"], index)
     first_indices = list(first_by_event.values())
     metrics["current_latency_baseline"] = {
-        "definition": "case-calibrated current-minute entry latency predicts next-minute degradation; source baseline is anchored to injection-aligned pre-case minutes",
+        "definition": (
+            "case-calibrated current-minute entry latency baseline for the configured "
+            "forecast target; source baseline is anchored to injection-aligned pre-case minutes"
+        ),
         "missing_current_minutes": missing,
         "metrics": classification_metrics(
             dataset.failure_targets[test_ends], np.asarray(flags)
@@ -170,10 +269,14 @@ def train_main(argv: list[str]) -> int:
             for end in test_ends
         ])
         metrics["rolling_latency_baseline"] = {
-            "definition": "current-minute entry p95 relative to median of 3+ observed preceding minutes among 5; no injection time or future telemetry",
+            "definition": (
+                "current-minute entry p95 relative to median of 3+ observed preceding "
+                "minutes among 5; no injection time or future telemetry"
+            ),
             "metrics": classification_metrics(dataset.failure_targets[test_ends], rolling_flags),
         }
     metrics["first_failure_minute"] = {
+        "forecast_semantics": task.description,
         "test_events": len(first_indices),
         "model_recall_at_0_5": (
             sum(predictions[index]["failure_probability"] >= 0.5 for index in first_indices)

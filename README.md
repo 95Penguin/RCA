@@ -7,6 +7,10 @@
 并对根因服务排序。MicroSS/GAIA 仅保留为早期实验历史，不属于当前必跑数据集。
 各数据集的业务标签与实验切分见[标签协议](docs/labels.md)。
 
+预测任务和 horizon 采用统一定义：`state` 预测精确的 `t+h` 分钟故障状态与根因；
+`first-visible` 预测 `(t, t+h]` 内是否首次出现用户可感知故障。当前主结果仍固定为
+`state + 1min`，同一数据和模型入口已经支持 3min、5min 等后续实验。
+
 ## 环境与入口
 
 ```bash
@@ -28,6 +32,22 @@ uv run python scripts/run_re2.py train --help
 uv run python scripts/run_re2_baseline_matrix.py \
   --models instantops-adapted ltfp eadro-adapted \
   --datasets ob tt --folds 0 1 2 3 4 --epochs 30
+```
+
+单独运行不同状态预测 horizon：
+
+```bash
+# 当前主任务：精确预测 t+1min 状态
+uv run python scripts/run_re2.py train \
+  --data-dir artifacts/re2_ob_panel_fair_v1 \
+  --output-dir artifacts/re2_ob_ltfp_state_1m_example \
+  --model ltfp --task state --horizon-minutes 1
+
+# 后续扩展：精确预测 t+3min 或 t+5min 状态
+uv run python scripts/run_re2.py train \
+  --data-dir artifacts/re2_ob_panel_fair_v1 \
+  --output-dir artifacts/re2_ob_ltfp_state_3m_example \
+  --model ltfp --task state --horizon-minutes 3
 ```
 
 复用已有预测进行错误分析：
@@ -92,24 +112,33 @@ Eadro 原任务的精确复现。
 
 ## 代码组织
 
+完整粗细粒度模型使用 `--model joint-granularity`：从随机初始化端到端训练，
+故障预测和最终 RCA 使用同一模型，不需要预训练或冻结 LTFP。
+训练与统一 LTFP 对照入口为 `scripts/run_joint_granularity_experiment.py`，
+模型结构与协议见[完整粗细粒度模型](docs/2026-11-18-joint-granularity-end-to-end.md)。
+
 ```text
 scripts/run_re2.py          RE2 统一入口
 scripts/run_micross.py      历史 MicroSS 流程编排
+archive/                    只读历史快照和旧输出，不参与当前运行
 src/data/                  数据适配、标签、调用图和滑动窗口
 src/models/instantops.py   InstantOps/MTG 的 GCN＋GRU 主干
 src/models/ltfp.py         LTFP 模态编码、图注意力和双任务头
+src/models/joint_granularity.py  可从头联合训练的系统级—服务级交互模型
 src/models/eadro.py        Eadro-adapted 编码、图传播和联合任务头
 src/models/baselines.py    LastValueMLP、ServiceTCN 通用基线
 src/models/common.py       模型输入校验、特征分组和因果卷积公共组件
+src/models/factory.py      统一模型注册、构建和模型专属训练策略
 src/training/              模型选择、训练、标准化和评估
+src/training/tasks.py      state/first-visible 与 horizon 语义
 src/rca/                   遮蔽归因与排名
 scripts/summarize_*.py     固定基线汇总
 tests/                     单元与合成数据端到端测试
 ```
 
-`gnn_gru.py` 与 `paper_baselines.py` 仅保留为旧代码的兼容导入层；新增或修改模型时，
-直接进入对应的 `instantops.py`、`ltfp.py`、`eadro.py`。预测 horizon 由数据标签定义，
-后续 3 分钟、5 分钟任务不需要复制模型文件。
+新增或修改模型时，进入对应的 `instantops.py`、`ltfp.py`、`eadro.py`；
+完整粗细粒度模型集中在 `joint_granularity.py`。
+预测 horizon 由任务和数据标签定义，后续 3 分钟、5 分钟任务不需要复制模型文件。
 
 ## 文档与验证
 
@@ -118,7 +147,7 @@ tests/                     单元与合成数据端到端测试
 - [MicroSS、RE2-OB、RE2-TT 三数据集固定基线](docs/three-dataset-baselines.md)
 
 ```bash
-.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -B -m unittest discover -s tests -v
 ```
 
 产物包括 `best_model.pt`、`metrics.json`、`predictions.jsonl`。

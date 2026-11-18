@@ -1,6 +1,6 @@
 # InstantOps 三数据集实验就绪度审计（2026-11-02）
 
-本报告只分析现有数据、标签、输入特征和划分；未改变模型架构或现有实验结果。数字由 `scripts/audit_dataset_readiness.py` 对主项目的已生成面板和两个 RE2 原始压缩包只读统计，完整计数见 `dataset_readiness_audit.json`。
+本报告只分析现有数据、标签、输入特征和划分；未改变模型架构或现有实验结果。数字由 `scripts/audit_dataset_readiness.py` 对主项目的已生成面板和两个 RE2 原始压缩包只读统计，完整计数见 `archive/legacy_outputs/audits/dataset_readiness_audit.json`。
 
 ## 1. 可评估样本与根因覆盖
 
