@@ -80,4 +80,4 @@ LTFP/Eadro/InstantOps 以验证 AP 最大选择同一个模型，平局取最早
 - 8 项新检查覆盖作者模型调用一致性、Eadro 分支梯度、ART 批量独立性和图层注册、未来遥测排除、置换归因批量独立性、验证阈值、真实 RE2 划分。
 - 四个方法 × OB/TT，共 8 次 fold 0、1 epoch、每划分最多 128 窗口的真实数据管线运行通过。
 - 尚未完成正式 30 epoch 五折与多种子实验；本轮小样本分数不用于比较论文效果。
-- DiagFusion、TVDiag、TORAI、RCD、CIRCA、TraceRCA、MicroRank、Maat、AnoFusion、Hades 尚未有 RE2 可运行适配器；下一批需要原始指标/请求 Trace/日志事件导出。
+- DiagFusion、TVDiag、TORAI、RCD、CIRCA、TraceRCA、MicroRank、Maat、AnoFusion、Hades 的后续接入见 [专用方法说明](SPECIALISTS.md)。运行这十个方法应使用新增完整环境锁，原四框架锁只包含首批依赖。

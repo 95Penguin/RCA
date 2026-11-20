@@ -2,7 +2,7 @@
 
 核对日期：2026-11-18。主工程：`/Users/95penguin/project/NextMinuteRCA`。
 
-本目录管理 baseline 的作者源码、任务适配和运行配置。**首批四个框架适配器已经实现并通过 OB/TT 小样本运行**，详见 [运行说明与差异](RUNNING.md)。其他候选已固定源码，尚待适配。下方保留清点时的输入审计与接入计划；实时状态以 `registry.json` 为准。历史模型仍从原来的 `src/models/` 和 `scripts/` 运行。
+本目录管理 baseline 的作者源码、任务适配和运行配置。**四个框架适配器与十个专用适配器已实现**，分别见 [框架运行说明](RUNNING.md) 和 [预测/RCA 专用方法](SPECIALISTS.md)。下方保留清点时的输入审计与接入计划；实时状态以 `registry.json` 为准。历史模型仍从原来的 `src/models/` 和 `scripts/` 运行。
 
 选取原则：有作者仓库时优先复用其实现，在外层适配数据和评价。作者仓库、作者维护的 benchmark 集成、第三方复现、当前工程自写适配版分别记录；不能因名称相同就视为相同实现。仓库存在不代表已经能在 RE2 或本机运行。
 
@@ -15,10 +15,14 @@ baselines/
   sources.lock.json     13 个来源的 commit 和源码文件 SHA256
   RUNNING.md            当前可运行命令、适配差异及验证状态
   runner.py             四个框架的独立训练与公共输出
+  specialists.py        7 个 RCA 和 3 个预测方法的独立运行入口
+  SPECIALISTS.md        专用方法命令、输入和兼容修复
+  author_imports.py     私有命名空间与可追溯加载补丁
   INTEGRATION.md        数据、时间边界、训练与结果适配约定
   upstream/             作者源码固定版本快照
   adapters/             公共历史窗口与作者模型适配器
   requirements-macos-cpu.lock.txt  已验证独立环境
+  requirements-specialists-macos-cpu.lock.txt  兼容全部方法的完整环境
   configs/README.md     后续逐方法配置约定
 ```
 

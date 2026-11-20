@@ -1,6 +1,6 @@
 # 适配器计划
 
-已实现 `data.py` 与 `frameworks.py`，支持四个框架的历史窗口、作者模型与输出适配，详见上级 `RUNNING.md`。后续每个方法的适配器负责：
+已实现 `data.py` 与 `frameworks.py`，支持四个框架；`raw.py` 读取严格历史原始观测，`events.py` 拟合训练事件向量，`statistical_rca.py` 与 `learned_specialists.py` 复用十个专用算法。详见上级 `RUNNING.md` 和 `SPECIALISTS.md`。每个适配器负责：
 
 1. 从共同 case/window split manifest 导出该作者实现要求的数据。
 2. 调用原实现，处理命名空间或独立环境，不把所有模型强行搬进现有训练循环。

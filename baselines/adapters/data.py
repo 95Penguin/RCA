@@ -20,7 +20,13 @@ from training.engine import fit_feature_scaler
 
 
 def file_hash(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Raw RE2 archives can be much larger than the minute-panel files.
+    # Keep the same SHA256 without holding an entire archive in each worker.
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 class HistoricalWindows(Dataset):

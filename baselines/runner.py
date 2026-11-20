@@ -188,13 +188,22 @@ def doctor():
     from .source import verify_sources
     pinned = verify_sources()
     dependencies = {name: bool(importlib.util.find_spec(name))
-                    for name in ("torch", "numpy", "pandas", "dgl", "scipy", "sklearn", "packaging")}
+                    for name in ("torch", "numpy", "pandas", "dgl", "scipy", "sklearn", "packaging",
+                                 "fasttext", "gluonts", "causallearn", "mlxtend", "statsmodels", "loguru")}
+    from .specialists import RCA_METHODS, PREDICTION_METHODS
     print(json.dumps({"sources_verified": pinned, "dependencies_present": dependencies,
                       "implemented_frameworks": ["ltfp", "instantops", "eadro", "art"],
-                      "other_methods": "source snapshots pinned; adapters pending"}, indent=2))
+                      "implemented_rca_specialists": RCA_METHODS,
+                      "implemented_prediction_specialists": PREDICTION_METHODS,
+                      "runtime_note": "presence is not an import/ABI check; smoke evidence is recorded separately",
+                      "reserve_not_implemented": ["cad"]}, indent=2))
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "specialist":
+        from .specialists import main as specialist_main
+        specialist_main(sys.argv[2:])
+        return
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("doctor")

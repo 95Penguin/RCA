@@ -1,16 +1,17 @@
 {
   "schema_version": 1,
-  "audit_date": "2026-11-18",
-  "purpose": "pinned_author_sources_and_framework_adapters_v1",
+  "audit_date": "2026-11-19",
+  "purpose": "pinned_author_sources_framework_and_specialist_adapters_v1",
   "project_root": "/Users/95penguin/project/NextMinuteRCA",
-  "project_git_head_at_audit": "e7168868fd0068208f57dd844f8adb817e48208c",
+  "project_git_head_at_audit": "87165e4dccb8d8ead74b52d6dec6e33b98e93576",
   "project_has_uncommitted_changes": true,
   "counts": {
     "framework_user_selected": 4,
     "prediction_proposed": 3,
     "rca_candidate_pool_including_microrank_proposal": 7,
     "active_pool": 14,
-    "reserve": 1
+    "reserve": 1,
+    "implemented_adapters": 14
   },
   "excluded_for_this_round": [
     "DeST",
@@ -98,7 +99,7 @@
         "核对特征选择、时序编码、根因监督和主表命名"
       ],
       "environment_notes": "作者 README 推荐 Python>=3.10；完整依赖与运行兼容性待核对。",
-      "runtime_verified_for_this_inventory": false,
+      "runtime_verified_for_this_inventory": true,
       "runtime_verification": {
         "datasets": [
           "RE2-OB",
@@ -111,6 +112,16 @@
         "purpose": "software_pipeline_only_not_paper_result",
         "environment": "baselines/requirements-macos-cpu.lock.txt",
         "implementation_id": "ltfp-upstream-panel-state-v1"
+      },
+      "specialist_environment_regression": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "evidence": "artifacts/baselines/frameworks_specialist_env_regression_2026-11-19"
       }
     },
     {
@@ -157,7 +168,7 @@
         "核对时序置换策略及预测时间定义"
       ],
       "environment_notes": null,
-      "runtime_verified_for_this_inventory": false,
+      "runtime_verified_for_this_inventory": true,
       "runtime_verification": {
         "datasets": [
           "RE2-OB",
@@ -170,6 +181,16 @@
         "purpose": "software_pipeline_only_not_paper_result",
         "environment": "baselines/requirements-macos-cpu.lock.txt",
         "implementation_id": "instantops-paper-panel-permutation-v1"
+      },
+      "specialist_environment_regression": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "evidence": "artifacts/baselines/frameworks_specialist_env_regression_2026-11-19"
       }
     },
     {
@@ -217,7 +238,7 @@
         "固定未来标签和联合 checkpoint 选择"
       ],
       "environment_notes": null,
-      "runtime_verified_for_this_inventory": false,
+      "runtime_verified_for_this_inventory": true,
       "runtime_verification": {
         "datasets": [
           "RE2-OB",
@@ -235,7 +256,17 @@
         "Uses common minute panel instead of author Hawkes log intensities",
         "Calls registered author encoder and actual task heads; applies explicit runtime compatibility fixes",
         "Independent business and root labels; future exact-state target"
-      ]
+      ],
+      "specialist_environment_regression": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "evidence": "artifacts/baselines/frameworks_specialist_env_regression_2026-11-19"
+      }
     },
     {
       "id": "art",
@@ -276,7 +307,7 @@
         "保留原训练阶段与类型监督说明"
       ],
       "environment_notes": "作者建议 Python3.9.13/torch1.12.1/DGL0.9.0；未实测。",
-      "runtime_verified_for_this_inventory": false,
+      "runtime_verified_for_this_inventory": true,
       "runtime_verification": {
         "datasets": [
           "RE2-OB",
@@ -294,7 +325,17 @@
         "Fixes unregistered graph layers, Transformer batch axis, and noncontiguous tensor reshape",
         "Four observed minutes predict observed t within the five-minute input; residual(t) is evaluated against future y(t+1)",
         "Window cosine ILD/SLD root ranking; no post-fault case aggregation or failure-type task"
-      ]
+      ],
+      "specialist_environment_regression": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "evidence": "artifacts/baselines/frameworks_specialist_env_regression_2026-11-19"
+      }
     },
     {
       "id": "maat",
@@ -323,15 +364,38 @@
         "src/extract_feat.py"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "复用未来指标生成与检测流程；业务风险映射只在训练/验证阶段确定。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method maat",
+        "implementation_id": "maat-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "指标异常不直接等于业务故障",
         "对齐1分钟目标及历史可用范围",
         "明确连续风险输出和验证阈值"
       ],
-      "environment_notes": null,
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "anofusion",
@@ -363,15 +427,38 @@
         "model/AnoFusion.py"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "先保留作者截至t的检测分数，作为score-lag预测对照；若增加future head，单独命名 adapted。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": "README列torch1.6.0及旧numpy等依赖；兼容性未实测。",
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method anofusion",
+        "implementation_id": "anofusion-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "预测残差需要真实观测，不得使用t+1真实数据发出t时刻预测",
         "实例分数到系统分数的聚合",
         "作者通道构图与RE2输入核对"
       ],
-      "environment_notes": "README列torch1.6.0及旧numpy等依赖；兼容性未实测。",
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "hades",
@@ -400,15 +487,38 @@
         "README.md 中 codes/run.py 历史示例需与实际文件树核对"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "作者跨模态模型优先；明确更换future target的 adapted 版本，或另列历史检测分数对照。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method hades",
+        "implementation_id": "hades-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "需要日志语义，不能用计数替代并声称忠实实现",
         "伪标签与额外标注预算",
         "核对README运行路径与实际目录"
       ],
-      "environment_notes": null,
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "diagfusion",
@@ -440,15 +550,38 @@
         "models/"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "保留作者事件表示与图模型，输入截到共同历史截止点，输出映射到服务候选。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": "作者建议Python3.7.13/torch1.10.0/DGL0.9.2/fastText0.9.2；未实测。",
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method diagfusion",
+        "implementation_id": "diagfusion-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "原始日志事件导出",
         "训练词表/fastText与数据增强仅训练折拟合",
         "类型监督额外标签预算"
       ],
-      "environment_notes": "作者建议Python3.7.13/torch1.10.0/DGL0.9.2/fastText0.9.2；未实测。",
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "tvdiag",
@@ -480,15 +613,38 @@
         "process/EventProcess.py"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "复用作者任务表示、跨模态训练和事件提取，采用共同历史截止点及服务排名评价。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": "README列Python3.8.12/torch2.1.1/fastText0.9.2/DGL2.1.0.cu118；本机兼容性未测。",
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method tvdiag",
+        "implementation_id": "tvdiag-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "不能把类型识别称为future binary prediction",
         "补齐事件/图输入",
         "实例到服务映射及额外标签预算"
       ],
-      "environment_notes": "README列Python3.8.12/torch2.1.1/fastText0.9.2/DGL2.1.0.cu118；本机兼容性未测。",
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "torai",
@@ -521,15 +677,38 @@
         "main.py --method torai"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "优先作者维护集成；固定RCAEval commit及补丁，按RE2共同截止点导出TORAI要求的数据。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": "Python3.8及patched causal-learn；需要独立环境，未实测。",
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method torai",
+        "implementation_id": "torai-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "专用torai数据不能直接视为本项目RE2相同预处理",
         "RCD依赖补丁",
         "正常/异常窗口需使用可观测规则，不能用未来标签"
       ],
-      "environment_notes": "Python3.8及patched causal-learn；需要独立环境，未实测。",
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "rcd",
@@ -557,15 +736,38 @@
         "README.md 指向的作者入口待源码下载核对"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "优先作者因果发现实现，训练参考与截至t的候选窗口输入，指标排名按固定规则映射服务。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method rcd",
+        "implementation_id": "rcd-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "高频原始样本量",
         "正常/异常分段不能借未来故障标签",
         "指标到服务聚合与无效窗口处理"
       ],
-      "environment_notes": null,
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "circa",
@@ -597,15 +799,38 @@
         "README.md 的 Model.analyze 示例"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "保留作者模型与scorer链；只使用截至t的数据、可用SLI和合法参考图。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method circa",
+        "implementation_id": "circa-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "detect_time/current/lookup_window语义",
         "图的来源与训练边界",
         "不得提供未来报警或真实根因"
       ],
-      "environment_notes": null,
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "tracerca",
@@ -635,15 +860,38 @@
         "run_localization_association_rule_mining_20210516.py"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "保留作者特征选择、异常请求与可疑集合挖掘流程，RE2请求级Trace按截止点导出。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method tracerca",
+        "implementation_id": "tracerca-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "trace/span/parent字段是否完整",
         "只使用当时已完成可用观测",
         "分钟均值面板不足以替代请求信息"
       ],
-      "environment_notes": null,
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "microrank",
@@ -675,15 +923,38 @@
         "anormaly_detector.py"
       ],
       "local_implementation": null,
-      "integration_status": "source_pinned_adapter_pending",
+      "integration_status": "specialist_adapter_smoke_verified",
       "planned_adaptation": "以具体作者PageRank+谱分析实现代表Random Walk相关方法，保留操作图后固定聚合到服务层。",
       "open_items": [
+        "正式五折与多种子实验",
+        "作者输入/监督的适配限制见 SPECIALISTS.md；不可称为原论文精确复现"
+      ],
+      "environment_notes": null,
+      "runtime_verified_for_this_inventory": true,
+      "current_adapter": {
+        "entry": "scripts/run_baselines.py specialist --method microrank",
+        "implementation_id": "microrank-upstream-history-adapted-v1",
+        "documentation": "baselines/SPECIALISTS.md"
+      },
+      "initial_open_items": [
         "原数据存储接口需外层适配",
         "服务/操作映射与同分规则",
         "检测门槛与截至t的调用结构"
       ],
-      "environment_notes": null,
-      "runtime_verified_for_this_inventory": false
+      "runtime_verification": {
+        "datasets": [
+          "RE2-OB",
+          "RE2-TT"
+        ],
+        "fold": 0,
+        "seed": 42,
+        "epochs": 1,
+        "max_windows_per_split": 128,
+        "hidden_dim": 16,
+        "purpose": "software_pipeline_only_not_paper_result",
+        "environment": "baselines/requirements-specialists-macos-cpu.lock.txt",
+        "evidence": "artifacts/baselines/specialists_smoke_2026-11-19"
+      }
     },
     {
       "id": "cad",
