@@ -29,6 +29,9 @@ from .ltfp import (
     LTFPNoGraph,
     LTFPRootCauseConsistent,
     LTFPSharedGraphExperts,
+    LTFPStageRoute,
+    LTFPStageRouteDirectionalResidual,
+    LTFPStageRouteFutureQuery,
     LTFPTaskIndependentGraph,
     LTFPTransitionResidual,
 )
@@ -51,6 +54,9 @@ MODEL_NAMES = (
     "ltfp-task-graph",
     "ltfp-shared-graph-experts",
     "ltfp-no-graph",
+    "ltfp-stage-route",
+    "ltfp-stage-route-directional",
+    "ltfp-stage-route-query",
     "ltfp-null-joint",
     "ltfp-null-marginal",
     "ltfp-residual-joint",
@@ -197,6 +203,9 @@ def build_model(
         "ltfp-task-graph",
         "ltfp-shared-graph-experts",
         "ltfp-no-graph",
+        "ltfp-stage-route",
+        "ltfp-stage-route-directional",
+        "ltfp-stage-route-query",
         "ltfp-forecast",
         "ltfp-null-joint",
         "ltfp-null-marginal",
@@ -232,6 +241,16 @@ def build_model(
             )
         elif name == "ltfp-no-graph":
             model = LTFPNoGraph(feature_dim=feature_dim, feature_groups=groups)
+        elif name == "ltfp-stage-route":
+            model = LTFPStageRoute(feature_dim=feature_dim, feature_groups=groups)
+        elif name == "ltfp-stage-route-directional":
+            model = LTFPStageRouteDirectionalResidual(
+                feature_dim=feature_dim, feature_groups=groups
+            )
+        elif name == "ltfp-stage-route-query":
+            model = LTFPStageRouteFutureQuery(
+                feature_dim=feature_dim, feature_groups=groups
+            )
         elif name in {"ltfp-null-joint", "ltfp-null-marginal"}:
             model = LTFPNullAnchoredEvidence(
                 feature_dim=feature_dim, feature_groups=groups
@@ -329,6 +348,15 @@ def build_model(
                 "capacity-matched LTFP with shared graph experts"
             ),
             "ltfp-no-graph": "temporal-only LTFP without graph interaction",
+            "ltfp-stage-route": (
+                "DeST-inspired temporal failure anchor with bounded spatial correction"
+            ),
+            "ltfp-stage-route-directional": (
+                "stage routing with a symmetric RCA backbone and bounded directed residual"
+            ),
+            "ltfp-stage-route-query": (
+                "stage routing with temporal future-risk context for graph-based RCA"
+            ),
             "ltfp-null-joint": (
                 "null-anchored service evidence with fine-grained root supervision"
             ),
@@ -407,6 +435,46 @@ def build_model(
             })
         elif name == "ltfp-no-graph":
             config["graph_layers"] = 0
+        elif name in {
+            "ltfp-stage-route",
+            "ltfp-stage-route-directional",
+            "ltfp-stage-route-query",
+        }:
+            config.update({
+                "failure_logit_decomposition": (
+                    "pre-propagation temporal anchor + bounded graph-induced residual"
+                ),
+                "spatial_residual_initialization": 0.0,
+                "max_spatial_residual": model.max_spatial_residual,
+                "rca_path": (
+                    "symmetric graph state plus shared-weight directed RCA residual"
+                    if name == "ltfp-stage-route-directional"
+                    else
+                    "graph service states queried by the temporal future-risk context"
+                    if name == "ltfp-stage-route-query"
+                    else "unchanged graph-propagated LTFP root head"
+                ),
+                "root_context": (
+                    "pre-propagation temporal application state"
+                    if name == "ltfp-stage-route-query"
+                    else "graph-propagated application state"
+                ),
+                "capacity_match": (
+                    "identical parameter count to ltfp-stage-route"
+                    if name == "ltfp-stage-route-query"
+                    else None
+                ),
+            })
+            if name == "ltfp-stage-route-directional":
+                config.update({
+                    "directional_residual_initialization": 0.0,
+                    "max_directional_residual": model.max_directional_residual,
+                    "directional_parameter_sharing": (
+                        "forward, reverse, and symmetric paths share graph attention"
+                    ),
+                    "directional_scope": "RCA only",
+                    "required_graph_direction": "callee-to-caller",
+                })
         elif name in {"ltfp-null-joint", "ltfp-null-marginal"}:
             config.update({
                 "joint_evidence_space": "no-failure anchor plus per-service evidence",

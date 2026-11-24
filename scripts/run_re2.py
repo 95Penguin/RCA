@@ -73,7 +73,11 @@ def train_main(argv: list[str]) -> int:
     import csv
     import numpy as np
 
-    from data.re2 import Re2FirstVisibleWindowDataset, Re2WindowDataset
+    from data.re2 import (
+        GRAPH_DIRECTIONS,
+        Re2FirstVisibleWindowDataset,
+        Re2WindowDataset,
+    )
     from training.experiment import run_training
     from training.metrics import classification_metrics
 
@@ -91,6 +95,15 @@ def train_main(argv: list[str]) -> int:
         ),
     )
     parser.add_argument("--horizon-minutes", type=int, default=1)
+    parser.add_argument(
+        "--graph-direction",
+        choices=GRAPH_DIRECTIONS,
+        default="symmetric",
+        help=(
+            "message direction used by graph attention; caller-row adjacency sends "
+            "callee information to callers"
+        ),
+    )
     parser.add_argument(
         "--modalities",
         nargs="+",
@@ -118,6 +131,11 @@ def train_main(argv: list[str]) -> int:
             "next-minute service telemetry before classification; ltfp-task-graph uses "
             "independent graph experts for prediction and RCA; ltfp-shared-graph-experts "
             "is its capacity-matched shared control; ltfp-no-graph removes message passing; "
+            "ltfp-stage-route anchors prediction before graph propagation and adds a bounded "
+            "spatial correction while preserving graph-based RCA; ltfp-stage-route-query "
+            "uses that temporal prediction state as the global RCA query; "
+            "ltfp-stage-route-directional retains a symmetric RCA backbone and adds a "
+            "zero-initialized directed residual from a callee-to-caller input graph; "
             "ltfp-null-joint and ltfp-null-marginal compare the same null-anchored "
             "service-evidence model with and without root supervision; "
             "ltfp-residual-joint and ltfp-residual-marginal retain the global LTFP "
@@ -187,12 +205,14 @@ def train_main(argv: list[str]) -> int:
         dataset = Re2FirstVisibleWindowDataset(
             args.data_dir, history=args.history, split_policy=args.split_policy,
             split_fold=args.split_fold, horizon_minutes=args.horizon_minutes,
+            graph_direction=args.graph_direction,
         )
     else:
         dataset = Re2WindowDataset(
             args.data_dir, history=args.history,
             split_policy=args.split_policy, split_fold=args.split_fold,
             horizon_minutes=args.horizon_minutes,
+            graph_direction=args.graph_direction,
         )
     requested_modalities = tuple(dict.fromkeys(args.modalities))
     grouped_columns = named_feature_groups(dataset.feature_columns)
@@ -216,7 +236,7 @@ def train_main(argv: list[str]) -> int:
     metrics = run_training(
         dataset,
         args,
-        str(args.data_dir / "service_adjacency_1m.npz"),
+        f"{args.data_dir / 'service_adjacency_1m.npz'}#{args.graph_direction}",
         definition,
     )
     source = Path(

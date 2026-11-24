@@ -215,6 +215,239 @@ class LTFPBaseline(nn.Module):
         )
 
 
+class LTFPStageRoute(LTFPBaseline):
+    """Route temporal and spatial representations asymmetrically by task.
+
+    Failure prediction is anchored on the pre-propagation temporal service
+    states.  Graph propagation contributes only a bounded residual correction,
+    while RCA retains the baseline graph-propagated representation and head.
+    The scalar correction gate starts at zero, making the initial failure path
+    strictly temporal without removing graph information from the model.
+    """
+
+    def __init__(
+        self,
+        feature_dim: int,
+        feature_groups: Sequence[Sequence[int]] | None = None,
+        hidden_dim: int = 64,
+        temporal_layers: int = 2,
+        graph_layers: int = 2,
+        dropout: float = 0.1,
+        num_classes: int = 2,
+        max_spatial_residual: float = 0.5,
+    ) -> None:
+        if num_classes != 2:
+            raise ValueError("stage routing currently requires binary failure labels")
+        if max_spatial_residual <= 0:
+            raise ValueError("max_spatial_residual must be positive")
+        super().__init__(
+            feature_dim=feature_dim,
+            feature_groups=feature_groups,
+            hidden_dim=hidden_dim,
+            temporal_layers=temporal_layers,
+            graph_layers=graph_layers,
+            dropout=dropout,
+            num_classes=num_classes,
+        )
+        self.max_spatial_residual = float(max_spatial_residual)
+        self.spatial_failure_head = nn.Linear(hidden_dim, 1)
+        self.spatial_residual_scale = nn.Parameter(torch.zeros(()))
+
+    def _root_context(
+        self, temporal_state: torch.Tensor, graph_state: torch.Tensor
+    ) -> torch.Tensor:
+        """Return the application context consumed by the RCA head."""
+        del temporal_state
+        return graph_state
+
+    def forward(
+        self, node_features: torch.Tensor, adjacency: torch.Tensor
+    ) -> dict[str, torch.Tensor]:
+        local_state, node_state, graph_state = self._encode_paths(
+            node_features, adjacency
+        )
+        temporal_state = self.pool(
+            torch.cat(
+                (local_state.mean(dim=1), local_state.max(dim=1).values), dim=-1
+            )
+        )
+        temporal_logits = self.failure_head(temporal_state)
+
+        # Isolate the graph-induced change instead of allowing a second free
+        # classifier to relearn the complete failure decision from graph_state.
+        spatial_delta = graph_state - temporal_state
+        raw_spatial_risk = self.spatial_failure_head(spatial_delta).squeeze(-1)
+        residual_gate = self.max_spatial_residual * torch.tanh(
+            self.spatial_residual_scale
+        )
+        bounded_spatial_risk = residual_gate * torch.tanh(raw_spatial_risk)
+        spatial_logits = torch.stack(
+            (-bounded_spatial_risk, bounded_spatial_risk), dim=1
+        )
+
+        root_context = self._root_context(temporal_state, graph_state)
+        services = node_state.size(1)
+        expanded_context = root_context.unsqueeze(1).expand(-1, services, -1)
+        node_logits = self.root_head(
+            torch.cat(
+                (node_state, expanded_context, node_state * expanded_context), dim=-1
+            )
+        ).squeeze(-1)
+        output = {
+            "failure_logits": temporal_logits + spatial_logits,
+            "node_logits": node_logits,
+            "node_scores": torch.softmax(node_logits, dim=-1),
+            "node_embeddings": node_state,
+        }
+        output.update(
+            {
+                "local_node_embeddings": local_state,
+                "temporal_graph_state": temporal_state,
+                "root_context_embeddings": root_context,
+                "temporal_failure_logits": temporal_logits,
+                "spatial_failure_logits": spatial_logits,
+                "spatial_residual_gate": residual_gate,
+            }
+        )
+        return output
+
+
+class LTFPStageRouteFutureQuery(LTFPStageRoute):
+    """Condition graph-based RCA on the temporal future-risk representation.
+
+    This is a capacity-matched StageRoute variant.  Service embeddings still
+    come from graph propagation, but the RCA head queries them with the
+    pre-propagation application state used by the next-minute failure head,
+    rather than with the graph-pooled application state.
+    """
+
+    def _root_context(
+        self, temporal_state: torch.Tensor, graph_state: torch.Tensor
+    ) -> torch.Tensor:
+        del graph_state
+        return temporal_state
+
+
+class LTFPStageRouteDirectionalResidual(LTFPStageRoute):
+    """Add a conservative direction-sensitive residual to StageRoute RCA.
+
+    The supplied adjacency keeps its observed call direction.  Failure
+    prediction and the main RCA representation use its symmetric closure,
+    matching the existing StageRoute model.  RCA alone receives the bounded
+    difference between propagation over the observed graph and its transpose.
+    All three paths share the same graph-attention parameters and the scalar
+    direction gate starts at zero, so initialization exactly recovers the
+    symmetric StageRoute computation.
+    """
+
+    def __init__(
+        self,
+        feature_dim: int,
+        feature_groups: Sequence[Sequence[int]] | None = None,
+        hidden_dim: int = 64,
+        temporal_layers: int = 2,
+        graph_layers: int = 2,
+        dropout: float = 0.1,
+        num_classes: int = 2,
+        max_spatial_residual: float = 0.5,
+        max_directional_residual: float = 0.5,
+    ) -> None:
+        if max_directional_residual <= 0:
+            raise ValueError("max_directional_residual must be positive")
+        super().__init__(
+            feature_dim=feature_dim,
+            feature_groups=feature_groups,
+            hidden_dim=hidden_dim,
+            temporal_layers=temporal_layers,
+            graph_layers=graph_layers,
+            dropout=dropout,
+            num_classes=num_classes,
+            max_spatial_residual=max_spatial_residual,
+        )
+        self.max_directional_residual = float(max_directional_residual)
+        self.directional_residual_scale = nn.Parameter(torch.zeros(()))
+
+    def _propagate_graph(
+        self, local_state: torch.Tensor, graph: torch.Tensor
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Propagate with the shared graph expert over one static adjacency."""
+        node_state = local_state
+        for layer, norm in zip(self.graph_layers, self.graph_norms):
+            node_state = norm(
+                node_state + self.graph_dropout(layer(node_state, graph))
+            )
+        graph_state = self.pool(
+            torch.cat(
+                (node_state.mean(dim=1), node_state.max(dim=1).values), dim=-1
+            )
+        )
+        return node_state, graph_state
+
+    def forward(
+        self, node_features: torch.Tensor, adjacency: torch.Tensor
+    ) -> dict[str, torch.Tensor]:
+        local_state = self._encode_local(node_features, adjacency)
+        directed_graph = adjacency[:, -1]
+        reverse_graph = directed_graph.transpose(1, 2)
+        symmetric_graph = torch.maximum(directed_graph, reverse_graph)
+
+        symmetric_nodes, symmetric_graph_state = self._propagate_graph(
+            local_state, symmetric_graph
+        )
+        forward_nodes, _ = self._propagate_graph(local_state, directed_graph)
+        reverse_nodes, _ = self._propagate_graph(local_state, reverse_graph)
+
+        directional_gate = self.max_directional_residual * torch.tanh(
+            self.directional_residual_scale
+        )
+        directional_delta = torch.tanh(forward_nodes - reverse_nodes)
+        root_nodes = symmetric_nodes + directional_gate * directional_delta
+        root_graph_state = self.pool(
+            torch.cat(
+                (root_nodes.mean(dim=1), root_nodes.max(dim=1).values), dim=-1
+            )
+        )
+
+        temporal_state = self.pool(
+            torch.cat(
+                (local_state.mean(dim=1), local_state.max(dim=1).values), dim=-1
+            )
+        )
+        temporal_logits = self.failure_head(temporal_state)
+        spatial_delta = symmetric_graph_state - temporal_state
+        raw_spatial_risk = self.spatial_failure_head(spatial_delta).squeeze(-1)
+        residual_gate = self.max_spatial_residual * torch.tanh(
+            self.spatial_residual_scale
+        )
+        bounded_spatial_risk = residual_gate * torch.tanh(raw_spatial_risk)
+        spatial_logits = torch.stack(
+            (-bounded_spatial_risk, bounded_spatial_risk), dim=1
+        )
+
+        services = root_nodes.size(1)
+        root_context = root_graph_state.unsqueeze(1).expand(-1, services, -1)
+        node_logits = self.root_head(
+            torch.cat(
+                (root_nodes, root_context, root_nodes * root_context), dim=-1
+            )
+        ).squeeze(-1)
+        return {
+            "failure_logits": temporal_logits + spatial_logits,
+            "node_logits": node_logits,
+            "node_scores": torch.softmax(node_logits, dim=-1),
+            "node_embeddings": root_nodes,
+            "local_node_embeddings": local_state,
+            "temporal_graph_state": temporal_state,
+            "root_context_embeddings": root_graph_state,
+            "temporal_failure_logits": temporal_logits,
+            "spatial_failure_logits": spatial_logits,
+            "spatial_residual_gate": residual_gate,
+            "symmetric_node_embeddings": symmetric_nodes,
+            "directional_node_delta": directional_delta,
+            "directional_residual_gate": directional_gate,
+        }
+
+
 class LTFPFaultTypeAux(LTFPBaseline):
     """LTFP with a positive-window fault-type auxiliary classifier.
 
@@ -694,6 +927,9 @@ __all__ = [
     "LTFPResidualEvidence",
     "LTFPRootCauseConsistent",
     "LTFPSharedGraphExperts",
+    "LTFPStageRoute",
+    "LTFPStageRouteDirectionalResidual",
+    "LTFPStageRouteFutureQuery",
     "LTFPTaskIndependentGraph",
     "LTFPTransitionResidual",
 ]

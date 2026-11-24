@@ -20,10 +20,12 @@
    active minute and do not establish an application SLA failure. Injection records
    never extend the feature timeline or enter node features.
 6. The trace index resolves (trace_id,parent_id) to service. Each input minute's
-   graph counts child spans completed in that minute. Opposite directed counts
-   are summed symmetrically for the current GCN. Missing graph minutes have no
-   service edges (GCN adds self loops). Legacy static graph uses training-period
-   evidence only; temporal graph uses each input minute's own observed evidence.
+   graph counts child spans completed in that minute. RE2 panel preparation now
+   preserves caller-row and callee-row directed arrays as well as their symmetric
+   sum; training records which message direction was selected. Missing graph
+   minutes have no service edges (the GNN adds self loops). Legacy static graph
+   uses training-period evidence only; temporal graph uses each input minute's
+   own observed evidence.
 7. A fixed 70/15/15 chronological split defines distinct label targets. Validation
    history may include earlier training observations, as in rolling forecasting;
    standardization never fits validation/test data. This is not an incident-held-out

@@ -44,6 +44,14 @@ FEATURE_COLUMNS = (
     "observed_entry_baseline",
     "entry_degradation_score_rolling",
 )
+GRAPH_DIRECTIONS = ("symmetric", "callee-to-caller", "caller-to-callee")
+GRAPH_ARRAY_KEYS = {
+    "symmetric": "adjacency",
+    # The attention layer aggregates columns into each row.  A caller-row
+    # matrix therefore sends information from the callee to the caller.
+    "callee-to-caller": "caller_row_adjacency",
+    "caller-to-callee": "callee_row_adjacency",
+}
 
 
 def _minute(epoch: float) -> int:
@@ -219,7 +227,7 @@ def _aggregate_traces(archive: zipfile.ZipFile, case: str, minutes: set[int],
         features["entry_degradation_score_rolling"] = max(
             features.get("entry_degradation_score_rolling", 0.0), max(score, 0.0)
         )
-    adjacency: dict[int, np.ndarray] = defaultdict(
+    caller_row_adjacency: dict[int, np.ndarray] = defaultdict(
         lambda: np.zeros((len(services), len(services)), dtype=np.float32)
     )
     service_index = {name: i for i, name in enumerate(services)}
@@ -235,10 +243,15 @@ def _aggregate_traces(archive: zipfile.ZipFile, case: str, minutes: set[int],
         minute = max(parent_minute, child_minute)
         if minute in minutes:
             i, j = service_index[parent_service], service_index[child_service]
-            adjacency[minute][i, j] += 1
-            adjacency[minute][j, i] += 1
+            caller_row_adjacency[minute][i, j] += 1
             resolved += 1
-    return observations, adjacency, len(children), resolved, entry_features
+    return (
+        observations,
+        caller_row_adjacency,
+        len(children),
+        resolved,
+        entry_features,
+    )
 
 
 def _prepare_re2(
@@ -269,7 +282,7 @@ def _prepare_re2(
     if min_entry_spans < 1:
         raise ValueError("RE2 label schema lacks a positive entry count minimum")
     features: dict[tuple[int, str], dict[str, float]] = defaultdict(dict)
-    graphs: dict[int, np.ndarray] = {}
+    caller_row_graphs: dict[int, np.ndarray] = {}
     quality: dict[str, dict[str, int]] = {}
     case_signatures: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {}
     with zipfile.ZipFile(archive_path) as archive:
@@ -290,7 +303,7 @@ def _prepare_re2(
             )
             metrics = _aggregate_metrics(archive, case, minutes, services)
             logs = _aggregate_logs(archive, case, minutes, services, dataset_name)
-            traces, edges, candidates, resolved, entry = _aggregate_traces(
+            traces, directed_edges, candidates, resolved, entry = _aggregate_traces(
                 archive, case, minutes, services, dataset_name, min_entry_spans,
                 float(label_definition["latency_ratio"]),
                 1000 * float(label_definition["min_latency_increase_seconds"]),
@@ -311,11 +324,13 @@ def _prepare_re2(
                 values["trace_duration_mean_ms"] = duration_sum / count
             for (minute, service), entry_values in entry.items():
                 features[minute, service].update(entry_values)
-            graphs.update(edges)
+            caller_row_graphs.update(directed_edges)
             quality[case_id] = {
                 "minutes": len(minutes), "trace_parent_candidates": candidates,
                 "resolved_cross_service_calls": resolved,
-                "minutes_with_edges": sum(bool(matrix.any()) for matrix in edges.values()),
+                "minutes_with_edges": sum(
+                    bool(matrix.any()) for matrix in directed_edges.values()
+                ),
             }
             if number % 30 == 0:
                 print(f"Prepared {number}/{len(by_case)} {dataset_name} cases", flush=True)
@@ -358,15 +373,24 @@ def _prepare_re2(
         for minute, case_id in sorted(case_by_minute.items()):
             writer.writerow({"timestamp_utc": _iso(minute), "case_id": case_id})
     epochs = np.asarray(sorted(case_by_minute), dtype=np.int64)
-    adjacency = np.stack([
-        graphs.get(minute, np.zeros((len(services), len(services)), dtype=np.float32))
+    caller_row_adjacency = np.stack([
+        caller_row_graphs.get(
+            minute, np.zeros((len(services), len(services)), dtype=np.float32)
+        )
         for minute in epochs
     ])
+    callee_row_adjacency = caller_row_adjacency.transpose(0, 2, 1)
+    adjacency = caller_row_adjacency + callee_row_adjacency
     np.savez_compressed(output_files[3], timestamps=epochs,
-                        services=np.asarray(services), adjacency=adjacency)
+                        services=np.asarray(services), adjacency=adjacency,
+                        caller_row_adjacency=caller_row_adjacency,
+                        callee_row_adjacency=callee_row_adjacency)
     output_files[4].write_text(json.dumps({
         "dataset": dataset_name, "services": services, "feature_columns": FEATURE_COLUMNS,
-        "graph_policy": "child/parent completed before edge observation; symmetric counts",
+        "graph_policy": (
+            "completed parent/child calls; symmetric, caller-row and callee-row "
+            "weighted adjacency arrays"
+        ),
         "entry_feature_policy": (
             "completed entry spans at observation minute; root-operation p95; "
             "rolling baseline uses 3+ observed minutes among prior 5, within case"
@@ -421,11 +445,16 @@ class Re2WindowDataset(GraphWindowDataset):
 
     def __init__(self, data_dir: str | Path, history: int = 5,
                  split_policy: str = "repetition", split_fold: int = 0,
-                 horizon_minutes: int = 1):
+                 horizon_minutes: int = 1,
+                 graph_direction: str = "symmetric"):
         if horizon_minutes < 1:
             raise ValueError("horizon_minutes must be positive")
         if split_policy not in {"repetition", "configuration", "deployment", "session"}:
             raise ValueError("split_policy must be repetition, configuration, deployment or session")
+        if graph_direction not in GRAPH_DIRECTIONS:
+            raise ValueError(
+                f"graph_direction must be one of {', '.join(GRAPH_DIRECTIONS)}"
+            )
         if not 0 <= split_fold <= 4 or (split_policy == "repetition" and split_fold):
             raise ValueError("split_fold must be 0-4 for grouped splits, 0 for repetition")
         directory = Path(data_dir)
@@ -434,7 +463,12 @@ class Re2WindowDataset(GraphWindowDataset):
         with np.load(directory / "service_adjacency_1m.npz", allow_pickle=False) as graph:
             graph_times = graph["timestamps"].copy()
             graph_services = tuple(graph["services"].tolist())
-            adjacency = graph["adjacency"].copy()
+            graph_key = GRAPH_ARRAY_KEYS[graph_direction]
+            if graph_key not in graph.files:
+                raise ValueError(
+                    f"graph artifact lacks {graph_key!r} for {graph_direction!r}"
+                )
+            adjacency = graph[graph_key].copy()
         if graph_services != tuple(schema["services"]):
             raise ValueError("graph service order differs from features")
         super().__init__(
@@ -445,6 +479,7 @@ class Re2WindowDataset(GraphWindowDataset):
         if not np.array_equal(graph_times, self.timestamp_epochs):
             raise ValueError("graph timestamps differ from service panel")
         self.adjacency = torch.from_numpy(adjacency.astype(np.float32))
+        self.graph_direction = graph_direction
         case_by_time: dict[str, str] = {}
         with (directory / "case_minutes.csv").open(newline="") as handle:
             for row in csv.DictReader(handle):
@@ -639,6 +674,7 @@ class Re2FirstVisibleWindowDataset(Re2WindowDataset):
         split_policy: str = "repetition",
         split_fold: int = 0,
         horizon_minutes: int = 1,
+        graph_direction: str = "symmetric",
     ) -> None:
         if horizon_minutes < 1:
             raise ValueError("horizon_minutes must be positive")
@@ -648,6 +684,7 @@ class Re2FirstVisibleWindowDataset(Re2WindowDataset):
             split_policy,
             split_fold,
             horizon_minutes=1,
+            graph_direction=graph_direction,
         )
         directory = Path(data_dir)
         schema = json.loads((directory / "feature_schema.json").read_text())

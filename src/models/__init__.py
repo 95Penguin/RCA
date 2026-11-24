@@ -15,6 +15,7 @@ from .coarse_fine import (
 from .eadro import EadroAdapted
 from .instantops import GraphConvolution, InstantOpsGNNGRU
 from .joint_granularity import JointGranularityModel
+from .ocsid import OCSIDModel
 from .ltfp import (
     LTFPBaseline,
     LTFPForecastAux,
@@ -26,6 +27,7 @@ from .ltfp import (
 
 __all__ = [
     "JointGranularityModel",
+    "OCSIDModel",
     "EadroAdapted",
     "GraphConvolution",
     "InstantOpsGNNGRU",

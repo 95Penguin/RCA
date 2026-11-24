@@ -152,6 +152,14 @@ class Re2PointHorizonTests(unittest.TestCase):
             timestamps=np.asarray(epochs),
             services=np.asarray(services),
             adjacency=np.zeros((len(epochs), 2, 2), dtype=np.float32),
+            caller_row_adjacency=np.tile(
+                np.asarray([[0.0, 2.0], [0.0, 0.0]], dtype=np.float32),
+                (len(epochs), 1, 1),
+            ),
+            callee_row_adjacency=np.tile(
+                np.asarray([[0.0, 0.0], [2.0, 0.0]], dtype=np.float32),
+                (len(epochs), 1, 1),
+            ),
         )
         return stamps_by_case
 
@@ -173,6 +181,23 @@ class Re2PointHorizonTests(unittest.TestCase):
             self.assertEqual(three_minute.split_report["horizon_minutes"], 3)
             self.assertEqual(len(three_minute.predefined_splits[0]), 4)
             self.assertEqual(one_minute.failure_targets[first_train_end], 0)
+
+    def test_graph_direction_selects_the_requested_message_flow(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self._build_panel(root)
+            callee_to_caller = Re2WindowDataset(
+                root, history=2, graph_direction="callee-to-caller"
+            )
+            caller_to_callee = Re2WindowDataset(
+                root, history=2, graph_direction="caller-to-callee"
+            )
+            torch_caller_row = callee_to_caller.adjacency[0]
+            torch_callee_row = caller_to_callee.adjacency[0]
+            self.assertEqual(torch_caller_row.tolist(), [[0.0, 2.0], [0.0, 0.0]])
+            self.assertEqual(torch_callee_row.tolist(), [[0.0, 0.0], [2.0, 0.0]])
+            self.assertEqual(callee_to_caller.graph_direction, "callee-to-caller")
+            self.assertEqual(caller_to_callee.graph_direction, "caller-to-callee")
 
 
 if __name__ == "__main__":
