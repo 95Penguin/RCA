@@ -95,8 +95,30 @@ class OCSIDModelTests(unittest.TestCase):
         self.assertEqual(out["failure_logits"].shape, (2, 2))
         self.assertEqual(out["probability"].shape, (2,))
         self.assertEqual(out["operation_scores"].shape, (2, 4))
-        self.assertEqual(out["node_scores"].shape, (2, 3))
+        self.assertNotIn("node_scores", out)
+        self.assertEqual(out["node_embeddings"].shape, (2, 3, 8))
         self.assertTrue(torch.isfinite(out["probability"]).all())
+
+    def test_aux_head_is_training_only(self):
+        tensors = (
+            torch.randn(2, 5, 3, 4),
+            torch.ones(2, 5, 3, 3),
+            torch.randn(2, 5, 4, 3),
+            torch.ones(2, 5, 4),
+        )
+        with_aux = OCSIDModel(
+            feature_dim=4, operation_dim=3, feature_groups=[[0, 1], [2, 3]],
+            hidden_dim=8, temporal_layers=1, graph_layers=1,
+            operation_hidden=4, dropout=0.0, aux_root=True,
+        )
+        self.assertIn("aux_root_logits", with_aux(*tensors))
+        without_aux = OCSIDModel(
+            feature_dim=4, operation_dim=3, feature_groups=[[0, 1], [2, 3]],
+            hidden_dim=8, temporal_layers=1, graph_layers=1,
+            operation_hidden=4, dropout=0.0, aux_root=False,
+        )
+        self.assertNotIn("aux_root_logits", without_aux(*tensors))
+        self.assertNotIn("node_scores", without_aux(*tensors))
 
 
 if __name__ == "__main__":

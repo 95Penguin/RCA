@@ -1,22 +1,19 @@
-"""OCSID: operation-conditioned, source-impact decomposed RCA model.
+"""OCSID predictor: operation-conditioned next-minute failure prediction.
 
-The model has three cooperating parts, each with a distinct job:
+The model has two cooperating parts:
 
 1. **Service temporal + graph encoder** (reused LTFP building blocks, trained
    from scratch here): encodes each service's five-minute telemetry and lets
-   callers/callees exchange context.  This is the part that predicts whether
-   the system is about to fail; the graph is what the no-graph ablation showed
-   to be essential.
+   callers/callees exchange context.
 2. **Operation risk head**: a shared GRU over each entry operation's trace
    features produces ``q_o``.  Operations are where the label is defined
    (TT: sustained same-operation entry p95 degradation), so keeping them
-   explicit makes the prediction interpretable and gives the RCA head a
-   conditioned context.
-3. **Source-impact RCA head**: for each service, a source representation
-   (local evidence) and an impact representation (graph-propagated context)
-   are fused into ``a_i``.  This is the learned counterpart of CPCA's
-   structural counterfactual; the two can be combined as
-   ``R_i = a_i + lambda * r_i`` when the structural score is available.
+   explicit makes the prediction interpretable.
+
+Attribution is **not** part of this model.  CPCA (``src/ocsid/cpca.py``) is the
+only root-cause module: it works on request span trees and is training-free.
+The earlier learned source/impact head was removed because it was redundant
+with CPCA and weakened the separation between prediction and attribution.
 
 The class is deliberately a subclass of :class:`LTFPBaseline` so the stable
 temporal/graph components are not re-implemented; all weights are trained from
@@ -47,6 +44,7 @@ class OCSIDModel(LTFPBaseline):
         aggregation: str = "max",
         use_graph: bool = True,
         use_operation: bool = True,
+        aux_root: bool = False,
     ) -> None:
         super().__init__(
             feature_dim=feature_dim,
@@ -62,6 +60,7 @@ class OCSIDModel(LTFPBaseline):
         self.aggregation = aggregation
         self.use_graph = use_graph
         self.use_operation = use_operation
+        self.aux_root = aux_root
 
         # Operation risk: one shared encoder, one scalar per operation.
         self.operation_encoder = nn.GRU(operation_dim, operation_hidden, batch_first=True)
@@ -71,21 +70,23 @@ class OCSIDModel(LTFPBaseline):
         # Fuse the system (graph) and operation views in logit space.
         self.system_fuse = nn.Linear(2, 1)
 
-        # Source / impact decomposition for RCA.
-        self.source_mlp = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout)
-        )
-        self.impact_mlp = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout)
-        )
-        # The inherited root_head has the same 3*H -> H -> 1 shape; reuse it
-        # explicitly so older checkpoints and the LTFP comparison stay aligned.
-        self.root_head = nn.Sequential(
-            nn.Linear(hidden_dim * 3, hidden_dim),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(hidden_dim, 1),
-        )
+        # Optional training-only auxiliary head.  It regularizes the shared
+        # encoder with root labels but is never used for attribution and is
+        # absent from the inference model (aux_root=False).
+        if aux_root:
+            self.source_mlp = nn.Sequential(
+                nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout)
+            )
+            self.impact_mlp = nn.Sequential(
+                nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout)
+            )
+            self.root_head = nn.Sequential(
+                nn.Linear(hidden_dim * 3, hidden_dim),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(hidden_dim, 1),
+            )
+
 
     def forward(
         self,
@@ -93,8 +94,6 @@ class OCSIDModel(LTFPBaseline):
         adjacency: torch.Tensor,
         operation_features: torch.Tensor,
         operation_mask: torch.Tensor,
-        cpca: torch.Tensor | None = None,
-        cpca_weight: float = 0.0,
     ) -> dict[str, torch.Tensor]:
         if self.use_graph:
             local_state, node_state, graph_state = self._encode_paths(
@@ -123,6 +122,15 @@ class OCSIDModel(LTFPBaseline):
         else:
             p_operation = (q * present).max(dim=1).values
 
+        # ---- optional training-only root auxiliary ----
+        aux_root_logits = None
+        if self.aux_root:
+            source = self.source_mlp(local_state)
+            impact = self.impact_mlp(node_state)
+            aux_root_logits = self.root_head(
+                torch.cat((source, impact, source * impact), dim=-1)
+            ).squeeze(-1)
+
         # ---- system (graph) risk ----
         system_logits = self.failure_head(graph_state)
         p_system = torch.softmax(system_logits, dim=-1)[:, 1]
@@ -137,27 +145,12 @@ class OCSIDModel(LTFPBaseline):
             p_operation = p_system
             probability = p_system
 
-        # ---- source / impact RCA ----
-        source = self.source_mlp(local_state)
-        impact = self.impact_mlp(node_state)
-        node_logits = self.root_head(
-            torch.cat((source, impact, source * impact), dim=-1)
-        ).squeeze(-1)
-        if cpca is not None and cpca_weight:
-            node_logits = node_logits + cpca_weight * torch.log(
-                cpca.clamp_min(1e-6)
-            )
-        node_scores = torch.softmax(node_logits, dim=-1)
-
         return {
             "failure_logits": system_logits,
             "probability": probability,
             "system_probability": p_system,
             "operation_probability": p_operation,
             "operation_scores": q,
-            "node_logits": node_logits,
-            "node_scores": node_scores,
             "node_embeddings": node_state,
-            "source_embeddings": source,
-            "impact_embeddings": impact,
+            **({"aux_root_logits": aux_root_logits} if aux_root_logits is not None else {}),
         }

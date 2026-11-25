@@ -15,8 +15,8 @@ For each positive next-minute window this audit:
 
 Serial replay is exact here: RE2 child calls under one parent never overlap
 (measured 18,099 multi-child parents, overlap = 0.0).  Normal references use the
-ten pre-injection minutes of the same case, i.e. the optimistic upper bound;
-a causal rolling reference is the next step.
+ten pre-injection minutes of the same case; a causal rolling reference with
+shrinkage is available via ``--reference rolling`` (see the result doc).
 
 Example
 -------
@@ -78,7 +78,7 @@ def _p95(values: list[float]) -> float:
     return float(ordered[max(math.ceil(0.95 * len(ordered)) - 1, 0)])
 
 
-def _load_case_labels(dataset: str) -> dict[str, dict[int, dict]]:
+def _load_case_labels(dataset: str, horizon_minutes: int = 1) -> dict[str, dict[int, dict]]:
     panel = PANELS[dataset]
     minute_to_case = {
         row["timestamp_utc"]: row["case_id"]
@@ -90,7 +90,7 @@ def _load_case_labels(dataset: str) -> dict[str, dict[int, dict]]:
             case = minute_to_case.get(row["input_minute_utc"])
             if case is None:
                 continue
-            key = _epoch(row["input_minute_utc"])
+            key = _epoch(row["input_minute_utc"]) - (horizon_minutes - 1) * 60
             entry = labels[case].setdefault(
                 key,
                 {"failure": 0, "root": None, "event": row.get("event_id") or ""},
@@ -158,8 +158,19 @@ def main() -> int:
     parser.add_argument("--cases", nargs="+", required=True)
     parser.add_argument("--max-requests", type=int, default=150)
     parser.add_argument("--min-op-requests", type=int, default=20)
+    parser.add_argument("--horizon-minutes", type=int, default=1)
     parser.add_argument("--soft-tau", type=float, default=1.0,
                         help="temperature for softmax operation weighting")
+    parser.add_argument("--qo-table", type=Path, default=None,
+                        help="OCSID JSON with per-window operation_scores (q_o)")
+    parser.add_argument("--reference", choices=("fixed", "rolling"), default="fixed",
+                        help="normal reference: fixed first10/pre, or causal rolling")
+    parser.add_argument("--reference-window", type=int, default=10,
+                        help="rolling reference window in minutes")
+    parser.add_argument("--shrink-k", type=float, default=5.0,
+                        help="shrinkage strength towards the fixed prior")
+    parser.add_argument("--reference-guard", type=int, default=0,
+                        help="minutes immediately before t excluded from rolling")
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--normal-mode", choices=("pre", "first10"), default="pre",
                         help="pre = all minutes before injection (oracle-ish); "
@@ -168,7 +179,17 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
 
-    labels = _load_case_labels(args.dataset)
+    qo_table: dict[tuple[str, int], dict[tuple[str, str], float]] = {}
+    if args.qo_table is not None:
+        qo_data = json.loads(args.qo_table.read_text())
+        for fold in qo_data.get("folds", []):
+            operations = [tuple(op) for op in fold.get("operations", [])]
+            for prediction in fold.get("test_predictions", []):
+                qo_table[(prediction["case"], int(prediction["minute"]))] = dict(
+                    zip(operations, prediction.get("operation_scores", []))
+                )
+
+    labels = _load_case_labels(args.dataset, args.horizon_minutes)
     report = {"dataset": args.dataset,
               "protocol": "operation-conditioned; pre-injection normal reference",
               "cases": {}}
@@ -193,6 +214,7 @@ def main() -> int:
             acc: dict[int, dict[tuple[str, str], dict]] = {
                 minute: {} for minute in positive
             }
+            rolling_cache: dict[int, tuple[dict, dict]] = {}
 
             # A traceID's spans are interleaved with other traces in traces.csv
             # (5,765 traceIDs form 267,041 contiguous blocks), so the whole case
@@ -247,6 +269,32 @@ def main() -> int:
                 key: (_median(buckets["pre"][key]), _median(buckets["post"][key]))
                 for key in buckets["pre"]
             })
+
+            # Per-minute healthy buckets for a causal rolling reference.
+            minute_buckets = defaultdict(
+                lambda: {"local": defaultdict(list),
+                         "pre": defaultdict(list),
+                         "post": defaultdict(list)}
+            )
+            for rows in traces.values():
+                spans = as_spans(rows)
+                if not spans:
+                    continue
+                minute = int(max(span.end for span in spans) // 60_000_000) * 60
+                parsed = _tree(spans, args.dataset)
+                if parsed is None:
+                    continue
+                _, children, root, local, pre, post = parsed
+                bucket = minute_buckets[minute]
+                for span in spans:
+                    bucket["local"][(span.service, span.operation)].append(local[span.sid])
+                for parent in spans:
+                    for child in children.get(parent.sid, []):
+                        key = (parent.service, parent.operation,
+                               child.service, child.operation)
+                        bucket["pre"][key].append(pre[child.sid])
+                        bucket["post"][key].append(post[child.sid])
+
             # Per-service per-minute normal series -> robust z centre/scale.
             per_service_series: dict[str, dict[str, list[float]]] = defaultdict(
                 lambda: {"global": [], "inclusive": [], "exclusive": [],
@@ -317,6 +365,59 @@ def main() -> int:
                     "exclusive": exclusive,
                 }
 
+            def rolling_reference(minute: int, case_labels: dict):
+                """Median over the last W healthy minutes, shrunk to the fixed prior."""
+                healthy = []
+                for offset in range(1 + args.reference_guard,
+                                    args.reference_window + 1 + args.reference_guard):
+                    candidate_minute = minute - offset * 60
+                    row = case_labels.get(candidate_minute)
+                    if row is not None and row.get("failure") == 0:
+                        healthy.append(candidate_minute)
+
+                ref_local = dict(normal_local)
+                local_keys = set(normal_local)
+                for healthy_minute in healthy:
+                    local_keys.update(minute_buckets[healthy_minute]["local"])
+                for key in local_keys:
+                    values = []
+                    for healthy_minute in healthy:
+                        values.extend(minute_buckets[healthy_minute]["local"].get(key, []))
+                    if not values:
+                        continue
+                    center = _median(values)
+                    prior = normal_local.get(key)
+                    if prior is None:
+                        ref_local[key] = center
+                    else:
+                        weight = len(values) / (len(values) + max(args.shrink_k, 1e-6))
+                        ref_local[key] = weight * center + (1.0 - weight) * prior
+
+                ref_edge = dict(normal_edge)
+                edge_keys = set(normal_edge)
+                for healthy_minute in healthy:
+                    edge_keys.update(minute_buckets[healthy_minute]["pre"])
+                for key in edge_keys:
+                    pre_values, post_values = [], []
+                    for healthy_minute in healthy:
+                        pre_values.extend(minute_buckets[healthy_minute]["pre"].get(key, []))
+                        post_values.extend(minute_buckets[healthy_minute]["post"].get(key, []))
+                    if not pre_values and not post_values:
+                        continue
+                    prior = normal_edge.get(key)
+                    pre_center = _median(pre_values)
+                    post_center = _median(post_values)
+                    if prior is None:
+                        ref_edge[key] = (pre_center, post_center)
+                    else:
+                        count = min(len(pre_values), len(post_values))
+                        weight = count / (count + max(args.shrink_k, 1e-6))
+                        ref_edge[key] = (
+                            weight * pre_center + (1.0 - weight) * prior[0],
+                            weight * post_center + (1.0 - weight) * prior[1],
+                        )
+                return ref_local, ref_edge
+
             # Pass 2: score completed requests on positive minutes.
             for rows in traces.values():
                 spans = as_spans(rows)
@@ -326,7 +427,13 @@ def main() -> int:
                 minute = int(completed // 60_000_000) * 60
                 if minute < inject or minute not in acc:
                     continue
-                scored = _score_trace(spans, normal_local, normal_edge, args.dataset)
+                if args.reference == "rolling":
+                    if minute not in rolling_cache:
+                        rolling_cache[minute] = rolling_reference(minute, labels[case_id])
+                    ref_local, ref_edge = rolling_cache[minute]
+                else:
+                    ref_local, ref_edge = normal_local, normal_edge
+                scored = _score_trace(spans, ref_local, ref_edge, args.dataset)
                 if scored is None:
                     continue
                 root, deltas, local = scored
@@ -351,7 +458,9 @@ def main() -> int:
 
         base_names = ("cpca", "cpca_cov", "global_z", "inclusive_z",
                       "exclusive_z", "exclusive_p95_z")
-        method_names = tuple(base_names) + tuple(name + "_soft" for name in base_names)
+        q_names = ("cpca_q", "cpca_cov_q") if qo_table else ()
+        method_names = (tuple(base_names) + tuple(name + "_soft" for name in base_names)
+                        + q_names)
         windows = []
         for minute in sorted(acc):
             states = acc[minute]
@@ -393,6 +502,30 @@ def main() -> int:
                         soft[name][service] += weight * value
             for name in base_names:
                 scores[name + "_soft"] = dict(soft[name])
+
+            if qo_table:
+                q_scores = qo_table.get((case_id, minute), {})
+                q_pairs = [
+                    (candidate, q_scores.get(candidate[2], 0.0))
+                    for candidate in candidates
+                ]
+                q_pairs = [(candidate, value) for candidate, value in q_pairs if value > 0]
+                if q_pairs:
+                    scaled = [value / max(args.soft_tau, 1e-6) for _, value in q_pairs]
+                    top = max(scaled)
+                    exp_values = [math.exp(value - top) for value in scaled]
+                    total = sum(exp_values)
+                    q_weights = [value / total for value in exp_values]
+                    q_candidates = [candidate for candidate, _ in q_pairs]
+                else:
+                    q_weights = weights
+                    q_candidates = candidates
+                for name in ("cpca", "cpca_cov"):
+                    combined = defaultdict(float)
+                    for weight, (_, _, _, candidate_state) in zip(q_weights, q_candidates):
+                        for service, value in state_scores(candidate_state)[name].items():
+                            combined[service] += weight * value
+                    scores[name + "_q"] = dict(combined)
 
             row = positive[minute]
             root = row["root"]

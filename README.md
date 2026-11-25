@@ -126,7 +126,7 @@ src/models/instantops.py   InstantOps/MTG 的 GCN＋GRU 主干
 src/models/ltfp.py         LTFP 模态编码、图注意力和双任务头
 src/models/joint_granularity.py  可从头联合训练的系统级—服务级交互模型
 src/models/eadro.py        Eadro-adapted 编码、图传播和联合任务头
-src/models/ocsid.py        OCSID：服务时序+图、operation 风险、source/impact 头
+src/models/ocsid.py        OCSID 预测器：服务时序+图、operation 风险（归因由 CPCA）
 src/models/baselines.py    LastValueMLP、ServiceTCN 通用基线
 src/models/common.py       模型输入校验、特征分组和因果卷积公共组件
 src/models/factory.py      统一模型注册、构建和模型专属训练策略

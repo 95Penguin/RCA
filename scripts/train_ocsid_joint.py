@@ -48,10 +48,10 @@ def _epoch(value: str) -> int:
     return int(datetime.fromisoformat(value).timestamp())
 
 
-def _build_arrays(dataset_name: str, data_dir: Path):
+def _build_arrays(dataset_name: str, data_dir: Path, horizon_minutes: int = 1):
     dataset = Re2WindowDataset(
         data_dir, history=5, split_policy="deployment", split_fold=0,
-        horizon_minutes=1, graph_direction="symmetric",
+        horizon_minutes=horizon_minutes, graph_direction="symmetric",
     )
     table, operations = load_operation_table(OP_FEATURES[dataset_name])
     op_index = {op: index for index, op in enumerate(operations)}
@@ -102,26 +102,6 @@ def _standardize(dataset, X, O, M, train_ends, ends):
         o_scale[o_scale < 1e-8] = 1.0
         O = ((O - o_mean) / o_scale) * M[..., None]
     return X, O
-
-
-def _event_metrics(events, ends, y, node, scores):
-    grouped: dict[str, list[int]] = defaultdict(list)
-    for index, (event, label) in enumerate(zip(events, y)):
-        if event and label == 1 and node[index].sum() > 0:
-            grouped[event].append(index)
-    targets, aggregated = [], []
-    for rows in grouped.values():
-        targets.append(node[rows[0]])
-        aggregated.append(scores[rows].mean(axis=0))
-    if not targets:
-        return {"events": 0, "hit_at_1": None, "mrr": None}
-    metrics = rca_metrics(np.stack(targets), np.stack(aggregated))
-    return {
-        "events": int(metrics["positive_windows"]),
-        "hit_at_1": metrics["hit_at_1"],
-        "hit_at_3": metrics["hit_at_3"],
-        "mrr": metrics["mrr"],
-    }
 
 
 def _f1(labels, probabilities, threshold):
@@ -178,6 +158,8 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--no-graph", action="store_true")
     parser.add_argument("--no-operation", action="store_true")
+    parser.add_argument("--no-aux-root", action="store_true")
+    parser.add_argument("--horizon-minutes", type=int, default=1)
     parser.add_argument("--device", choices=("cpu", "mps", "cuda", "auto"), default="auto")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -194,11 +176,11 @@ def main() -> int:
     results = []
     for fold in args.folds:
         dataset, operations, ends, X, A, O, M, y, node, events = _build_arrays(
-            args.dataset, data_dir
+            args.dataset, data_dir, args.horizon_minutes
         )
         dataset = Re2WindowDataset(
             data_dir, history=5, split_policy="deployment", split_fold=fold,
-            horizon_minutes=1, graph_direction="symmetric",
+            horizon_minutes=args.horizon_minutes, graph_direction="symmetric",
         )
         train_ends, val_ends, test_ends = dataset.predefined_splits
         positions = {end: index for index, end in enumerate(ends)}
@@ -227,6 +209,7 @@ def main() -> int:
             feature_groups=groups, hidden_dim=64, dropout=0.1,
             aggregation="max", use_graph=not args.no_graph,
             use_operation=not args.no_operation,
+            aux_root=not args.no_aux_root,
         ).to(device)
         positives = float(y[train_pos].sum())
         pos_weight = torch.tensor(
@@ -247,13 +230,15 @@ def main() -> int:
                 out = model(bx, ba, bo, bm)
                 loss = bce(out["probability"], by)
                 loss = loss + 0.2 * bce(out["operation_probability"], by)
-                valid = (by > 0) & (bn.sum(dim=1) > 0)
-                if valid.any():
-                    log_probs = torch.log_softmax(out["node_logits"][valid], dim=-1)
-                    root_index = bn[valid].argmax(dim=1)
-                    loss = loss + 0.5 * (-log_probs.gather(
-                        1, root_index.unsqueeze(1)
-                    ).mean())
+                aux_logits = out.get("aux_root_logits")
+                if aux_logits is not None:
+                    valid = (by > 0) & (bn.sum(dim=1) > 0)
+                    if valid.any():
+                        log_probs = torch.log_softmax(aux_logits[valid], dim=-1)
+                        root_index = bn[valid].argmax(dim=1)
+                        loss = loss + 0.5 * (-log_probs.gather(
+                            1, root_index.unsqueeze(1)
+                        ).mean())
                 loss.backward()
                 optimizer.step()
             model.eval()
@@ -282,11 +267,6 @@ def main() -> int:
             probs, labels,
         )
         prediction = classification_metrics(labels, probs)
-        scores = test_out["node_scores"].cpu().numpy()
-        event = _event_metrics(
-            [events[i] for i in test_pos], test_ends, labels,
-            node[test_pos], scores,
-        )
         result = {
             "fold": fold,
             "train_samples": len(train_pos),
@@ -298,9 +278,10 @@ def main() -> int:
             "f1_at_0_5": prediction["f1_at_0_5"],
             "precision_at_0_5": prediction["precision_at_0_5"],
             "recall_at_0_5": prediction["recall_at_0_5"],
-            "event_rca": event,
+            "event_rca": None,  # attribution is CPCA, outside the model
             "calibration": calibration,
             "services": list(dataset.services),
+            "operations": [list(op) for op in operations],
             "test_predictions": [
                 {
                     "case": dataset.case_ids[end],
@@ -309,15 +290,14 @@ def main() -> int:
                     "root": (dataset.services[int(node[position].argmax())]
                              if node[position].sum() > 0 else None),
                     "probability": float(probs[index]),
-                    "node_scores": scores[index].tolist(),
+                    "operation_scores": test_out["operation_scores"].cpu().numpy()[index].tolist(),
                 }
                 for index, (position, end) in enumerate(zip(test_pos, test_ends))
             ],
         }
         results.append(result)
         print(f"fold {fold}: AP={result['average_precision']:.4f} "
-              f"F1={result['f1_at_0_5']:.4f} "
-              f"eventH1={event['hit_at_1']} eventMRR={event['mrr']}", flush=True)
+              f"F1={result['f1_at_0_5']:.4f}", flush=True)
 
     def summarize(rows, key):
         values = [row[key] for row in rows if row.get(key) is not None]
@@ -325,22 +305,18 @@ def main() -> int:
 
     report = {
         "dataset": args.dataset,
-        "protocol": "unified OCSID; deployment folds; prediction and event RCA on the same checkpoint",
+        "protocol": "OCSID predictor; deployment folds; attribution is CPCA (outside the model)",
         "folds": results,
         "summary": {
             "ap": summarize(results, "average_precision"),
             "f1": summarize(results, "f1_at_0_5"),
         },
-        "event_summary": {
-            "hit_at_1": summarize([r["event_rca"] for r in results], "hit_at_1"),
-            "mrr": summarize([r["event_rca"] for r in results], "mrr"),
-        },
+        "event_summary": None,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n",
                            encoding="utf-8")
-    print(json.dumps({"summary": report["summary"], "event": report["event_summary"]},
-                     ensure_ascii=False, indent=2))
+    print(json.dumps({"summary": report["summary"]}, ensure_ascii=False, indent=2))
     return 0
 
 

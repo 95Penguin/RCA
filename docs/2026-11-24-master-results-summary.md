@@ -1,3 +1,7 @@
+> 注：论文用的汇总口径以 `docs/2026-11-24-paper-results.md` 为准。
+> 预测 F1 并非最高：persistence 的 F1 为 0.921/0.894，高于 OCSID 的 0.899/0.781；
+> OCSID 的强项是 AP 与 RCA。
+
 # 全量实验结果汇总（2026-11-24）
 
 本文件汇总仓库中已有的全部五折结果：4 个框架 baseline、10 个 specialist、

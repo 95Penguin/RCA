@@ -69,11 +69,13 @@ def _event_metrics(rows):
         rank = int(np.flatnonzero(np.asarray(names)[order] == root)[0]) + 1
         ranks.append(rank)
     if not ranks:
-        return {"events": 0, "hit_at_1": None, "hit_at_3": None, "mrr": None}
+        return {"events": 0, "hit_at_1": None, "hit_at_3": None,
+                "hit_at_5": None, "mrr": None}
     return {
         "events": len(ranks),
         "hit_at_1": float(np.mean([r == 1 for r in ranks])),
         "hit_at_3": float(np.mean([r <= 3 for r in ranks])),
+        "hit_at_5": float(np.mean([r <= 5 for r in ranks])),
         "mrr": float(np.mean([1.0 / r for r in ranks])),
     }
 

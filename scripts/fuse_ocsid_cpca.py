@@ -71,6 +71,12 @@ def main() -> int:
         for prediction in fold["test_predictions"]:
             if not prediction["event"] or not prediction["root"]:
                 continue
+            if "node_scores" not in prediction:
+                raise SystemExit(
+                    "This OCSID JSON predates the removal of the learned head; "
+                    "fuse_ocsid_cpca.py only supports legacy outputs. "
+                    "New runs are CPCA-only by design."
+                )
             total += 1
             scores = cpca.get((prediction["case"], prediction["minute"]))
             if scores is not None:

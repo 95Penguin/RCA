@@ -8,7 +8,8 @@
 ```text
 src/
   models/
-    ocsid.py          OCSIDModel：服务时序 + 图 + operation 风险 + source/impact 头
+    ocsid.py          OCSIDModel：服务时序 + 图 + operation 风险（预测器；归因由 CPCA；
+                  可选 aux_root 仅训练期使用，推理模型无根因头）
     ltfp.py           复用的 LTFP 编码器、GAT、模态融合
     common.py         因果卷积、特征分组、图输入校验
   ocsid/
@@ -27,8 +28,9 @@ src/
 | 脚本 | 作用 | 依赖 |
 |---|---|---|
 | `scripts/build_ocsid_operation_features.py` | 原始 trace → “分钟 × 入口 operation”特征表 | `ocsid.cpca` |
-| `scripts/train_ocsid_joint.py` | 统一模型五折训练；预测 + 事件级 RCA；概率校准 | `ocsid.features`、`models.ocsid` |
-| `scripts/audit_cpca_gate2.py` | CPCA 审计：正常参考、operation 选择（hard + soft，`--soft-tau`）、基线与逐故障类型 | `ocsid.cpca` |
+| `scripts/train_ocsid_joint.py` | 统一模型五折训练；预测 + 概率校准；`--horizon-minutes` 支持 state@h | `ocsid.features`、`models.ocsid` |
+| `scripts/audit_cpca_gate2.py` | CPCA 审计：正常参考（`--reference fixed/rolling`、`--reference-window`、`--shrink-k`、`--reference-guard`）、operation 选择（hard/soft，`--soft-tau`；可选 `--qo-table`）、`--horizon-minutes`、基线与逐故障类型 | `ocsid.cpca` |
+| `scripts/gate_horizon_leadtime.py` | Gate 0：1/3/5 分钟下决策时刻是否已有根因信号 | `data.re2` |
 | `scripts/fuse_ocsid_cpca.py` | 学习头与 CPCA 的 logit/RRF 融合（消融） | 结果 JSON |
 | `scripts/train_ocsid_predictor.py` | 早期纯预测版本（operation/flat），保留作对照 | `ocsid.features` |
 | `scripts/audit_span_cost_signature.py` | 单 case 归属规则验证（delay/CPU 的 post-gap 证据） | 独立 |
@@ -44,7 +46,7 @@ artifacts/re2_{ob,tt}_ocsid_operation_features_v1.csv
   ▼
 OCSIDModel 训练（五折）
   ├── 预测：p
-  └── 学习式 RCA：a_i（辅助/消融）
+  └── 归因：CPCA 的 r_i（外部，零训练）
 
 RE2 zip
   │  audit_cpca_gate2.py
@@ -106,4 +108,6 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest tests.test_ocsid -v
 4. 结果 JSON 在 `artifacts/ocsid_joint_*_v3.json`、`artifacts/ocsid_summary_v3.json`、
    `artifacts/cpca_gate2_*_scores_v1.json`；软 operation 对比见
    `artifacts/cpca_soft_{ob,tt}_first10_z2_scores_v1.json` 与
-   `docs/2026-11-24-cpca-soft-operation-result.md`。
+   `docs/2026-11-24-cpca-soft-operation-result.md`；
+   $q_o$ 权重对比见 `docs/2026-11-24-cpca-qo-weighting-result.md`；
+   滚动参考对比见 `docs/2026-11-24-cpca-rolling-reference-result.md`。

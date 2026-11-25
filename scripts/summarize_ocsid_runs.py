@@ -39,8 +39,8 @@ def _seed_summary(dataset: str, suffix: str):
             "ap": data["summary"]["ap"]["mean"],
             "f1": data["summary"]["f1"]["mean"],
             "calibrated_f1": float(np.mean(calibration)) if calibration else None,
-            "event_hit": data["event_summary"]["hit_at_1"]["mean"],
-            "event_mrr": data["event_summary"]["mrr"]["mean"],
+            "event_hit": (data.get("event_summary") or {}).get("hit_at_1", {}).get("mean"),
+            "event_mrr": (data.get("event_summary") or {}).get("mrr", {}).get("mean"),
         })
     if not rows:
         return None
