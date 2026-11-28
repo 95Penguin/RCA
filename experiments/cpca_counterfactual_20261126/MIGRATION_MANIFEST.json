@@ -1,0 +1,138 @@
+{
+  "source_directory": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125",
+  "destination": "/Users/95penguin/project/NextMinuteRCA/experiments/cpca_counterfactual_20261126",
+  "files": [
+    {
+      "path": ".gitignore",
+      "source": "migration-generated",
+      "sha256": "951df35a1a0fbcaec0f6b27b7ef4de99876a3879c93c0d582d5061d91318eb05",
+      "bytes": 159
+    },
+    {
+      "path": "COUNTERFACTUAL_V2_REVIEW.md",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/COUNTERFACTUAL_V2_REVIEW.md",
+      "sha256": "ce1bfeca3eea83b0eb13ebfc22585af98645198cd14fbde3878eaff670692c25",
+      "bytes": 9076
+    },
+    {
+      "path": "DISTRIBUTIONAL_CPCA_RESULTS.md",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/DISTRIBUTIONAL_CPCA_RESULTS.md",
+      "sha256": "73ffc57555ded8354b1aa9ec867b752e2576d704875c21d19b6eef7c8153c279",
+      "bytes": 4817
+    },
+    {
+      "path": "FINAL_RESULTS.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/FINAL_RESULTS.json",
+      "sha256": "2d6476e9515e6a47ea9b1427e60d1e0fc48ba79f1a55c33a35877b995d56080f",
+      "bytes": 118420
+    },
+    {
+      "path": "FINAL_RESULTS.md",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/FINAL_RESULTS.md",
+      "sha256": "d2aa1bb4e1105a74922da55ab44dec15db43ea902f8939e814cb3bd77771d8b4",
+      "bytes": 4319
+    },
+    {
+      "path": "OCSID_CPCA_Method.md",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/OCSID_CPCA_Method.md",
+      "sha256": "24c4a41a0f3efd4af599d923507b4ac59535cbcfc63be762c98e35bd31fc7f23",
+      "bytes": 12722
+    },
+    {
+      "path": "README.md",
+      "source": "migration-generated",
+      "sha256": "3f4b56518341bd114a30ed047c4b27dc9c5e32e7c1f0e52d16920150687d2534",
+      "bytes": 3085
+    },
+    {
+      "path": "SHAPLEYIQ_SAGE_COMPARISON.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/SHAPLEYIQ_SAGE_COMPARISON.json",
+      "sha256": "eb8435e94a4394f9a026f067aa8038f07243e7d419f6f643a7161f6421bc7902",
+      "bytes": 14354
+    },
+    {
+      "path": "SHAPLEYIQ_SAGE_STATUS.md",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/SHAPLEYIQ_SAGE_STATUS.md",
+      "sha256": "358d6463d7b0251cf67f35231dc49f7c94f7f88a9c9962aaada9da37004e9f0d",
+      "bytes": 3796
+    },
+    {
+      "path": "attribution/ob/audit.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/attribution/ob/audit.json",
+      "sha256": "a0a30aba30dd6b1a6d73cdd62a40e93fbd30a9c911b99a92821aafa59d0042d6",
+      "bytes": 9334991
+    },
+    {
+      "path": "attribution/tt/audit.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/attribution/tt/audit.json",
+      "sha256": "7c3f2ca50c1657433f161f677a96a678a418c0b1142c50491ae7ed43d6b2602e",
+      "bytes": 43630405
+    },
+    {
+      "path": "counterfactual_v2/ob/results.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/counterfactual_v2/ob/results.json",
+      "sha256": "4880fc4a7ce874a0b91c293168243438d886e1c62e0bf3e5edac5e70598ecd38",
+      "bytes": 10353794
+    },
+    {
+      "path": "counterfactual_v2/tt/results.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/counterfactual_v2/tt/results.json",
+      "sha256": "c17b62b7e6cc06a192096efc6a8b07939c93064f23c6fa4409f51d44612eb554",
+      "bytes": 42383080
+    },
+    {
+      "path": "counterfactual_v2/verification.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/counterfactual_v2/verification.json",
+      "sha256": "656747f7e31e44ab6494288fed2de5de6ef02994f90797320670cd0066b77c56",
+      "bytes": 4428
+    },
+    {
+      "path": "distributional_cpca/ob/results_fast.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/distributional_cpca/ob/results_fast.json",
+      "sha256": "ff05437f6974bc2eec846320abc1d770092adb901903fc7b0e16edad147cc74b",
+      "bytes": 8855823
+    },
+    {
+      "path": "distributional_cpca/tt/results_fast.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/distributional_cpca/tt/results_fast.json",
+      "sha256": "f0c2a35c13aea2797afe59bb8380a4cfff3cffbb65b4c4cd7e32de2f4b2e3a15",
+      "bytes": 39278858
+    },
+    {
+      "path": "experiment_paths.py",
+      "source": "migration-generated",
+      "sha256": "7f304097dce5ed5350f6258aef17baacbc6811b6a8a3e9e68a00b3622e7489b0",
+      "bytes": 210
+    },
+    {
+      "path": "inputs/prediction_ob_corrected_v2_seed42.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-validation-20261125/prediction_ob_corrected_v2_seed42.json",
+      "sha256": "fd31fbfc82f773a3c50a939370ffa205c99b1fb88e36a31b18e533261f787c42",
+      "bytes": 351294
+    },
+    {
+      "path": "inputs/prediction_tt_corrected_v2_seed42.json",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-validation-20261125/prediction_tt_corrected_v2_seed42.json",
+      "sha256": "a017093965c138b0eb8c3fb1419d2896e49631c807dd4bea44d026e0f64456bf",
+      "bytes": 870741
+    },
+    {
+      "path": "refine_cpca.py",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/refine_cpca.py",
+      "sha256": "6825aa5a01fe5e1b275a61802ec0b273d7e13e35c9f71f2522b5980ce8941034",
+      "bytes": 9541
+    },
+    {
+      "path": "run_distributional_cpca.py",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/run_distributional_cpca.py",
+      "sha256": "cf37fcc98be1f7a006ee6c759d5d150d21f1ea56633efa56e0b5be7c5c6a71a3",
+      "bytes": 15374
+    },
+    {
+      "path": "summarize_counterfactual_v2.py",
+      "source": "/Users/95penguin/MyDocs/项目/NextMinuteRCA-paper-experiments-20261125/summarize_counterfactual_v2.py",
+      "sha256": "7f0188aedaed3036ec1f7b5d22142db6b4e8a10aa56fe358dbe3b8d241522907",
+      "bytes": 11129
+    }
+  ]
+}

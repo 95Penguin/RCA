@@ -1,0 +1,954 @@
+{
+  "note": "Descriptive only, not evidence of intervention effects or predictor faithfulness.",
+  "datasets": {
+    "ob": {
+      "offset_unit": "decision minutes relative to first next-minute-positive decision; target is t+1",
+      "offsets": {
+        "-3": {
+          "events_with_any_evidence": 11,
+          "root_observed_events": 11,
+          "mean_root_responsibility": 0.2642543056654805,
+          "median_root_responsibility": 0.26039477563477414
+        },
+        "-2": {
+          "events_with_any_evidence": 55,
+          "root_observed_events": 54,
+          "mean_root_responsibility": 0.15068661897734725,
+          "median_root_responsibility": 0.041906503645853396
+        },
+        "-1": {
+          "events_with_any_evidence": 54,
+          "root_observed_events": 53,
+          "mean_root_responsibility": 0.16456344741822276,
+          "median_root_responsibility": 0.04302774725271427
+        },
+        "0": {
+          "events_with_any_evidence": 54,
+          "root_observed_events": 51,
+          "mean_root_responsibility": 0.1732738157252264,
+          "median_root_responsibility": 0.052229528124694204
+        },
+        "1": {
+          "events_with_any_evidence": 55,
+          "root_observed_events": 54,
+          "mean_root_responsibility": 0.6565447405633777,
+          "median_root_responsibility": 0.7307243337975495
+        },
+        "2": {
+          "events_with_any_evidence": 55,
+          "root_observed_events": 53,
+          "mean_root_responsibility": 0.6322335999315432,
+          "median_root_responsibility": 0.677175804293413
+        },
+        "3": {
+          "events_with_any_evidence": 52,
+          "root_observed_events": 52,
+          "mean_root_responsibility": 0.6607218499002494,
+          "median_root_responsibility": 0.7304510666488592
+        }
+      },
+      "paired_events": 55,
+      "root_score_increased": 52,
+      "decision_to_next_minute_pairs": {
+        "events": 54,
+        "median_at_decision": 0.052229528124694204,
+        "median_at_next_minute": 0.7228436610152897,
+        "median_paired_change": 0.5049037832214591,
+        "increased_events": 50
+      },
+      "pairs": [
+        {
+          "case": "RE2-OB_checkoutservice_delay_1",
+          "event": "RE2-OB_checkoutservice_delay_1_event_1",
+          "root": "checkoutservice",
+          "before": 0.023731698435557048,
+          "after": 0.4727988883919397
+        },
+        {
+          "case": "RE2-OB_checkoutservice_delay_2",
+          "event": "RE2-OB_checkoutservice_delay_2_event_2",
+          "root": "checkoutservice",
+          "before": 0.04274443868480029,
+          "after": 0.36403860936478727
+        },
+        {
+          "case": "RE2-OB_checkoutservice_delay_3",
+          "event": "RE2-OB_checkoutservice_delay_3_event_3",
+          "root": "checkoutservice",
+          "before": 0.43230569804751373,
+          "after": 0.3839745941279794
+        },
+        {
+          "case": "RE2-OB_checkoutservice_loss_2",
+          "event": "RE2-OB_checkoutservice_loss_2_event_4",
+          "root": "checkoutservice",
+          "before": 0.018995374718836132,
+          "after": 0.32840852426874484
+        },
+        {
+          "case": "RE2-OB_checkoutservice_loss_2",
+          "event": "RE2-OB_checkoutservice_loss_2_event_5",
+          "root": "checkoutservice",
+          "before": 0.32840852426874484,
+          "after": 0.2877326539460723
+        },
+        {
+          "case": "RE2-OB_checkoutservice_loss_3",
+          "event": "RE2-OB_checkoutservice_loss_3_event_6",
+          "root": "checkoutservice",
+          "before": 0.2420996484361171,
+          "after": 0.26807774599616147
+        },
+        {
+          "case": "RE2-OB_checkoutservice_mem_3",
+          "event": "RE2-OB_checkoutservice_mem_3_event_7",
+          "root": "checkoutservice",
+          "before": 0.046604078096595426,
+          "after": 0.38603293966247076
+        },
+        {
+          "case": "RE2-OB_currencyservice_cpu_1",
+          "event": "RE2-OB_currencyservice_cpu_1_event_8",
+          "root": "currencyservice",
+          "before": 0.3882489413282185,
+          "after": 0.6622491506160684
+        },
+        {
+          "case": "RE2-OB_currencyservice_cpu_2",
+          "event": "RE2-OB_currencyservice_cpu_2_event_9",
+          "root": "currencyservice",
+          "before": 0.3115162241058609,
+          "after": 0.7107785839965088
+        },
+        {
+          "case": "RE2-OB_currencyservice_cpu_3",
+          "event": "RE2-OB_currencyservice_cpu_3_event_10",
+          "root": "currencyservice",
+          "before": 0.3632643518250048,
+          "after": 0.6155844863836686
+        },
+        {
+          "case": "RE2-OB_currencyservice_delay_1",
+          "event": "RE2-OB_currencyservice_delay_1_event_11",
+          "root": "currencyservice",
+          "before": 0.2856944820304561,
+          "after": 0.9139577903835353
+        },
+        {
+          "case": "RE2-OB_currencyservice_delay_2",
+          "event": "RE2-OB_currencyservice_delay_2_event_12",
+          "root": "currencyservice",
+          "before": 0.04138261644736468,
+          "after": 0.9160888116455023
+        },
+        {
+          "case": "RE2-OB_currencyservice_delay_3",
+          "event": "RE2-OB_currencyservice_delay_3_event_13",
+          "root": "currencyservice",
+          "before": 0.06411297334456423,
+          "after": 0.9076778918730564
+        },
+        {
+          "case": "RE2-OB_currencyservice_disk_1",
+          "event": "RE2-OB_currencyservice_disk_1_event_14",
+          "root": "currencyservice",
+          "before": 0.6332544311089775,
+          "after": 0.8405405115146017
+        },
+        {
+          "case": "RE2-OB_currencyservice_disk_2",
+          "event": "RE2-OB_currencyservice_disk_2_event_15",
+          "root": "currencyservice",
+          "before": 0.4086162349506021,
+          "after": 0.7468982770239725
+        },
+        {
+          "case": "RE2-OB_currencyservice_disk_3",
+          "event": "RE2-OB_currencyservice_disk_3_event_16",
+          "root": "currencyservice",
+          "before": 0.2677646164655161,
+          "after": 0.7055072254519763
+        },
+        {
+          "case": "RE2-OB_currencyservice_loss_1",
+          "event": "RE2-OB_currencyservice_loss_1_event_17",
+          "root": "currencyservice",
+          "before": 0.6025053104367739,
+          "after": 0.9341797540625819
+        },
+        {
+          "case": "RE2-OB_currencyservice_loss_2",
+          "event": "RE2-OB_currencyservice_loss_2_event_18",
+          "root": "currencyservice",
+          "before": 0.2670681285253914,
+          "after": 0.8158226581829381
+        },
+        {
+          "case": "RE2-OB_currencyservice_loss_3",
+          "event": "RE2-OB_currencyservice_loss_3_event_19",
+          "root": "currencyservice",
+          "before": 0.41292449829451566,
+          "after": 0.9107388850464223
+        },
+        {
+          "case": "RE2-OB_currencyservice_mem_1",
+          "event": "RE2-OB_currencyservice_mem_1_event_20",
+          "root": "currencyservice",
+          "before": 0.3769760973367356,
+          "after": 0.8596529327457504
+        },
+        {
+          "case": "RE2-OB_currencyservice_mem_2",
+          "event": "RE2-OB_currencyservice_mem_2_event_21",
+          "root": "currencyservice",
+          "before": 0.34446925981368176,
+          "after": 0.8402425961463532
+        },
+        {
+          "case": "RE2-OB_currencyservice_mem_3",
+          "event": "RE2-OB_currencyservice_mem_3_event_22",
+          "root": "currencyservice",
+          "before": 0.32227464971505426,
+          "after": 0.8220289801230007
+        },
+        {
+          "case": "RE2-OB_currencyservice_socket_2",
+          "event": "RE2-OB_currencyservice_socket_2_event_23",
+          "root": "currencyservice",
+          "before": 0.4150982446494947,
+          "after": 0.7815174051050782
+        },
+        {
+          "case": "RE2-OB_currencyservice_socket_3",
+          "event": "RE2-OB_currencyservice_socket_3_event_24",
+          "root": "currencyservice",
+          "before": 0.32042417680016244,
+          "after": 0.7794137593027094
+        },
+        {
+          "case": "RE2-OB_emailservice_delay_3",
+          "event": "RE2-OB_emailservice_delay_3_event_25",
+          "root": "emailservice",
+          "before": 0.0732337538623241,
+          "after": 0.10283576875884994
+        },
+        {
+          "case": "RE2-OB_emailservice_mem_2",
+          "event": "RE2-OB_emailservice_mem_2_event_26",
+          "root": "emailservice",
+          "before": 0.26836506862502374,
+          "after": 0.2974063294919769
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_cpu_2",
+          "event": "RE2-OB_productcatalogservice_cpu_2_event_27",
+          "root": "productcatalogservice",
+          "before": 0.02828426182611629,
+          "after": 0.660736881560177
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_cpu_3",
+          "event": "RE2-OB_productcatalogservice_cpu_3_event_28",
+          "root": "productcatalogservice",
+          "before": 0.031268964133570804,
+          "after": 0.6622335567912099
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_delay_1",
+          "event": "RE2-OB_productcatalogservice_delay_1_event_29",
+          "root": "productcatalogservice",
+          "before": 0.02002301421846378,
+          "after": 0.9498560198694445
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_delay_2",
+          "event": "RE2-OB_productcatalogservice_delay_2_event_30",
+          "root": "productcatalogservice",
+          "before": 0.03465876419574681,
+          "after": 0.9409018451746799
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_delay_3",
+          "event": "RE2-OB_productcatalogservice_delay_3_event_31",
+          "root": "productcatalogservice",
+          "before": 0.044450662552294615,
+          "after": 0.961635591024958
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_disk_2",
+          "event": "RE2-OB_productcatalogservice_disk_2_event_32",
+          "root": "productcatalogservice",
+          "before": 0.03266968257030551,
+          "after": 0.7004345146513302
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_disk_3",
+          "event": "RE2-OB_productcatalogservice_disk_3_event_33",
+          "root": "productcatalogservice",
+          "before": 0.04524465324430743,
+          "after": 0.7312854877117827
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_loss_1",
+          "event": "RE2-OB_productcatalogservice_loss_1_event_34",
+          "root": "productcatalogservice",
+          "before": 0.00531614018019097,
+          "after": 0.4624480745469934
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_loss_2",
+          "event": "RE2-OB_productcatalogservice_loss_2_event_35",
+          "root": "productcatalogservice",
+          "before": 0.017493126418344985,
+          "after": 0.6959373807558864
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_loss_2",
+          "event": "RE2-OB_productcatalogservice_loss_2_event_36",
+          "root": "productcatalogservice",
+          "before": 0.1824493762717041,
+          "after": 0.7639954453780535
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_loss_3",
+          "event": "RE2-OB_productcatalogservice_loss_3_event_37",
+          "root": "productcatalogservice",
+          "before": 0.03136001581407778,
+          "after": 0.8435055195545048
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_mem_1",
+          "event": "RE2-OB_productcatalogservice_mem_1_event_38",
+          "root": "productcatalogservice",
+          "before": 0.0072894102447715724,
+          "after": 0.8226639267990843
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_mem_2",
+          "event": "RE2-OB_productcatalogservice_mem_2_event_39",
+          "root": "productcatalogservice",
+          "before": 0.016619200927883847,
+          "after": 0.8888937364968749
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_mem_3",
+          "event": "RE2-OB_productcatalogservice_mem_3_event_40",
+          "root": "productcatalogservice",
+          "before": 0.04727355848016171,
+          "after": 0.8884845863147283
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_socket_1",
+          "event": "RE2-OB_productcatalogservice_socket_1_event_41",
+          "root": "productcatalogservice",
+          "before": 0.022243610062418796,
+          "after": 0.8811263373933212
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_socket_2",
+          "event": "RE2-OB_productcatalogservice_socket_2_event_42",
+          "root": "productcatalogservice",
+          "before": 0.03936862831513267,
+          "after": 0.7735112461500814
+        },
+        {
+          "case": "RE2-OB_productcatalogservice_socket_3",
+          "event": "RE2-OB_productcatalogservice_socket_3_event_43",
+          "root": "productcatalogservice",
+          "before": 0.040329033954731835,
+          "after": 0.4958147487876496
+        },
+        {
+          "case": "RE2-OB_recommendationservice_delay_1",
+          "event": "RE2-OB_recommendationservice_delay_1_event_44",
+          "root": "recommendationservice",
+          "before": 0.0031755082957466963,
+          "after": 0.41293662287821425
+        },
+        {
+          "case": "RE2-OB_recommendationservice_delay_2",
+          "event": "RE2-OB_recommendationservice_delay_2_event_45",
+          "root": "recommendationservice",
+          "before": 0.004596428652172463,
+          "after": 0.4162988405284174
+        },
+        {
+          "case": "RE2-OB_recommendationservice_delay_3",
+          "event": "RE2-OB_recommendationservice_delay_3_event_46",
+          "root": "recommendationservice",
+          "before": 0.009815566442118846,
+          "after": 0.4159890408642537
+        },
+        {
+          "case": "RE2-OB_recommendationservice_loss_1",
+          "event": "RE2-OB_recommendationservice_loss_1_event_47",
+          "root": "recommendationservice",
+          "before": 0.0020988182015501183,
+          "after": 0.4666928817364332
+        },
+        {
+          "case": "RE2-OB_recommendationservice_loss_1",
+          "event": "RE2-OB_recommendationservice_loss_1_event_48",
+          "root": "recommendationservice",
+          "before": 0.3447385536675564,
+          "after": 0.37809058864926476
+        },
+        {
+          "case": "RE2-OB_recommendationservice_loss_2",
+          "event": "RE2-OB_recommendationservice_loss_2_event_49",
+          "root": "recommendationservice",
+          "before": 0.004721744311673009,
+          "after": 0.23521631677103844
+        },
+        {
+          "case": "RE2-OB_recommendationservice_loss_3",
+          "event": "RE2-OB_recommendationservice_loss_3_event_50",
+          "root": "recommendationservice",
+          "before": 0.005130969320172672,
+          "after": 0.5733480540041412
+        },
+        {
+          "case": "RE2-OB_recommendationservice_loss_3",
+          "event": "RE2-OB_recommendationservice_loss_3_event_51",
+          "root": "recommendationservice",
+          "before": 0.4806337927209694,
+          "after": 0.396376916391199
+        },
+        {
+          "case": "RE2-OB_recommendationservice_mem_1",
+          "event": "RE2-OB_recommendationservice_mem_1_event_52",
+          "root": "recommendationservice",
+          "before": 0.004906435737769681,
+          "after": 0.550152919586789
+        },
+        {
+          "case": "RE2-OB_recommendationservice_mem_2",
+          "event": "RE2-OB_recommendationservice_mem_2_event_53",
+          "root": "recommendationservice",
+          "before": 0.006147291546330616,
+          "after": 0.7443854341918281
+        },
+        {
+          "case": "RE2-OB_recommendationservice_mem_3",
+          "event": "RE2-OB_recommendationservice_mem_3_event_54",
+          "root": "recommendationservice",
+          "before": 0.013040339457418731,
+          "after": 0.6413105912420213
+        },
+        {
+          "case": "RE2-OB_recommendationservice_socket_1",
+          "event": "RE2-OB_recommendationservice_socket_1_event_55",
+          "root": "recommendationservice",
+          "before": 0.002519347805986126,
+          "after": 0.5478161505159427
+        }
+      ]
+    },
+    "tt": {
+      "offset_unit": "decision minutes relative to first next-minute-positive decision; target is t+1",
+      "offsets": {
+        "-3": {
+          "events_with_any_evidence": 25,
+          "root_observed_events": 24,
+          "mean_root_responsibility": 0.07325762160014307,
+          "median_root_responsibility": 0.08037117707321607
+        },
+        "-2": {
+          "events_with_any_evidence": 63,
+          "root_observed_events": 62,
+          "mean_root_responsibility": 0.038120364693101975,
+          "median_root_responsibility": 0.014245894963006085
+        },
+        "-1": {
+          "events_with_any_evidence": 64,
+          "root_observed_events": 63,
+          "mean_root_responsibility": 0.040883135317957744,
+          "median_root_responsibility": 0.019617501255480313
+        },
+        "0": {
+          "events_with_any_evidence": 64,
+          "root_observed_events": 63,
+          "mean_root_responsibility": 0.0884084319172248,
+          "median_root_responsibility": 0.0724685045837633
+        },
+        "1": {
+          "events_with_any_evidence": 64,
+          "root_observed_events": 64,
+          "mean_root_responsibility": 0.12397382601639564,
+          "median_root_responsibility": 0.10164346480456268
+        },
+        "2": {
+          "events_with_any_evidence": 64,
+          "root_observed_events": 64,
+          "mean_root_responsibility": 0.1258677248990549,
+          "median_root_responsibility": 0.09956323030347314
+        },
+        "3": {
+          "events_with_any_evidence": 60,
+          "root_observed_events": 60,
+          "mean_root_responsibility": 0.12180296736842429,
+          "median_root_responsibility": 0.10099058242615616
+        }
+      },
+      "paired_events": 64,
+      "root_score_increased": 53,
+      "decision_to_next_minute_pairs": {
+        "events": 64,
+        "median_at_decision": 0.0724685045837633,
+        "median_at_next_minute": 0.10164346480456268,
+        "median_paired_change": 0.008920433211836894,
+        "increased_events": 49
+      },
+      "pairs": [
+        {
+          "case": "RE2-TT_ts-auth-service_cpu_1",
+          "event": "RE2-TT_ts-auth-service_cpu_1_event_1",
+          "root": "ts-auth-service",
+          "before": 0.02287120081459753,
+          "after": 0.03848351933685277
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_cpu_1",
+          "event": "RE2-TT_ts-auth-service_cpu_1_event_2",
+          "root": "ts-auth-service",
+          "before": 0.03731028466122091,
+          "after": 0.036621423732350215
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_cpu_2",
+          "event": "RE2-TT_ts-auth-service_cpu_2_event_3",
+          "root": "ts-auth-service",
+          "before": 0.013947966188244208,
+          "after": 0.04748460737499034
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_cpu_3",
+          "event": "RE2-TT_ts-auth-service_cpu_3_event_4",
+          "root": "ts-auth-service",
+          "before": 0.0250863924601711,
+          "after": 0.049109874603342
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_cpu_3",
+          "event": "RE2-TT_ts-auth-service_cpu_3_event_5",
+          "root": "ts-auth-service",
+          "before": 0.049109874603342,
+          "after": 0.04978222799488682
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_delay_1",
+          "event": "RE2-TT_ts-auth-service_delay_1_event_6",
+          "root": "ts-auth-service",
+          "before": 0.06216321922125459,
+          "after": 0.06647899871717639
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_disk_1",
+          "event": "RE2-TT_ts-auth-service_disk_1_event_7",
+          "root": "ts-auth-service",
+          "before": 0.015400947426726723,
+          "after": 0.04937500898142374
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_disk_1",
+          "event": "RE2-TT_ts-auth-service_disk_1_event_8",
+          "root": "ts-auth-service",
+          "before": 0.04937500898142374,
+          "after": 0.04613633627023105
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_disk_2",
+          "event": "RE2-TT_ts-auth-service_disk_2_event_9",
+          "root": "ts-auth-service",
+          "before": 0.025145643596016204,
+          "after": 0.05129694252907917
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_disk_3",
+          "event": "RE2-TT_ts-auth-service_disk_3_event_10",
+          "root": "ts-auth-service",
+          "before": 0.021284731760039578,
+          "after": 0.05000147011775941
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_mem_1",
+          "event": "RE2-TT_ts-auth-service_mem_1_event_11",
+          "root": "ts-auth-service",
+          "before": 0.0263838153864335,
+          "after": 0.053446566998417856
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_mem_2",
+          "event": "RE2-TT_ts-auth-service_mem_2_event_12",
+          "root": "ts-auth-service",
+          "before": 0.019403042037077163,
+          "after": 0.055993148349544684
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_mem_3",
+          "event": "RE2-TT_ts-auth-service_mem_3_event_13",
+          "root": "ts-auth-service",
+          "before": 0.023225964372120995,
+          "after": 0.053535860807891335
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_socket_1",
+          "event": "RE2-TT_ts-auth-service_socket_1_event_14",
+          "root": "ts-auth-service",
+          "before": 0.02607920343330237,
+          "after": 0.056928196844736434
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_socket_2",
+          "event": "RE2-TT_ts-auth-service_socket_2_event_15",
+          "root": "ts-auth-service",
+          "before": 0.02190318370536535,
+          "after": 0.05593878951651361
+        },
+        {
+          "case": "RE2-TT_ts-auth-service_socket_3",
+          "event": "RE2-TT_ts-auth-service_socket_3_event_16",
+          "root": "ts-auth-service",
+          "before": 0.017799957658322534,
+          "after": 0.05901494975696301
+        },
+        {
+          "case": "RE2-TT_ts-order-service_loss_1",
+          "event": "RE2-TT_ts-order-service_loss_1_event_17",
+          "root": "ts-order-service",
+          "before": 0.007682005503664328,
+          "after": 0.07304323999030266
+        },
+        {
+          "case": "RE2-TT_ts-order-service_mem_3",
+          "event": "RE2-TT_ts-order-service_mem_3_event_18",
+          "root": "ts-order-service",
+          "before": 0.037279638528712036,
+          "after": 0.14773416060347017
+        },
+        {
+          "case": "RE2-TT_ts-order-service_mem_3",
+          "event": "RE2-TT_ts-order-service_mem_3_event_19",
+          "root": "ts-order-service",
+          "before": 0.14773416060347017,
+          "after": 0.12487275697553465
+        },
+        {
+          "case": "RE2-TT_ts-route-service_cpu_1",
+          "event": "RE2-TT_ts-route-service_cpu_1_event_20",
+          "root": "ts-route-service",
+          "before": 0.004226008866950195,
+          "after": 0.1631098402500084
+        },
+        {
+          "case": "RE2-TT_ts-route-service_cpu_2",
+          "event": "RE2-TT_ts-route-service_cpu_2_event_21",
+          "root": "ts-route-service",
+          "before": 0.0091974551785518,
+          "after": 0.13331713408212403
+        },
+        {
+          "case": "RE2-TT_ts-route-service_cpu_2",
+          "event": "RE2-TT_ts-route-service_cpu_2_event_22",
+          "root": "ts-route-service",
+          "before": 0.1369618221486602,
+          "after": 0.14988349114367736
+        },
+        {
+          "case": "RE2-TT_ts-route-service_delay_1",
+          "event": "RE2-TT_ts-route-service_delay_1_event_23",
+          "root": "ts-route-service",
+          "before": 0.004287273742902227,
+          "after": 0.3436063791817877
+        },
+        {
+          "case": "RE2-TT_ts-route-service_delay_2",
+          "event": "RE2-TT_ts-route-service_delay_2_event_24",
+          "root": "ts-route-service",
+          "before": 0.0039066948815804125,
+          "after": 0.34606467161589666
+        },
+        {
+          "case": "RE2-TT_ts-route-service_delay_3",
+          "event": "RE2-TT_ts-route-service_delay_3_event_25",
+          "root": "ts-route-service",
+          "before": 0.004198048204587674,
+          "after": 0.33335256584915185
+        },
+        {
+          "case": "RE2-TT_ts-route-service_loss_1",
+          "event": "RE2-TT_ts-route-service_loss_1_event_26",
+          "root": "ts-route-service",
+          "before": 0.003912709262802171,
+          "after": 0.17166857242768785
+        },
+        {
+          "case": "RE2-TT_ts-route-service_loss_1",
+          "event": "RE2-TT_ts-route-service_loss_1_event_27",
+          "root": "ts-route-service",
+          "before": 0.0,
+          "after": 0.17274977096401367
+        },
+        {
+          "case": "RE2-TT_ts-route-service_loss_2",
+          "event": "RE2-TT_ts-route-service_loss_2_event_28",
+          "root": "ts-route-service",
+          "before": 0.006341699229098163,
+          "after": 0.08743002213802833
+        },
+        {
+          "case": "RE2-TT_ts-route-service_loss_3",
+          "event": "RE2-TT_ts-route-service_loss_3_event_29",
+          "root": "ts-route-service",
+          "before": 0.18329436529546717,
+          "after": 0.19203505875495716
+        },
+        {
+          "case": "RE2-TT_ts-route-service_mem_1",
+          "event": "RE2-TT_ts-route-service_mem_1_event_30",
+          "root": "ts-route-service",
+          "before": 0.00599932220784238,
+          "after": 0.22469867332188231
+        },
+        {
+          "case": "RE2-TT_ts-route-service_mem_3",
+          "event": "RE2-TT_ts-route-service_mem_3_event_31",
+          "root": "ts-route-service",
+          "before": 0.0031984112149029626,
+          "after": 0.21418953636176
+        },
+        {
+          "case": "RE2-TT_ts-route-service_socket_1",
+          "event": "RE2-TT_ts-route-service_socket_1_event_32",
+          "root": "ts-route-service",
+          "before": 0.0037516187407454346,
+          "after": 0.21266336830438667
+        },
+        {
+          "case": "RE2-TT_ts-route-service_socket_3",
+          "event": "RE2-TT_ts-route-service_socket_3_event_33",
+          "root": "ts-route-service",
+          "before": 0.0037799480810783038,
+          "after": 0.20580964702333368
+        },
+        {
+          "case": "RE2-TT_ts-train-service_delay_1",
+          "event": "RE2-TT_ts-train-service_delay_1_event_34",
+          "root": "ts-train-service",
+          "before": 0.007730446566524999,
+          "after": 0.2986087356066278
+        },
+        {
+          "case": "RE2-TT_ts-train-service_delay_2",
+          "event": "RE2-TT_ts-train-service_delay_2_event_35",
+          "root": "ts-train-service",
+          "before": 0.004265740255307792,
+          "after": 0.2896005082839226
+        },
+        {
+          "case": "RE2-TT_ts-train-service_delay_3",
+          "event": "RE2-TT_ts-train-service_delay_3_event_36",
+          "root": "ts-train-service",
+          "before": 0.006135818329627919,
+          "after": 0.2761129244510659
+        },
+        {
+          "case": "RE2-TT_ts-train-service_loss_1",
+          "event": "RE2-TT_ts-train-service_loss_1_event_37",
+          "root": "ts-train-service",
+          "before": 0.007375680460138975,
+          "after": 0.17271117752566265
+        },
+        {
+          "case": "RE2-TT_ts-train-service_loss_2",
+          "event": "RE2-TT_ts-train-service_loss_2_event_38",
+          "root": "ts-train-service",
+          "before": 0.005911897247804845,
+          "after": 0.16867571120544878
+        },
+        {
+          "case": "RE2-TT_ts-train-service_loss_3",
+          "event": "RE2-TT_ts-train-service_loss_3_event_39",
+          "root": "ts-train-service",
+          "before": 0.0067294238164896355,
+          "after": 0.15881295723548242
+        },
+        {
+          "case": "RE2-TT_ts-train-service_mem_1",
+          "event": "RE2-TT_ts-train-service_mem_1_event_40",
+          "root": "ts-train-service",
+          "before": 0.00970964358142418,
+          "after": 0.20455550136374548
+        },
+        {
+          "case": "RE2-TT_ts-train-service_mem_2",
+          "event": "RE2-TT_ts-train-service_mem_2_event_41",
+          "root": "ts-train-service",
+          "before": 0.00828062053921291,
+          "after": 0.14110965007872478
+        },
+        {
+          "case": "RE2-TT_ts-train-service_mem_3",
+          "event": "RE2-TT_ts-train-service_mem_3_event_42",
+          "root": "ts-train-service",
+          "before": 0.007948085026372256,
+          "after": 0.1461771842088266
+        },
+        {
+          "case": "RE2-TT_ts-train-service_socket_2",
+          "event": "RE2-TT_ts-train-service_socket_2_event_43",
+          "root": "ts-train-service",
+          "before": 0.15921954146594414,
+          "after": 0.1333899549961682
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_cpu_2",
+          "event": "RE2-TT_ts-travel-service_cpu_2_event_44",
+          "root": "ts-travel-service",
+          "before": 0.08152008705136325,
+          "after": 0.08726537679026479
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_cpu_3",
+          "event": "RE2-TT_ts-travel-service_cpu_3_event_45",
+          "root": "ts-travel-service",
+          "before": 0.08112769073411959,
+          "after": 0.09938829394705645
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_cpu_3",
+          "event": "RE2-TT_ts-travel-service_cpu_3_event_46",
+          "root": "ts-travel-service",
+          "before": 0.09938829394705645,
+          "after": 0.07782219144038016
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_delay_1",
+          "event": "RE2-TT_ts-travel-service_delay_1_event_47",
+          "root": "ts-travel-service",
+          "before": 0.10326529459966766,
+          "after": 0.10285688050966929
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_delay_2",
+          "event": "RE2-TT_ts-travel-service_delay_2_event_48",
+          "root": "ts-travel-service",
+          "before": 0.10525137643694124,
+          "after": 0.1011824412879507
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_delay_2",
+          "event": "RE2-TT_ts-travel-service_delay_2_event_49",
+          "root": "ts-travel-service",
+          "before": 0.1011824412879507,
+          "after": 0.09749936973881135
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_delay_3",
+          "event": "RE2-TT_ts-travel-service_delay_3_event_50",
+          "root": "ts-travel-service",
+          "before": 0.10757426599555589,
+          "after": 0.10190619254830763
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_disk_1",
+          "event": "RE2-TT_ts-travel-service_disk_1_event_51",
+          "root": "ts-travel-service",
+          "before": 0.01871379597277939,
+          "after": 0.08894013036139775
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_disk_2",
+          "event": "RE2-TT_ts-travel-service_disk_2_event_52",
+          "root": "ts-travel-service",
+          "before": 0.007395380772348749,
+          "after": 0.05999161330011655
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_disk_2",
+          "event": "RE2-TT_ts-travel-service_disk_2_event_53",
+          "root": "ts-travel-service",
+          "before": 0.055383878958641865,
+          "after": 0.06542345805268665
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_disk_3",
+          "event": "RE2-TT_ts-travel-service_disk_3_event_54",
+          "root": "ts-travel-service",
+          "before": 0.0051090126079476,
+          "after": 0.05516131358213664
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_disk_3",
+          "event": "RE2-TT_ts-travel-service_disk_3_event_55",
+          "root": "ts-travel-service",
+          "before": 0.049914600519752834,
+          "after": 0.06286012515878006
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_loss_1",
+          "event": "RE2-TT_ts-travel-service_loss_1_event_56",
+          "root": "ts-travel-service",
+          "before": 0.0023186037985657927,
+          "after": 0.06393139960647126
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_loss_2",
+          "event": "RE2-TT_ts-travel-service_loss_2_event_57",
+          "root": "ts-travel-service",
+          "before": 0.008511011833843882,
+          "after": 0.057707810027333835
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_loss_3",
+          "event": "RE2-TT_ts-travel-service_loss_3_event_58",
+          "root": "ts-travel-service",
+          "before": 0.006622382741913204,
+          "after": 0.0712142459886915
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_mem_1",
+          "event": "RE2-TT_ts-travel-service_mem_1_event_59",
+          "root": "ts-travel-service",
+          "before": 0.004494102801161445,
+          "after": 0.12221819658859825
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_mem_2",
+          "event": "RE2-TT_ts-travel-service_mem_2_event_60",
+          "root": "ts-travel-service",
+          "before": 0.016081541903483033,
+          "after": 0.11459791067179917
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_mem_2",
+          "event": "RE2-TT_ts-travel-service_mem_2_event_61",
+          "root": "ts-travel-service",
+          "before": 0.12106992940213795,
+          "after": 0.1388988771650404
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_socket_1",
+          "event": "RE2-TT_ts-travel-service_socket_1_event_62",
+          "root": "ts-travel-service",
+          "before": 0.09793958110567037,
+          "after": 0.08249046827296756
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_socket_2",
+          "event": "RE2-TT_ts-travel-service_socket_2_event_63",
+          "root": "ts-travel-service",
+          "before": 0.10640151489020697,
+          "after": 0.10187313543365414
+        },
+        {
+          "case": "RE2-TT_ts-travel-service_socket_3",
+          "event": "RE2-TT_ts-travel-service_socket_3_event_64",
+          "root": "ts-travel-service",
+          "before": 0.006601343792899798,
+          "after": 0.10903518702758558
+        }
+      ]
+    }
+  }
+}

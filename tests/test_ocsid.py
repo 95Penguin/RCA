@@ -112,6 +112,8 @@ class OCSIDModelTests(unittest.TestCase):
             operation_hidden=4, dropout=0.0, aux_root=True,
         )
         self.assertIn("aux_root_logits", with_aux(*tensors))
+        with_aux.eval()
+        self.assertNotIn("aux_root_logits", with_aux(*tensors))
         without_aux = OCSIDModel(
             feature_dim=4, operation_dim=3, feature_groups=[[0, 1], [2, 3]],
             hidden_dim=8, temporal_layers=1, graph_layers=1,

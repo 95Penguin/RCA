@@ -1,0 +1,8 @@
+# Large experiment inputs and result snapshots; retained locally.
+/inputs/
+/attribution/
+/distributional_cpca/
+/counterfactual_v2/
+/reruns/
+__pycache__/
+*.log

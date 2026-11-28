@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "cache_files_checked": 180,
+  "datasets": {
+    "ob": {
+      "cases_checked": 90,
+      "positive_windows": 455,
+      "baseline_max_score_difference": 0.0,
+      "shapley_request_count_parity": true,
+      "sampled_scores_finite_nonnegative_bounded": true,
+      "current_parser_hash_matches": true
+    },
+    "tt": {
+      "cases_checked": 90,
+      "positive_windows": 436,
+      "baseline_max_score_difference": 8.326672684688674e-17,
+      "shapley_request_count_parity": true,
+      "sampled_scores_finite_nonnegative_bounded": true,
+      "current_parser_hash_matches": true
+    }
+  }
+}

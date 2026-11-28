@@ -1,0 +1,1572 @@
+{
+  "python": "3.12.13 (main, Jun 11 2026, 03:55:21) [Clang 22.1.3 ]",
+  "numpy": "2.5.4",
+  "root": "/Users/95penguin/project/NextMinuteRCA",
+  "files": {
+    ".gitignore": {
+      "bytes": 70,
+      "sha256": "8e3ec96e7108493c00163c932e9916a5ad9fa502fda79171210c4a94c0ffc7fe"
+    },
+    "AUDIT_RESULTS.json": {
+      "bytes": 93126,
+      "sha256": "9c476dfbae7d70774461a334c02b0be53d4cfc2695859c0733777ecce9a9f147"
+    },
+    "AUDIT_RESULTS.md": {
+      "bytes": 3993,
+      "sha256": "753654e50e57193420119c258738bcd5ddcaf0c718f56e482c41d7a80455c555"
+    },
+    "BASELINES_UNIFIED.json": {
+      "bytes": 392236,
+      "sha256": "4494b4d183c746cfabe3aa548c7a29a5921cecbb8ef5d5bbb0e557ea6de41265"
+    },
+    "BASELINES_UNIFIED.md": {
+      "bytes": 5069,
+      "sha256": "caf88ce1687dfdfedb407cb23620982cfb4d3795bacfe33556a2c9bd61c21990"
+    },
+    "INNOVATION_DECISION.md": {
+      "bytes": 8884,
+      "sha256": "36dc4f543262b0dd634e29a75229da98cad8b03babdfe3ad1c77fe757bc59dfa"
+    },
+    "METHOD_DRAFT.md": {
+      "bytes": 10715,
+      "sha256": "cd12b96295385d6c1fb4359af9636c6238dc3064627026e1eae5be7f268fed8c"
+    },
+    "README.md": {
+      "bytes": 3333,
+      "sha256": "415bc52b8c6f271e262b92720e8951ef53a838babfe3cb20d6f02307549daf17"
+    },
+    "RELATED_WORK_AUDIT.md": {
+      "bytes": 5032,
+      "sha256": "a802270ce31268135300b9833c08ff561a02f9caa9920c083cb8ada36863114b"
+    },
+    "VERIFY_RESULTS.json": {
+      "bytes": 621,
+      "sha256": "a1fcd195bc460ced4afc6ee37dcd37bd00e28e42c6ef8bb12febb1484d4214de"
+    },
+    "audit_paths.py": {
+      "bytes": 389,
+      "sha256": "5abc2347b36ae959c42884ed66bcc0f181dd3b353f2c6240314d7ddd264b33db"
+    },
+    "build_cache.py": {
+      "bytes": 18694,
+      "sha256": "b432e7e756cfd22cb06fe5418ec7fd15339af909f5038b2f4205e6f472554c65"
+    },
+    "cache_ob/RE2-OB_checkoutservice_cpu_1.json": {
+      "bytes": 1142,
+      "sha256": "150f10b489f8beb0ee7f8d2d991aafb2dafd8621905a0748b43c2675acbef9b8"
+    },
+    "cache_ob/RE2-OB_checkoutservice_cpu_1.npz": {
+      "bytes": 237774,
+      "sha256": "390092463b14a988590256756327976f4f2c70ae0b004de23feb2fce733cebdb"
+    },
+    "cache_ob/RE2-OB_checkoutservice_cpu_2.json": {
+      "bytes": 1162,
+      "sha256": "33cabba605323081218b4d24c2051e3ba0290ddadbc1ec599eb3adecb6ef55a8"
+    },
+    "cache_ob/RE2-OB_checkoutservice_cpu_2.npz": {
+      "bytes": 208834,
+      "sha256": "7bb47d8838a099dea4b102c2b3103893daae63267f25dd9d7739db0984579917"
+    },
+    "cache_ob/RE2-OB_checkoutservice_cpu_3.json": {
+      "bytes": 1139,
+      "sha256": "285269a6b47e616dcd54126e7c6f9201f268e1ea3315faf7e07d05edf3da2ea2"
+    },
+    "cache_ob/RE2-OB_checkoutservice_cpu_3.npz": {
+      "bytes": 188438,
+      "sha256": "6350e5fd8f697c028c5bb64dbd2040f8151f13b9944fec8fb01cd605f54f241e"
+    },
+    "cache_ob/RE2-OB_checkoutservice_delay_1.json": {
+      "bytes": 2087,
+      "sha256": "1fea8ea89b41c9e4bf6179ccfd0b7cdbcc0fc439f5b4b99bd55e94b325d9f80f"
+    },
+    "cache_ob/RE2-OB_checkoutservice_delay_1.npz": {
+      "bytes": 259545,
+      "sha256": "c23375ae3336f8e8a55723039b27e95530d128153db428a8ccdecf85cf9ea59f"
+    },
+    "cache_ob/RE2-OB_checkoutservice_delay_2.json": {
+      "bytes": 2087,
+      "sha256": "7d30a6344e3a56fa8314c4d33a3f832e33b198650d5a6956b3d2564d0520e840"
+    },
+    "cache_ob/RE2-OB_checkoutservice_delay_2.npz": {
+      "bytes": 252906,
+      "sha256": "b0d5ed67906ea3c4642416852bc8cf63af94f67a0e98ac9071377fcc893a6d6a"
+    },
+    "cache_ob/RE2-OB_checkoutservice_delay_3.json": {
+      "bytes": 2087,
+      "sha256": "4a377a2240ac076c720151fa5ddc702e324ca0d0523f413066ffee421b69daad"
+    },
+    "cache_ob/RE2-OB_checkoutservice_delay_3.npz": {
+      "bytes": 247827,
+      "sha256": "50ec245072bb279a6893ad4044610d9e36ccf8c0f93455ffd7caa6c7fd142705"
+    },
+    "cache_ob/RE2-OB_checkoutservice_disk_1.json": {
+      "bytes": 1137,
+      "sha256": "340495d5a5ea399ee0386afad6538ef1d00d51db27b19c6b3a5c83941664ac3e"
+    },
+    "cache_ob/RE2-OB_checkoutservice_disk_1.npz": {
+      "bytes": 224915,
+      "sha256": "23435e1f72ed42813ccf508fd4b6d19c549c4c5460cf394f99240b3d56392492"
+    },
+    "cache_ob/RE2-OB_checkoutservice_disk_2.json": {
+      "bytes": 1139,
+      "sha256": "a5b40f756bd26bb1cd191d3504b46f79ae5107b9281f243605bc9c20c6beea3b"
+    },
+    "cache_ob/RE2-OB_checkoutservice_disk_2.npz": {
+      "bytes": 223341,
+      "sha256": "7e72009bb6925a3c920c857f516bfdfc13650a0eca6c0fb8dff99c74fe592234"
+    },
+    "cache_ob/RE2-OB_checkoutservice_disk_3.json": {
+      "bytes": 1138,
+      "sha256": "b517755109e16bcfa89390f0f859cbdcc86a3d779e2694989fd6eb29f222bbc6"
+    },
+    "cache_ob/RE2-OB_checkoutservice_disk_3.npz": {
+      "bytes": 211135,
+      "sha256": "0c6462dc9beb98d741e567fc72f0428e8c23a0214b513ed57b5e18c161cfb92d"
+    },
+    "cache_ob/RE2-OB_checkoutservice_loss_1.json": {
+      "bytes": 1168,
+      "sha256": "a64085a17c369d191b990ee79b5de063b3b44c074688a3334c4fffc6b56e2de5"
+    },
+    "cache_ob/RE2-OB_checkoutservice_loss_1.npz": {
+      "bytes": 226167,
+      "sha256": "ec0880f8d11cbd943ac16d6edb7aaadc56e85be50ea04dfdee7d9b38fd0bcbbf"
+    },
+    "cache_ob/RE2-OB_checkoutservice_loss_2.json": {
+      "bytes": 2287,
+      "sha256": "11b510a9f7cb4f4668a348f98bfa05abc1f5feaeca4e857f1cfee0dedcc63dbc"
+    },
+    "cache_ob/RE2-OB_checkoutservice_loss_2.npz": {
+      "bytes": 296593,
+      "sha256": "72f8290b195c309152635a20c31389a7a9d1d5efe04765eb6763976b5ae2fda4"
+    },
+    "cache_ob/RE2-OB_checkoutservice_loss_3.json": {
+      "bytes": 2116,
+      "sha256": "162b31071559e0d7e03c095810448982c2eda929fc9131e731af1da7811041b0"
+    },
+    "cache_ob/RE2-OB_checkoutservice_loss_3.npz": {
+      "bytes": 268681,
+      "sha256": "507643e00655abdfd628b3e0d3c6c770638eb367135b3f5b1c8d6021246b4888"
+    },
+    "cache_ob/RE2-OB_checkoutservice_mem_1.json": {
+      "bytes": 1138,
+      "sha256": "777b8d5664bd9589515619fe1e256468211a6c4c372b199fc119d810823290a6"
+    },
+    "cache_ob/RE2-OB_checkoutservice_mem_1.npz": {
+      "bytes": 206294,
+      "sha256": "57dace4884febc112ee9ec040735978a8c9e7248b9f0899c8e970903056e991d"
+    },
+    "cache_ob/RE2-OB_checkoutservice_mem_2.json": {
+      "bytes": 1164,
+      "sha256": "b090fd17d26ff4717bbfc3e7c7fbc9c1fdd3e82e4e5634924ea92529548ff8a6"
+    },
+    "cache_ob/RE2-OB_checkoutservice_mem_2.npz": {
+      "bytes": 204913,
+      "sha256": "502dc77fc980454cce449ef8c8d37b080be39f12ef76bde2892f1acc75a9040f"
+    },
+    "cache_ob/RE2-OB_checkoutservice_mem_3.json": {
+      "bytes": 2083,
+      "sha256": "a7b7698312cec689c935f29bb5659d45792d6d5a7a850bf9b7a754da57774b7b"
+    },
+    "cache_ob/RE2-OB_checkoutservice_mem_3.npz": {
+      "bytes": 230163,
+      "sha256": "a9db9eb659cdbd90555719fd5b687d221067bf270a73d1f1f2413989703ae9f8"
+    },
+    "cache_ob/RE2-OB_checkoutservice_socket_1.json": {
+      "bytes": 1141,
+      "sha256": "8d86e709999df7091ca6c4df1b4f62aef296b805c4ae868fbc88cf59a926061e"
+    },
+    "cache_ob/RE2-OB_checkoutservice_socket_1.npz": {
+      "bytes": 221617,
+      "sha256": "547bbdbbba02f8689304345a1390fb5ef86697b42697d4ecaae0a4afcd26e4ca"
+    },
+    "cache_ob/RE2-OB_checkoutservice_socket_2.json": {
+      "bytes": 1141,
+      "sha256": "d307cd2f62b0ab1fc843a6c84adc7476863de65402c1b5c8b0a691d379967da5"
+    },
+    "cache_ob/RE2-OB_checkoutservice_socket_2.npz": {
+      "bytes": 212838,
+      "sha256": "b83a61a861836e4c9ef95a21bcf1a01631a19493ea5aa3ac359534857383ad33"
+    },
+    "cache_ob/RE2-OB_checkoutservice_socket_3.json": {
+      "bytes": 1141,
+      "sha256": "8e03e08d3a970b2636aa5790ddf08032e7585d04e193de3a7928df0d3d14dad7"
+    },
+    "cache_ob/RE2-OB_checkoutservice_socket_3.npz": {
+      "bytes": 208513,
+      "sha256": "41a86432441cfcab7edbed1824a22a4faad7f5a41ea4f1ecff8ffd8fee0e4aec"
+    },
+    "cache_ob/RE2-OB_currencyservice_cpu_1.json": {
+      "bytes": 2990,
+      "sha256": "9877a1632895bee0af51acdba5edf324d10635d3781f77e95dfc4d40301e6dc1"
+    },
+    "cache_ob/RE2-OB_currencyservice_cpu_1.npz": {
+      "bytes": 405224,
+      "sha256": "d80db5e1859995b40c2132a6e1ea11f976649ae83c84750823d94a267e602ddd"
+    },
+    "cache_ob/RE2-OB_currencyservice_cpu_2.json": {
+      "bytes": 2990,
+      "sha256": "96fd4fe18f42e69811260d0185e0b6b35cc99a7dc313fa1c34bd411ab494af5e"
+    },
+    "cache_ob/RE2-OB_currencyservice_cpu_2.npz": {
+      "bytes": 408337,
+      "sha256": "63c70a87b02cbf7ae032f7c4186f7997155923d230b23a6dacc48e184252549b"
+    },
+    "cache_ob/RE2-OB_currencyservice_cpu_3.json": {
+      "bytes": 3001,
+      "sha256": "6a7619a5ff51b7d2d3010b1b82dcc5569b25d67e08f1a43c5dedca1a4e016ff8"
+    },
+    "cache_ob/RE2-OB_currencyservice_cpu_3.npz": {
+      "bytes": 412924,
+      "sha256": "2a3344d159016d369c8529728977fefa3371b1de1c3861b9f1233a3c4f6cc071"
+    },
+    "cache_ob/RE2-OB_currencyservice_delay_1.json": {
+      "bytes": 3024,
+      "sha256": "48ea4dd0d04d2e8b7ba02c963d10eda4c3aadcbdfa798b203c71ddd6da448db6"
+    },
+    "cache_ob/RE2-OB_currencyservice_delay_1.npz": {
+      "bytes": 410210,
+      "sha256": "ea12683982d82d8a40d56ba7459264787d11c2b3aba00a92484ed37fbe2f7641"
+    },
+    "cache_ob/RE2-OB_currencyservice_delay_2.json": {
+      "bytes": 3024,
+      "sha256": "a59de9db2e6d2c9e23808c6cfcfaf8f0d10d3e84b35726689b6b048eaf96d395"
+    },
+    "cache_ob/RE2-OB_currencyservice_delay_2.npz": {
+      "bytes": 393127,
+      "sha256": "f1560b1e8e22f02a9f8036a08b0c3733e66f005548e51cab16a85e2d4580b260"
+    },
+    "cache_ob/RE2-OB_currencyservice_delay_3.json": {
+      "bytes": 3023,
+      "sha256": "6aaa877d61e06722974cecceea3c3fe5df8401ab23d84b33f5e70272eab0323b"
+    },
+    "cache_ob/RE2-OB_currencyservice_delay_3.npz": {
+      "bytes": 393378,
+      "sha256": "fd03872eb4e9204bbe7c86ab43ff390661c63e85b86770d347be833290b389f7"
+    },
+    "cache_ob/RE2-OB_currencyservice_disk_1.json": {
+      "bytes": 3015,
+      "sha256": "51ed56e1971bc65476caa1f4eb2ecbad0f27fe32e044f1ba1cf693f8f565b05f"
+    },
+    "cache_ob/RE2-OB_currencyservice_disk_1.npz": {
+      "bytes": 445059,
+      "sha256": "d785ca2d2ee562788ac48aa7d68d2d8daa9eeb5a47424385bdf497590b40d6f9"
+    },
+    "cache_ob/RE2-OB_currencyservice_disk_2.json": {
+      "bytes": 3013,
+      "sha256": "c4aa38ec2c906628c892009f47aff6b3d58853377054432ec15583d0e04f24cc"
+    },
+    "cache_ob/RE2-OB_currencyservice_disk_2.npz": {
+      "bytes": 420142,
+      "sha256": "a6f245cc1e6f61cf941de015a0af13582702e1cb8b1168bdb9fc9405795eef39"
+    },
+    "cache_ob/RE2-OB_currencyservice_disk_3.json": {
+      "bytes": 3013,
+      "sha256": "380f4029f017887558ac5c5be6532bbde52fe70913f05e3859f614192cc61ca7"
+    },
+    "cache_ob/RE2-OB_currencyservice_disk_3.npz": {
+      "bytes": 426467,
+      "sha256": "9d7e5bb2e0055f2588f4fabb934bb3b2bdc05fed1d4020da2c4b93bb1427303e"
+    },
+    "cache_ob/RE2-OB_currencyservice_loss_1.json": {
+      "bytes": 2908,
+      "sha256": "75cb0b51a8db4466dbd79c65dea6a8c9259099f15cdff0d8d60a6e0c634147ce"
+    },
+    "cache_ob/RE2-OB_currencyservice_loss_1.npz": {
+      "bytes": 389591,
+      "sha256": "bff935c860a423b9e76d3cd09edb8100b9e61d54cccc1113468c62a657659b29"
+    },
+    "cache_ob/RE2-OB_currencyservice_loss_2.json": {
+      "bytes": 3011,
+      "sha256": "612faa473eca88fca21733a803dc3c32a94657daa5b99333de6cd1b0fdf3f73b"
+    },
+    "cache_ob/RE2-OB_currencyservice_loss_2.npz": {
+      "bytes": 410300,
+      "sha256": "1b74773048a1ef628ba2c81b4865a53243ab1f087d533fc3c222ccd31b428ec4"
+    },
+    "cache_ob/RE2-OB_currencyservice_loss_3.json": {
+      "bytes": 3012,
+      "sha256": "7e5705d6cbfcef7cc647d882781950b882caebaee97d2d516b8ac7b150ab2988"
+    },
+    "cache_ob/RE2-OB_currencyservice_loss_3.npz": {
+      "bytes": 432258,
+      "sha256": "6498f201ac49781b92773c73eb597f312fc3b40fa609170082f1034f62a22088"
+    },
+    "cache_ob/RE2-OB_currencyservice_mem_1.json": {
+      "bytes": 3000,
+      "sha256": "d83f6dd4853dab4f133da1fd16a65e340e0e0cfda3d2b44bee1bd8fe5ceab3f3"
+    },
+    "cache_ob/RE2-OB_currencyservice_mem_1.npz": {
+      "bytes": 419147,
+      "sha256": "031e7d145568d0dfa5f4882735f097b1b2ebf8249a5ee8c7d6b06d399f7cd8c5"
+    },
+    "cache_ob/RE2-OB_currencyservice_mem_2.json": {
+      "bytes": 3001,
+      "sha256": "bff44f8e1409f02aa17111bcf0bf33f738feb4a580de52cd5b0833649aee2723"
+    },
+    "cache_ob/RE2-OB_currencyservice_mem_2.npz": {
+      "bytes": 410296,
+      "sha256": "524c603dbecdc563d31139493791cd3f337ab174b6bb2e019617e685e188aa7e"
+    },
+    "cache_ob/RE2-OB_currencyservice_mem_3.json": {
+      "bytes": 3000,
+      "sha256": "376ee868eb305711186dcbf2171869e6850e1e4e351c8c8cd56d970da7adb455"
+    },
+    "cache_ob/RE2-OB_currencyservice_mem_3.npz": {
+      "bytes": 420928,
+      "sha256": "2a8144fdf8a80d36c3b0c736b0dbb4a30f05c6eb5cf14a601dedb25c4c41df1e"
+    },
+    "cache_ob/RE2-OB_currencyservice_socket_1.json": {
+      "bytes": 1141,
+      "sha256": "1bc00e30f4dd267a5f4f5754438f90195af4302c9ca137cb0620fb37cd7474de"
+    },
+    "cache_ob/RE2-OB_currencyservice_socket_1.npz": {
+      "bytes": 222580,
+      "sha256": "dc787e5a32176887ccad60544ea220632184995e6f23517998f78f738719587f"
+    },
+    "cache_ob/RE2-OB_currencyservice_socket_2.json": {
+      "bytes": 3035,
+      "sha256": "144c2175afbddb988d9f8dcf28a957b99dd30a420a393d8cb08e55fb40264ba5"
+    },
+    "cache_ob/RE2-OB_currencyservice_socket_2.npz": {
+      "bytes": 420296,
+      "sha256": "7789ecd437a05c8a6b488a782ebd613c1205503ec5b2ca104e470edef66acff5"
+    },
+    "cache_ob/RE2-OB_currencyservice_socket_3.json": {
+      "bytes": 3037,
+      "sha256": "c8520261466ce4e80258539a731aa538e0c59fa9c90b01daf57653c31b5e941f"
+    },
+    "cache_ob/RE2-OB_currencyservice_socket_3.npz": {
+      "bytes": 409183,
+      "sha256": "7cc932f9033b0845f624ef33ba489b1f007471620545f342085bb0dab820e275"
+    },
+    "cache_ob/RE2-OB_emailservice_cpu_1.json": {
+      "bytes": 1301,
+      "sha256": "4dfb66a7c42c587a63a8e69c59109dc400f08fd6eed8778fff33f9e66cefb056"
+    },
+    "cache_ob/RE2-OB_emailservice_cpu_1.npz": {
+      "bytes": 227723,
+      "sha256": "7937e10c5b40b8dc9cbbad155ea1ab623a369ac9be914877c60bea2731388da0"
+    },
+    "cache_ob/RE2-OB_emailservice_cpu_2.json": {
+      "bytes": 1138,
+      "sha256": "5e3308ca429a30d8e97d37620afe15b19d179d9e9126d4bae671809137765889"
+    },
+    "cache_ob/RE2-OB_emailservice_cpu_2.npz": {
+      "bytes": 191097,
+      "sha256": "9999dfcee60cb9932bec3462cd06426936fc8f2f6c84aa2603bfe7070fa42392"
+    },
+    "cache_ob/RE2-OB_emailservice_cpu_3.json": {
+      "bytes": 1135,
+      "sha256": "f091171bf7a1b9af2d6737a703f15e2424d60adb682011e37b3f039a871ea63b"
+    },
+    "cache_ob/RE2-OB_emailservice_cpu_3.npz": {
+      "bytes": 206053,
+      "sha256": "b2c7f4f89696a93729b668a2365f18826eda903cb3ce0f092fa1f7eec3b964f7"
+    },
+    "cache_ob/RE2-OB_emailservice_delay_1.json": {
+      "bytes": 1138,
+      "sha256": "148c26ba0ff1d83ff8792178b3d9b809c9e0b039b7c5b67dbe8c4c3ad52426bf"
+    },
+    "cache_ob/RE2-OB_emailservice_delay_1.npz": {
+      "bytes": 210316,
+      "sha256": "ef8eb9b48406f94cb1fbb5c71f82e507bdffbf63a16ea13ee1b0f5b97a20cf16"
+    },
+    "cache_ob/RE2-OB_emailservice_delay_2.json": {
+      "bytes": 1137,
+      "sha256": "664b77705575587334b27d4f8c20e92e36d19c4ec74ebd1c51416f650b616d07"
+    },
+    "cache_ob/RE2-OB_emailservice_delay_2.npz": {
+      "bytes": 210650,
+      "sha256": "c03a7e0f29de2736f68b7a827eee7555d54537a53adc4d359b265ec76b4a6682"
+    },
+    "cache_ob/RE2-OB_emailservice_delay_3.json": {
+      "bytes": 2074,
+      "sha256": "05c2d688d5d14ad3d19c4becea9d3b6d9f06cc5f42dcf9b3baa9291577ff64de"
+    },
+    "cache_ob/RE2-OB_emailservice_delay_3.npz": {
+      "bytes": 239632,
+      "sha256": "299b47818e098443c73c661ba7e040da4134f266b5f5250128c7338f2d1871ee"
+    },
+    "cache_ob/RE2-OB_emailservice_disk_1.json": {
+      "bytes": 1140,
+      "sha256": "718b18bf1fdd71194afd7ac0798242d77571416e385dd3c1c74918582fce1755"
+    },
+    "cache_ob/RE2-OB_emailservice_disk_1.npz": {
+      "bytes": 223694,
+      "sha256": "986a71382d655faa42757639f2c2d998c94a7e5e924734fcf0d12f9ed9d915f8"
+    },
+    "cache_ob/RE2-OB_emailservice_disk_2.json": {
+      "bytes": 1140,
+      "sha256": "d72ecd44d27f793e6e53f2d035ab96db77b4fbd94a5a5a36e42d4aba4791e82e"
+    },
+    "cache_ob/RE2-OB_emailservice_disk_2.npz": {
+      "bytes": 208052,
+      "sha256": "5832d58a3d4b5ed528fcc9db86430b35c1957f73115bca45aff93fe1b4ffc46e"
+    },
+    "cache_ob/RE2-OB_emailservice_disk_3.json": {
+      "bytes": 1135,
+      "sha256": "2108cd7370791c7458120ad8e647a797222bc0ae9ad4701f566c51fc368e943b"
+    },
+    "cache_ob/RE2-OB_emailservice_disk_3.npz": {
+      "bytes": 212127,
+      "sha256": "bb5cf790439c9c4145572a1d3e90e3406e8f5fa4885be3b5bbf24da9cf4b14cf"
+    },
+    "cache_ob/RE2-OB_emailservice_loss_1.json": {
+      "bytes": 1137,
+      "sha256": "42916f3541315a8c59c8a5c74466d28064fffc2fe7e239fa7a4ea60770e62c59"
+    },
+    "cache_ob/RE2-OB_emailservice_loss_1.npz": {
+      "bytes": 231467,
+      "sha256": "9100692f438ba2b3dd32792b7a681ba669dc5142643558633f2ddaf2e9deda8c"
+    },
+    "cache_ob/RE2-OB_emailservice_loss_2.json": {
+      "bytes": 1136,
+      "sha256": "9cf2ad278a6a53cbad04b62a63f1bc8b394df1cb94cf2c4195e391b653b015d5"
+    },
+    "cache_ob/RE2-OB_emailservice_loss_2.npz": {
+      "bytes": 201179,
+      "sha256": "27ae788283025b648553e2a1b08333abd3d171a1b12d5ecc232766a10dfbb4e7"
+    },
+    "cache_ob/RE2-OB_emailservice_loss_3.json": {
+      "bytes": 1136,
+      "sha256": "155baa1886711b572bf51282bde890a0f08df4c0c2198226fdc3f14957b15cd7"
+    },
+    "cache_ob/RE2-OB_emailservice_loss_3.npz": {
+      "bytes": 210042,
+      "sha256": "5799e15527c43f4308484da6548e69266cece41cc142e4373415c5dc5d4261c4"
+    },
+    "cache_ob/RE2-OB_emailservice_mem_1.json": {
+      "bytes": 1135,
+      "sha256": "a21536a7f12a662e592f98a86194e28c149e331e6c405905a458b034775b9d9b"
+    },
+    "cache_ob/RE2-OB_emailservice_mem_1.npz": {
+      "bytes": 208474,
+      "sha256": "2c209e4d4d077bd56cde02bf0ef0de5f6f7e91465159ae33e632bc542c4dd291"
+    },
+    "cache_ob/RE2-OB_emailservice_mem_2.json": {
+      "bytes": 2069,
+      "sha256": "316d2c6a3e7c56d05c3cee8438c7c0bb9efbe1e1690c4a607454f8366de4f375"
+    },
+    "cache_ob/RE2-OB_emailservice_mem_2.npz": {
+      "bytes": 240234,
+      "sha256": "b10e11ad6e46f6dab92296c478bd16fc8ce7ea71ad1ce391d9b74de9d6d8f280"
+    },
+    "cache_ob/RE2-OB_emailservice_mem_3.json": {
+      "bytes": 1164,
+      "sha256": "5bdc571ae14f6f495e0fc0df83c8356a3bdde1d68186bad8ef2cb1efbc0d1308"
+    },
+    "cache_ob/RE2-OB_emailservice_mem_3.npz": {
+      "bytes": 206182,
+      "sha256": "9f2fac713853226185716ad71dd8b09de26d291411fedf3fb5ad66eddd057e84"
+    },
+    "cache_ob/RE2-OB_emailservice_socket_1.json": {
+      "bytes": 1139,
+      "sha256": "b4e0ae03835daf0bb0dde4211ae869c3315b6ffcd34a315a616d27ad8f2d3e0b"
+    },
+    "cache_ob/RE2-OB_emailservice_socket_1.npz": {
+      "bytes": 217019,
+      "sha256": "25aad9edbc51b47cf1aad4847f27ec0f51beb4ce0db214ed5351d0e76d78bc18"
+    },
+    "cache_ob/RE2-OB_emailservice_socket_2.json": {
+      "bytes": 1138,
+      "sha256": "508012e3650ef6e83100860a8e54271e76a417b3ecd023553251039c38c1be4b"
+    },
+    "cache_ob/RE2-OB_emailservice_socket_2.npz": {
+      "bytes": 208137,
+      "sha256": "378accfb1e3ad61ba19d3b38f7e8e1440787bdb5fc6868cc9caf7c66aa2d657f"
+    },
+    "cache_ob/RE2-OB_emailservice_socket_3.json": {
+      "bytes": 1139,
+      "sha256": "685aeaec0ae0b91fa9f43954d70763d9821e999e0e2c33d2a37805c36d331c1a"
+    },
+    "cache_ob/RE2-OB_emailservice_socket_3.npz": {
+      "bytes": 204553,
+      "sha256": "fc6a5ee089d40bb4bc7697ed55c7182d67179cdb4beb9ccc1e4372322b18a511"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_cpu_1.json": {
+      "bytes": 1145,
+      "sha256": "fb66c33879833336646e321a7474506ebaf191dea89c99f71178fb7ee4c7b632"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_cpu_1.npz": {
+      "bytes": 236818,
+      "sha256": "8baaf53a462ee073cff9ece3abfcab6cc7c9dabed39833d5bca32e28f0d29920"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_cpu_2.json": {
+      "bytes": 3138,
+      "sha256": "bef04e88f467e3ef86fe359d408a08e0db84c043fcc5159ed8101f8014273a41"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_cpu_2.npz": {
+      "bytes": 400492,
+      "sha256": "deca5376921b271adb7ef83c8cfa23d3ca0bdcd69a8b7472ab7ae140eb355f90"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_cpu_3.json": {
+      "bytes": 3138,
+      "sha256": "e641a3e4b96d329e6d8741f72685feaf5a8f7917c08f94ac02fe962647ee1f21"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_cpu_3.npz": {
+      "bytes": 404739,
+      "sha256": "a86a148f6d9fee539ecd4775a7330d88028a137887f5d53057a7c217a01e73f0"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_delay_1.json": {
+      "bytes": 3161,
+      "sha256": "8772f59f575546b49bdc98904f6873d23c0e69b323e846ab70521c315c4edad1"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_delay_1.npz": {
+      "bytes": 401126,
+      "sha256": "9ba7a78a6970a374483656fbbafa079c4224355bac5f834ec0a22b70e06b7b19"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_delay_2.json": {
+      "bytes": 3163,
+      "sha256": "7b5070af389a3c8a1bd0ce648c82d194da5b30d328390f46dfc5144586bdc3e9"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_delay_2.npz": {
+      "bytes": 397957,
+      "sha256": "082f6e1015adc93413e0cd3436e22af76c5bcd9cac32e0bbb0f1365306a42c10"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_delay_3.json": {
+      "bytes": 3161,
+      "sha256": "2e06c6c41890cdb3bb09343ac1747c920c7c5b09f033df4cccecbf5b81256f83"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_delay_3.npz": {
+      "bytes": 402827,
+      "sha256": "d9131c1c6aaf73b0c0b5bc14b7f426aa7d2cb2ed53683a915c8fa9386dfb25ba"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_disk_1.json": {
+      "bytes": 1148,
+      "sha256": "46437a0049294a693f3beda9469462a4f96d743f773088b7845c5698d9203245"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_disk_1.npz": {
+      "bytes": 229701,
+      "sha256": "ca90b197d3dcac4bd18a729577d004b983b4d383a3f93d68dbff80ca341e6dc5"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_disk_2.json": {
+      "bytes": 3150,
+      "sha256": "6c3cfaae558d79db928d74d4a92b6f0d326bf00007f948182ba64b561fb8b733"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_disk_2.npz": {
+      "bytes": 415512,
+      "sha256": "170545e581876695a448876d8d76fe52c414620bdfa6513139714b45c59e293c"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_disk_3.json": {
+      "bytes": 3158,
+      "sha256": "3f43f6ff6c806c63c496959f227d7e5193af7ef57ec16ff6a6bef492dd645673"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_disk_3.npz": {
+      "bytes": 418322,
+      "sha256": "eeffae02515d9971c2e3eb902e35af9f9560e58e90f926f2e9bbc5f1029bc721"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_loss_1.json": {
+      "bytes": 3195,
+      "sha256": "ddbb4f273105a2faa22c881396976d2e4f9b777cd2f0f3c693496124380119f7"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_loss_1.npz": {
+      "bytes": 424332,
+      "sha256": "1774e957e9028f03cdaffbbdc972f759066000c4cdb1ba5dbf38b00626bacc91"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_loss_2.json": {
+      "bytes": 3082,
+      "sha256": "b6669121c9e8da6092b7629d6eb2160744a3952a3095098c38fc586093c66e76"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_loss_2.npz": {
+      "bytes": 361892,
+      "sha256": "7ce68a6f7664d8aca7d4b7403b8146a666337dfeb0b655fd1807e6a874e0e2bd"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_loss_3.json": {
+      "bytes": 3199,
+      "sha256": "b1af5e673f882b749260996760d54661b1cff51b3ba2fe33b6923a0ad2ce5911"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_loss_3.npz": {
+      "bytes": 433223,
+      "sha256": "de4ea784045d94b7d884671a63664cac5da8ebc087cfe9a6d154eec75084db40"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_mem_1.json": {
+      "bytes": 3194,
+      "sha256": "3cfe3dbb4e8be798fa19bfc2ee3c9166965ea0389749fa5e6a13f492e404582c"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_mem_1.npz": {
+      "bytes": 450324,
+      "sha256": "181bb24f6f84e0ced24551f002ce63d4cf5c7df88c3177e6f1af339ce377d990"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_mem_2.json": {
+      "bytes": 3189,
+      "sha256": "29e18c7c52a5285dc0796c1e5b82b6c2a0ebc3ac0c172b5ec7ae25f397db18c4"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_mem_2.npz": {
+      "bytes": 396596,
+      "sha256": "012d002f8259c3a0b2b74eaaf07b9486af88edc4e74025da0a3af5a9a84a795f"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_mem_3.json": {
+      "bytes": 2365,
+      "sha256": "b3b403e6331f052bb70227bcb25a466afcd48fcc8e4d566e0bd36b6d10e9a411"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_mem_3.npz": {
+      "bytes": 281603,
+      "sha256": "04dbc038348c2af0fa3ec5612aa537ee61bb285e1b201c3e281b8f552c396e9f"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_socket_1.json": {
+      "bytes": 3174,
+      "sha256": "67e1f0e539536bc6def78f55fb94e222fa33913d78e02c1c534a8f1a1105f933"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_socket_1.npz": {
+      "bytes": 408329,
+      "sha256": "615ef7ba28eab90d4f223f4064ce5757f5514d73ac13b6a3b2e248c600cbbdee"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_socket_2.json": {
+      "bytes": 2238,
+      "sha256": "744b646a6f0bb67c8d8fbab7e9cbb5eea58e0558cf1a53b6503f5ceda7a7ce31"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_socket_2.npz": {
+      "bytes": 262800,
+      "sha256": "ab0b7319fc9662e9157b1a0ad1dc0818caadcb73c02bbf67a321197182dafa46"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_socket_3.json": {
+      "bytes": 2127,
+      "sha256": "219065781895cbf514a0d320653b2cbe655385df27cd572f86b09149a9e32b33"
+    },
+    "cache_ob/RE2-OB_productcatalogservice_socket_3.npz": {
+      "bytes": 241854,
+      "sha256": "f1bdebd24a56178dfca9e6d74fc968902e5943e201e41bbed010dce27ad3335f"
+    },
+    "cache_ob/RE2-OB_recommendationservice_cpu_1.json": {
+      "bytes": 1144,
+      "sha256": "9b38599154e931c73be5124fd35318efafda95ed62fd89ffc2b374216df5579d"
+    },
+    "cache_ob/RE2-OB_recommendationservice_cpu_1.npz": {
+      "bytes": 232171,
+      "sha256": "de6f1f4a1fefa84761569d7006ec8a164fe3b22eead2033abcdc1e957e363be8"
+    },
+    "cache_ob/RE2-OB_recommendationservice_cpu_2.json": {
+      "bytes": 1144,
+      "sha256": "a890552003fa64822560f38e3a1724007fce735f84a8aac67f8bdd1e5e976a9f"
+    },
+    "cache_ob/RE2-OB_recommendationservice_cpu_2.npz": {
+      "bytes": 205379,
+      "sha256": "4fdcf3a40bc074f3b93b1b5b5a0aefc81dee14f0f6cc4d05f76d599cf9603a36"
+    },
+    "cache_ob/RE2-OB_recommendationservice_cpu_3.json": {
+      "bytes": 1144,
+      "sha256": "001fe751babd01b25f85ed33f090c78b06081322d6be58725e22f9db15dc745a"
+    },
+    "cache_ob/RE2-OB_recommendationservice_cpu_3.npz": {
+      "bytes": 198512,
+      "sha256": "337e97a643f0fa89fe85432e3643377edfc88fe8ab796e1d950c9e691c2772f3"
+    },
+    "cache_ob/RE2-OB_recommendationservice_delay_1.json": {
+      "bytes": 3162,
+      "sha256": "50b9ac7c8f382c1434dd5360c2593b6208a7e89f1ab2e8b8f03333926bf2a968"
+    },
+    "cache_ob/RE2-OB_recommendationservice_delay_1.npz": {
+      "bytes": 406407,
+      "sha256": "79b8054a936abcb5eab3e1a0318a4baf16912bf0d7f491991dbc38fd2101ee01"
+    },
+    "cache_ob/RE2-OB_recommendationservice_delay_2.json": {
+      "bytes": 3162,
+      "sha256": "984273fed93c2da74f027f9ffabf56d4b6102377f65c673f375886aa6a4a9e74"
+    },
+    "cache_ob/RE2-OB_recommendationservice_delay_2.npz": {
+      "bytes": 410111,
+      "sha256": "3c96275af47ce13e551a453ecfa2c9096dec60792af0e60993b44f5750568db0"
+    },
+    "cache_ob/RE2-OB_recommendationservice_delay_3.json": {
+      "bytes": 3162,
+      "sha256": "608973396a68035570c8ff9182e8920ea5418b0b2e6d80253915950fee8ede61"
+    },
+    "cache_ob/RE2-OB_recommendationservice_delay_3.npz": {
+      "bytes": 415838,
+      "sha256": "6f80205a1445474d2225dab0892f6f0466224f5f32bd062368580c96c4876594"
+    },
+    "cache_ob/RE2-OB_recommendationservice_disk_1.json": {
+      "bytes": 1146,
+      "sha256": "8328ffb5db038a34007d511d24438fb2abd589cb759a249f5ae22e29afd880e3"
+    },
+    "cache_ob/RE2-OB_recommendationservice_disk_1.npz": {
+      "bytes": 232101,
+      "sha256": "90248c973a752823f610269ff7582b99e0f4cd6a9aa71d70da0a2a169ab688e3"
+    },
+    "cache_ob/RE2-OB_recommendationservice_disk_2.json": {
+      "bytes": 1145,
+      "sha256": "72c0dd819a1192671d8d46859da3de45c701caeacdbc6691ada483eb68a78b5f"
+    },
+    "cache_ob/RE2-OB_recommendationservice_disk_2.npz": {
+      "bytes": 213551,
+      "sha256": "6dca322d40776c89eb7e2b4de0c773b7ec3233a38aa974392dcc0e107cc18413"
+    },
+    "cache_ob/RE2-OB_recommendationservice_disk_3.json": {
+      "bytes": 1145,
+      "sha256": "f22836db345b193b6b90a0a28a48200d3881d89f899132c01104713bfffcbc67"
+    },
+    "cache_ob/RE2-OB_recommendationservice_disk_3.npz": {
+      "bytes": 217394,
+      "sha256": "b7f0074ab6d660b515d86b95e84b1068f1b867cf1c91bc5ca2d3956d82a608cd"
+    },
+    "cache_ob/RE2-OB_recommendationservice_loss_1.json": {
+      "bytes": 2928,
+      "sha256": "d31563c3a1c93024845c5c707f972921dc9310f293a8cd511210c3b76b200b58"
+    },
+    "cache_ob/RE2-OB_recommendationservice_loss_1.npz": {
+      "bytes": 349192,
+      "sha256": "cc9885e793c6d5f0c8357c72d94bee9806bd34520d7269fe2d43a3f6061c87d5"
+    },
+    "cache_ob/RE2-OB_recommendationservice_loss_2.json": {
+      "bytes": 3276,
+      "sha256": "5228cfc2b04d3f50cba8bd3ed029bbefdd0d0dcfda0e5ae898d00c73087fb537"
+    },
+    "cache_ob/RE2-OB_recommendationservice_loss_2.npz": {
+      "bytes": 386588,
+      "sha256": "01d5ef7f6a5a39be54fbd3779031ca4a2eb7b4f5971bcfdf7dcc3458e6eb79d1"
+    },
+    "cache_ob/RE2-OB_recommendationservice_loss_3.json": {
+      "bytes": 3099,
+      "sha256": "666d02aa42203c977d2b3539e3c75e13d57818108e3d37e657896a3380519e91"
+    },
+    "cache_ob/RE2-OB_recommendationservice_loss_3.npz": {
+      "bytes": 357734,
+      "sha256": "7529c9a5ced2a061fab9b0a26e45ed6291da023aefdb5ebe0a53fe51d275255a"
+    },
+    "cache_ob/RE2-OB_recommendationservice_mem_1.json": {
+      "bytes": 3138,
+      "sha256": "9ea45c3273af6c6b96a3226d105666c145296ac71f492e2e5607acc79ab53db5"
+    },
+    "cache_ob/RE2-OB_recommendationservice_mem_1.npz": {
+      "bytes": 412926,
+      "sha256": "e6b093fc2046f6b70096ba8655351755d2f61404a6f513d722ca578e0c271501"
+    },
+    "cache_ob/RE2-OB_recommendationservice_mem_2.json": {
+      "bytes": 3466,
+      "sha256": "ff622460db053986f113e6895015f69ca4bed9881fcbb33cd754da9fc42d083f"
+    },
+    "cache_ob/RE2-OB_recommendationservice_mem_2.npz": {
+      "bytes": 410958,
+      "sha256": "5b60be4daa52d67ee893a8e9f59836754ac7a6bebab59bc26a4cfa36d4d490b0"
+    },
+    "cache_ob/RE2-OB_recommendationservice_mem_3.json": {
+      "bytes": 3138,
+      "sha256": "19ed38af383689bcf4ecf30f50644ec7ff23250c4a3a228fda7757efbb32b39d"
+    },
+    "cache_ob/RE2-OB_recommendationservice_mem_3.npz": {
+      "bytes": 413239,
+      "sha256": "d8c0b09d215ee4ce71939835bc48c7827df5acae134d0b0f251160c53cf01680"
+    },
+    "cache_ob/RE2-OB_recommendationservice_socket_1.json": {
+      "bytes": 2496,
+      "sha256": "9ff689082a2734cac3ed6e235b409fca0986ff47c80e0779530642279ca12bcc"
+    },
+    "cache_ob/RE2-OB_recommendationservice_socket_1.npz": {
+      "bytes": 303145,
+      "sha256": "598d63f89b6a1364dd756ea15c3d69d37733a7a44cf86ee9000cf63e10cfa650"
+    },
+    "cache_ob/RE2-OB_recommendationservice_socket_2.json": {
+      "bytes": 1147,
+      "sha256": "7dd787e66a7562c7e0c18796b9168912003c36320b6f6ce2fda434311cac2d01"
+    },
+    "cache_ob/RE2-OB_recommendationservice_socket_2.npz": {
+      "bytes": 208770,
+      "sha256": "ca546217895d1c08c1fadeceddb62d3e6c478d3b4079cf8148074d741ce96443"
+    },
+    "cache_ob/RE2-OB_recommendationservice_socket_3.json": {
+      "bytes": 1148,
+      "sha256": "2420ff4b22e79152ca4c6cf37c78dabe726ed29e990f1ad94c727deeac9ead77"
+    },
+    "cache_ob/RE2-OB_recommendationservice_socket_3.npz": {
+      "bytes": 209288,
+      "sha256": "708d296657d77b40d74928135acdd51db5986fbc3d9d7062e3c00619d45ace94"
+    },
+    "cache_ob/index.json": {
+      "bytes": 273172,
+      "sha256": "6e334bcff579bb149aa0adbe145acdbd166403f4999c57c7e37f546a39787d66"
+    },
+    "cache_ob.log": {
+      "bytes": 4320,
+      "sha256": "e75f83b69164ef02b167daab54f83f99aae2313a616fa947b969becca0f45209"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_cpu_1.json": {
+      "bytes": 2923,
+      "sha256": "b4f2da9b3c2dade2548415e0de0df2bdeb9f86d67cf54e953740d4c4b66bc0bc"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_cpu_1.npz": {
+      "bytes": 2170469,
+      "sha256": "1918df7d7f2b6f7dea33b1a2a1497f1a9fe040a2a25a20147c6f73d92d4bc237"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_cpu_2.json": {
+      "bytes": 3284,
+      "sha256": "cb950a5bfbc8f599d83f0a9e89f56d8c196bd58a38cc5f8f6b316362f04a0880"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_cpu_2.npz": {
+      "bytes": 2421570,
+      "sha256": "b5035fddf13c9411436f45bab9efd7b36414e92bb2687d191cbf276432d1a322"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_cpu_3.json": {
+      "bytes": 3026,
+      "sha256": "a4a9d1c3b293535970aa462c4ab1e9552d6183cea097883c228d1774712cbbca"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_cpu_3.npz": {
+      "bytes": 1988168,
+      "sha256": "5c6ac7dcab4b6f630c9710901450420c2ae5a2aef529992ac50eac46d16a5450"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_delay_1.json": {
+      "bytes": 3445,
+      "sha256": "11f29a87431b5dbb4a2707e97b5899de6b0107288d5574c5b82aa8150bf3dc77"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_delay_1.npz": {
+      "bytes": 1885723,
+      "sha256": "c7269bc8497011aeef67099e783370e3534678c1335d8e6e82f057e8afcbd343"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_delay_2.json": {
+      "bytes": 1322,
+      "sha256": "17785e5a4b175f61ae7ffaeee727ca73bfded7adc55e12af56bec9da0c0524f6"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_delay_2.npz": {
+      "bytes": 347048,
+      "sha256": "028a2cac280bd18315d4ba2f2d6f4b740f378c0cd2de7ccde7fb57d1bed3c61a"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_delay_3.json": {
+      "bytes": 1322,
+      "sha256": "6d967027d3441419092dbbf93a4bb9446e18578ba38eaa9a6f75fbee1f54ad75"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_delay_3.npz": {
+      "bytes": 337760,
+      "sha256": "2435499c7d3b138bc5b309a22713489daacdff44657a697a5fe3d03d2749044f"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_disk_1.json": {
+      "bytes": 2820,
+      "sha256": "abf373217439263aa32bd1ac8f6ae7daad80cc33834566419f45a0b948046218"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_disk_1.npz": {
+      "bytes": 1382419,
+      "sha256": "374d1c0fb2c662a1ef5797df2fa83d573f2c9c80b75675382ef64aeee6e56523"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_disk_2.json": {
+      "bytes": 3298,
+      "sha256": "3aa2e39e3287a4ad0dc0b7be3b2eb6acef045e81a547ba9802354d41e4d16f3a"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_disk_2.npz": {
+      "bytes": 1969966,
+      "sha256": "df52f1cf7569bf0d90e0c61e69b2d7e323b528dd31a5f978331d7e80d31f1fcf"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_disk_3.json": {
+      "bytes": 3352,
+      "sha256": "a42097c110fb75b075e0642bd7d83f8f7ba1ea6ec6ae861a27d7e89a91c47dce"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_disk_3.npz": {
+      "bytes": 2290461,
+      "sha256": "3dd63625c9a7bb2e1e17b9671fff2e45333e53668a51b909c235931d29eff739"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_loss_1.json": {
+      "bytes": 1319,
+      "sha256": "da5fce3f4c2a2813c4791904ac7a32155abafc56896993b8b71cce007febc46e"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_loss_1.npz": {
+      "bytes": 474863,
+      "sha256": "a27e1a7b30f148cf0c8ce42c3155fccfdeb0cc7704061fa0bcf28c2447d13d3f"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_loss_2.json": {
+      "bytes": 1322,
+      "sha256": "0795babb87861e6fa70af94637fc7d175327fcab10110c6a24d63e34a7e8d94e"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_loss_2.npz": {
+      "bytes": 436740,
+      "sha256": "c33401c0c7ab3df0194d2789ed06e13410b6ca6b730a1c970995693f8c47c406"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_loss_3.json": {
+      "bytes": 1351,
+      "sha256": "86b91ac71c3304b24e1a91512c6396333de0b75a4b3fa785e2c186df90166b11"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_loss_3.npz": {
+      "bytes": 227253,
+      "sha256": "943bdeb476c6035db157eb5069d74ce1ea01ae4b78c78f15ca7b525438fefe2a"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_mem_1.json": {
+      "bytes": 3342,
+      "sha256": "7d7cf0bce1e061be86321e759efec039e95cdd5bef70151a9be6751baf75ac95"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_mem_1.npz": {
+      "bytes": 3024746,
+      "sha256": "d987a9006e0322fde735285a89e922a81a9ef6ba7703e6c6882cd36f283d0861"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_mem_2.json": {
+      "bytes": 3298,
+      "sha256": "829791c1a5ba4733c4cb2ba44e87af45e19852ddeb98b8655d2601e11a92e299"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_mem_2.npz": {
+      "bytes": 3018976,
+      "sha256": "069e89362e7ba683e90dc9fc3077962625470fc26f7c5f82d2c6fab106a8fc01"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_mem_3.json": {
+      "bytes": 3341,
+      "sha256": "7878d39b2b00a1bc5f4d69b36be86ea7021ce0a3575128137f40890ee12c8e8d"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_mem_3.npz": {
+      "bytes": 1783160,
+      "sha256": "529c4343189e0315b0c53b04c8ba1624af143ba5be2e20fb10b434af06e30268"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_socket_1.json": {
+      "bytes": 2944,
+      "sha256": "e32bfa5c1ffb3150030eea937e05a81c5c33798e3c751ff9af9436262f7840bc"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_socket_1.npz": {
+      "bytes": 1744736,
+      "sha256": "d860369504c8b388d24f45420dc1ade24f1ec6563acd721cad42337f7aa14a42"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_socket_2.json": {
+      "bytes": 2732,
+      "sha256": "99c2de11544e865a6f763fff0e402a310f58b928eb2bd3c9fc1f445b5fede234"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_socket_2.npz": {
+      "bytes": 1252167,
+      "sha256": "95fb4056d65022e781b4b409fb4ba45f5318390e3f275901971f50b6c1bc12f4"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_socket_3.json": {
+      "bytes": 3374,
+      "sha256": "615dfc6adadaf53a5a9b7ad20ad4d3ae3deee74602674523e988ff6617bd7770"
+    },
+    "cache_tt/RE2-TT_ts-auth-service_socket_3.npz": {
+      "bytes": 2647041,
+      "sha256": "1f886a132b1286c780126c7eb4faa4e7d9e5b56c07e0a5860e744428cf8d1b55"
+    },
+    "cache_tt/RE2-TT_ts-order-service_cpu_1.json": {
+      "bytes": 1319,
+      "sha256": "9e3d29daac9c85365dec8b22ea57c73421ae092d17635c98ca27119908a724e8"
+    },
+    "cache_tt/RE2-TT_ts-order-service_cpu_1.npz": {
+      "bytes": 323264,
+      "sha256": "0caf0a112c7ce3c7ffacad693a5da32261a65d0a6eaa0065cc999cdc9bc0ad1e"
+    },
+    "cache_tt/RE2-TT_ts-order-service_cpu_2.json": {
+      "bytes": 1321,
+      "sha256": "8ef899e59a29d25c7ed582cc0020343f9b829cc28db6b9ce971f9686b8dc4840"
+    },
+    "cache_tt/RE2-TT_ts-order-service_cpu_2.npz": {
+      "bytes": 450003,
+      "sha256": "d1c66c0ba02ed01eefaf48e5ae23cdd2f58f6a2f78a0c81bcf76113b0deb7abc"
+    },
+    "cache_tt/RE2-TT_ts-order-service_cpu_3.json": {
+      "bytes": 1349,
+      "sha256": "921bfd9be382f99cac8e9baa9330227cd35d31c60b17a452cd54f4c9e2a9c36a"
+    },
+    "cache_tt/RE2-TT_ts-order-service_cpu_3.npz": {
+      "bytes": 448819,
+      "sha256": "022fea26ae63130d4cfc8c9cf68ff8edb7dff4521c450018db5b07a06839d6e2"
+    },
+    "cache_tt/RE2-TT_ts-order-service_delay_1.json": {
+      "bytes": 1345,
+      "sha256": "2c2613bcdd8a04d1ef00c1579a332a79a3c298e528d74db4b0cc6639d5fcc12f"
+    },
+    "cache_tt/RE2-TT_ts-order-service_delay_1.npz": {
+      "bytes": 345780,
+      "sha256": "738903caf8e1dd372d1b898b0f44bd388f98f9e0cfc2291f067b20e91b37199e"
+    },
+    "cache_tt/RE2-TT_ts-order-service_delay_2.json": {
+      "bytes": 1271,
+      "sha256": "4daebbd6479d54aec749cd2b659d24d541c9706eb9188076fdb55c479aaa481e"
+    },
+    "cache_tt/RE2-TT_ts-order-service_delay_2.npz": {
+      "bytes": 143880,
+      "sha256": "a10f02308675e62e4473f6207a9446fec061886e405373770c0f42db8844ad8f"
+    },
+    "cache_tt/RE2-TT_ts-order-service_delay_3.json": {
+      "bytes": 1315,
+      "sha256": "710aa6c204e1c0ca1e580d402051ca72e7f29ca9055d2a3439be8e723a0b1a3a"
+    },
+    "cache_tt/RE2-TT_ts-order-service_delay_3.npz": {
+      "bytes": 132117,
+      "sha256": "5a91316d7face365ba60d36bcf27cbe817bcfb2b9d8f64a70bda1ae6897cb958"
+    },
+    "cache_tt/RE2-TT_ts-order-service_disk_1.json": {
+      "bytes": 1317,
+      "sha256": "4170f676d0097204ff317dff1c2c4c3a4b17f257e79f7b4c8502b832a2159d94"
+    },
+    "cache_tt/RE2-TT_ts-order-service_disk_1.npz": {
+      "bytes": 450928,
+      "sha256": "b101e82f122f8b657cea2879bab494305095591f4c066bdaa0779f094a078873"
+    },
+    "cache_tt/RE2-TT_ts-order-service_disk_2.json": {
+      "bytes": 1314,
+      "sha256": "1793e91d33b12c8652b38e6d2ed52a71c3d13ac175d0aac26e94226fa9b43f70"
+    },
+    "cache_tt/RE2-TT_ts-order-service_disk_2.npz": {
+      "bytes": 143171,
+      "sha256": "9edb22d18c6f8cf26bc80f1c62682414845cebcece2dad3b05e47ac88e69cd77"
+    },
+    "cache_tt/RE2-TT_ts-order-service_disk_3.json": {
+      "bytes": 1315,
+      "sha256": "6798f1228bbfbbcf8a667fd1a601c37fc3be4c321e9596f9f869b79316bc18b0"
+    },
+    "cache_tt/RE2-TT_ts-order-service_disk_3.npz": {
+      "bytes": 130771,
+      "sha256": "f83a415da282328a503346479db765e14e4621c9000edf6c3b4c96453d939f21"
+    },
+    "cache_tt/RE2-TT_ts-order-service_loss_1.json": {
+      "bytes": 2422,
+      "sha256": "6a788a68837f287701580fd7d12227eb40d863c6625cc728c5fd048999ab7d31"
+    },
+    "cache_tt/RE2-TT_ts-order-service_loss_1.npz": {
+      "bytes": 1025962,
+      "sha256": "bac05c615b98536833a791ab55ce7204e21f78a0a0346881090538a025ac1d68"
+    },
+    "cache_tt/RE2-TT_ts-order-service_loss_2.json": {
+      "bytes": 1310,
+      "sha256": "d849165a5179006f6d3683d1c9cb57ad3cccb7d8f2b3f9c6be3f908ecbc29360"
+    },
+    "cache_tt/RE2-TT_ts-order-service_loss_2.npz": {
+      "bytes": 133660,
+      "sha256": "babd3f1b0adaf3af4ebe03eb674a45ccb816c3a407b6d9ea34b38810e9b6f59a"
+    },
+    "cache_tt/RE2-TT_ts-order-service_loss_3.json": {
+      "bytes": 1267,
+      "sha256": "61941e1a20ba5e32119ef323cc18d3d5272a1422c22d83ecbeec4b3e87d0d218"
+    },
+    "cache_tt/RE2-TT_ts-order-service_loss_3.npz": {
+      "bytes": 138731,
+      "sha256": "a14e23eaebeef73b5399dc2f7dcc983a223bad6dbd3e6564846deb719d90885b"
+    },
+    "cache_tt/RE2-TT_ts-order-service_mem_1.json": {
+      "bytes": 1321,
+      "sha256": "94d6641d551504b723bff9259d612772bc13508e6b4bedd8051a23e4279eec74"
+    },
+    "cache_tt/RE2-TT_ts-order-service_mem_1.npz": {
+      "bytes": 319109,
+      "sha256": "462d2d3b87be864f09ea0d647bc76ce0c96a17b64d034a3ed6f75ced1ee08f22"
+    },
+    "cache_tt/RE2-TT_ts-order-service_mem_2.json": {
+      "bytes": 1317,
+      "sha256": "2f5091807e66d9a16fa4e9299bf84e48195b5fc52556d1e192aa77c6acea9691"
+    },
+    "cache_tt/RE2-TT_ts-order-service_mem_2.npz": {
+      "bytes": 341718,
+      "sha256": "7bfba7173c5999a6b917820b12e647168dcfc178166a4a32cb619b8713b01330"
+    },
+    "cache_tt/RE2-TT_ts-order-service_mem_3.json": {
+      "bytes": 2942,
+      "sha256": "1de1ee985b16bd75f1e280674ce1876e48932cf56aa7a384989ef816dcaefdc4"
+    },
+    "cache_tt/RE2-TT_ts-order-service_mem_3.npz": {
+      "bytes": 1557115,
+      "sha256": "22fc3b32b1bd99caae5be88afadab52bf7a5020928d8064eba99963326a2b74b"
+    },
+    "cache_tt/RE2-TT_ts-order-service_socket_1.json": {
+      "bytes": 1282,
+      "sha256": "fb39fec6999862132bf4ab95615bb4ea56430b10063cc8a0ec826095ba529c0b"
+    },
+    "cache_tt/RE2-TT_ts-order-service_socket_1.npz": {
+      "bytes": 452577,
+      "sha256": "bd3de29df15e1bd143d985a7ef5cdca92b918579d3b3004b992256136cdff48a"
+    },
+    "cache_tt/RE2-TT_ts-order-service_socket_2.json": {
+      "bytes": 1318,
+      "sha256": "10488b57d5a47333d9ad6f21ddec2bcf63d1d90ca8956086a74a7ef83e70c551"
+    },
+    "cache_tt/RE2-TT_ts-order-service_socket_2.npz": {
+      "bytes": 131525,
+      "sha256": "0ddbec867dc12a07258de512a910670bfaa77a02293b6136687bc9e9b291026e"
+    },
+    "cache_tt/RE2-TT_ts-order-service_socket_3.json": {
+      "bytes": 1343,
+      "sha256": "fbff147a3af7e914c8c7b705b90db2db62352ac6884cd5fb658f65f73b15b90b"
+    },
+    "cache_tt/RE2-TT_ts-order-service_socket_3.npz": {
+      "bytes": 457509,
+      "sha256": "9ee0adc1a3a0ba848b344d3248e20f05499652b85521f6282f337a2c2cc4a94e"
+    },
+    "cache_tt/RE2-TT_ts-route-service_cpu_1.json": {
+      "bytes": 2407,
+      "sha256": "6590db1d7d09d07fb97a1e66aba598c203b6806a196eb4b9678d49a0c45099a0"
+    },
+    "cache_tt/RE2-TT_ts-route-service_cpu_1.npz": {
+      "bytes": 731525,
+      "sha256": "2e453ec47cc2de4deb9b2a5433019e95e91a45c397043dbeda897386fc88ab1f"
+    },
+    "cache_tt/RE2-TT_ts-route-service_cpu_2.json": {
+      "bytes": 2617,
+      "sha256": "0dd31199f0f663f360eb2d10c9c90efe29f7328203528055fc337bba42c69760"
+    },
+    "cache_tt/RE2-TT_ts-route-service_cpu_2.npz": {
+      "bytes": 318936,
+      "sha256": "2efae38f3825600c3028b6aacecec776ccfc403e9d7b7b0b7cd6976e539a9b4d"
+    },
+    "cache_tt/RE2-TT_ts-route-service_cpu_3.json": {
+      "bytes": 1273,
+      "sha256": "47f7813da2e1016ad9028c74756ae21ff57e85dec3e7276b40622e8e5a33e2d2"
+    },
+    "cache_tt/RE2-TT_ts-route-service_cpu_3.npz": {
+      "bytes": 138111,
+      "sha256": "72dad26e24786c7f4f20c6ab5dd58493462395bcd527244ecb6e56179380dff7"
+    },
+    "cache_tt/RE2-TT_ts-route-service_delay_1.json": {
+      "bytes": 3380,
+      "sha256": "517f6dda7af7969d434070e72a8e8fdad3289ad92fc99ca24732d2e74603d427"
+    },
+    "cache_tt/RE2-TT_ts-route-service_delay_1.npz": {
+      "bytes": 2201084,
+      "sha256": "0765ba4be664c5a3477fd11b74ca61f6e473239d593d4309aa8a62caf1547464"
+    },
+    "cache_tt/RE2-TT_ts-route-service_delay_2.json": {
+      "bytes": 3374,
+      "sha256": "907703109ed2b4457f8c847a30529c73a5e72712820a35711ae943b700b96a8d"
+    },
+    "cache_tt/RE2-TT_ts-route-service_delay_2.npz": {
+      "bytes": 2122309,
+      "sha256": "c81eeb5c21d2e589ee7327f52b97e686a8fbb7a66c8345466d27cc4be7bbdcd8"
+    },
+    "cache_tt/RE2-TT_ts-route-service_delay_3.json": {
+      "bytes": 3380,
+      "sha256": "024417891737418d939592f761cb75c24f8670771bd1b6bdd6dab21ffb1e6d2b"
+    },
+    "cache_tt/RE2-TT_ts-route-service_delay_3.npz": {
+      "bytes": 2305222,
+      "sha256": "cffa88ee6e7b059b2487ed38729d9683eda67e9fab6b2ec2e7df287988084b86"
+    },
+    "cache_tt/RE2-TT_ts-route-service_disk_1.json": {
+      "bytes": 1352,
+      "sha256": "bb0ee80c2d192e33b920a2627af650ec28d111d63763379d889185f3db1cba27"
+    },
+    "cache_tt/RE2-TT_ts-route-service_disk_1.npz": {
+      "bytes": 387776,
+      "sha256": "b6b20a61997baffcf3ac5e7ae1a6bf6e5ce500f7f8c614ee1e4ed41f91cd5714"
+    },
+    "cache_tt/RE2-TT_ts-route-service_disk_2.json": {
+      "bytes": 1339,
+      "sha256": "c51eaaf2bff8ceeff7ca8c031faaeb0891345d594ce46279e471e8d489ebc657"
+    },
+    "cache_tt/RE2-TT_ts-route-service_disk_2.npz": {
+      "bytes": 56203,
+      "sha256": "f660c2ade39b11ec045a7e61e7f438ffebc977f4cc02d8450a1d97a5dc824633"
+    },
+    "cache_tt/RE2-TT_ts-route-service_disk_3.json": {
+      "bytes": 1320,
+      "sha256": "139b9cc6e2cf539bfff145eca1c85f0bdcc669d988a18e1eb2442b3a0884e4bf"
+    },
+    "cache_tt/RE2-TT_ts-route-service_disk_3.npz": {
+      "bytes": 287192,
+      "sha256": "ced3a8c01d36918525966a6473b9a96b50d6ac4fc9cb6d7e7f1e23278e2ff538"
+    },
+    "cache_tt/RE2-TT_ts-route-service_loss_1.json": {
+      "bytes": 2944,
+      "sha256": "0ef10dbf30e8ff79f431614057679d24423deb5af65c98d38ce87194562b211e"
+    },
+    "cache_tt/RE2-TT_ts-route-service_loss_1.npz": {
+      "bytes": 1888944,
+      "sha256": "168fcf466ca8789a23181e6975e36ce5503ab138476d9aa8c1ca7aa4015568e3"
+    },
+    "cache_tt/RE2-TT_ts-route-service_loss_2.json": {
+      "bytes": 3469,
+      "sha256": "6e84fafac228883582c965cb0c7a3757301c18ae78f3eea628f2082d764ca8c9"
+    },
+    "cache_tt/RE2-TT_ts-route-service_loss_2.npz": {
+      "bytes": 1441178,
+      "sha256": "49c0dcd0795ace64dac485ecf138bf050319ac25309c4a14e687809f97b18d68"
+    },
+    "cache_tt/RE2-TT_ts-route-service_loss_3.json": {
+      "bytes": 2423,
+      "sha256": "97f37cce5f57c35cbbcbaa9bb838ebf7b1fc294b791f5028176c89475c420ed4"
+    },
+    "cache_tt/RE2-TT_ts-route-service_loss_3.npz": {
+      "bytes": 615219,
+      "sha256": "47cee8d51faba8c946f406b7d06abd12203c02068849b112d800a6c06ecd9c0e"
+    },
+    "cache_tt/RE2-TT_ts-route-service_mem_1.json": {
+      "bytes": 3356,
+      "sha256": "82bc7e6994379cbad8fb192a2978220514fa6615b6c47b26a2c2f279bd0df7ab"
+    },
+    "cache_tt/RE2-TT_ts-route-service_mem_1.npz": {
+      "bytes": 1871248,
+      "sha256": "497d73cda03143a25428c537ddbabf641b2177864fcd4d562da63dd2b37d3032"
+    },
+    "cache_tt/RE2-TT_ts-route-service_mem_2.json": {
+      "bytes": 1322,
+      "sha256": "12fd0d295d6103fa47a0e4886634ec851d713ba75c733470f23db9153c9932d5"
+    },
+    "cache_tt/RE2-TT_ts-route-service_mem_2.npz": {
+      "bytes": 322387,
+      "sha256": "7ee46ef2495bf1322272c11366f495784823a7e7bbc9725e77817fbbe34f4fed"
+    },
+    "cache_tt/RE2-TT_ts-route-service_mem_3.json": {
+      "bytes": 3357,
+      "sha256": "5826f3f0f8e15a4607e6030413b416d49c1e005ae1dcc2d5b6dc383b07ff40f9"
+    },
+    "cache_tt/RE2-TT_ts-route-service_mem_3.npz": {
+      "bytes": 2022860,
+      "sha256": "247281700df2cfe09224c4ab45710f3fc4ceb64f41f2b9a22d3b7e568cab63c3"
+    },
+    "cache_tt/RE2-TT_ts-route-service_socket_1.json": {
+      "bytes": 3423,
+      "sha256": "4e75801b532ac6cf8ad90f7b30ac6215da06eafebd91a421aff06118d81be971"
+    },
+    "cache_tt/RE2-TT_ts-route-service_socket_1.npz": {
+      "bytes": 3420212,
+      "sha256": "422df4c1d37c40694667e92ad777810aee0e49c15f425d63ba25d2549d9bb58a"
+    },
+    "cache_tt/RE2-TT_ts-route-service_socket_2.json": {
+      "bytes": 1324,
+      "sha256": "673fbb4ae9b871fedcbcb517695e851b9cf353560421439bb0c5aaecfa6f8c55"
+    },
+    "cache_tt/RE2-TT_ts-route-service_socket_2.npz": {
+      "bytes": 305866,
+      "sha256": "56fa980f134f100c3ba6f3a5c6e09f8cc097400f64bd29534aa32c238e474ad6"
+    },
+    "cache_tt/RE2-TT_ts-route-service_socket_3.json": {
+      "bytes": 3350,
+      "sha256": "ac0bf4bb227fbec7dbe530a35725af16080085b8db1915609bd9ef755748c530"
+    },
+    "cache_tt/RE2-TT_ts-route-service_socket_3.npz": {
+      "bytes": 2220933,
+      "sha256": "1b1a61d5de870de7ecb0e70ac24fa83add531eefefad2b66ce72885453975cdf"
+    },
+    "cache_tt/RE2-TT_ts-train-service_cpu_1.json": {
+      "bytes": 1320,
+      "sha256": "c35495377594db5aa7491ddca1ec6a4ddeb024c4058816c999ebc00ad6633630"
+    },
+    "cache_tt/RE2-TT_ts-train-service_cpu_1.npz": {
+      "bytes": 463793,
+      "sha256": "ce07253fd099e41234df38ac26be74333baec3316ed0916bbf715671dc1605e5"
+    },
+    "cache_tt/RE2-TT_ts-train-service_cpu_2.json": {
+      "bytes": 1319,
+      "sha256": "b58d1a3788578e3c2c1ebf9816a254d880508fad7ed4fc34485b41a621594bf9"
+    },
+    "cache_tt/RE2-TT_ts-train-service_cpu_2.npz": {
+      "bytes": 427301,
+      "sha256": "bedbd5b59faa35748488e9c10d2b7a17d09b3e3bc0e94d5c64e9961cfba5ca2b"
+    },
+    "cache_tt/RE2-TT_ts-train-service_cpu_3.json": {
+      "bytes": 1275,
+      "sha256": "b6511e92aa46ea5818c7fa4827207955b78e71330470d687dee14573af532ac9"
+    },
+    "cache_tt/RE2-TT_ts-train-service_cpu_3.npz": {
+      "bytes": 447820,
+      "sha256": "e0daa9ad3ce6d56588d788a27cf1e0a8f96fb2bc85e5e920803fe4b37a24fbaa"
+    },
+    "cache_tt/RE2-TT_ts-train-service_delay_1.json": {
+      "bytes": 3379,
+      "sha256": "a38f15d4891e090708b30e9a61d9e349ff00ce8dd52f688964fc683db9e1a248"
+    },
+    "cache_tt/RE2-TT_ts-train-service_delay_1.npz": {
+      "bytes": 2540289,
+      "sha256": "63d4570d28b3d16ce047e789d55818a02f409fc6251c48851ba0ef36cad364b5"
+    },
+    "cache_tt/RE2-TT_ts-train-service_delay_2.json": {
+      "bytes": 3383,
+      "sha256": "2c41870b86b35ae2df4f02424b1408090c430e40f066a9e619f69ad3a3b1a9f9"
+    },
+    "cache_tt/RE2-TT_ts-train-service_delay_2.npz": {
+      "bytes": 2022894,
+      "sha256": "9ddbea61a96421e71b53a18cecd65db8f7733a2b5922960ed348acecffc3cf24"
+    },
+    "cache_tt/RE2-TT_ts-train-service_delay_3.json": {
+      "bytes": 3383,
+      "sha256": "47b37217c0f3401945bf908b993621bd9f6b012c53b2ce5f5e0d660e39ceaa68"
+    },
+    "cache_tt/RE2-TT_ts-train-service_delay_3.npz": {
+      "bytes": 2215086,
+      "sha256": "d3a9c244f086c60243348abc19ccecbcb6d34ee3ffb947ebac3f68686922d7d0"
+    },
+    "cache_tt/RE2-TT_ts-train-service_disk_1.json": {
+      "bytes": 1322,
+      "sha256": "9031d6f34a2eacada1e4d4557047c04b66ea4fb1dbee7fa7dff0f58dd1983dbc"
+    },
+    "cache_tt/RE2-TT_ts-train-service_disk_1.npz": {
+      "bytes": 416325,
+      "sha256": "c8265158b291444e67e084fdb05ca4b1aead1840458e2cfd6f9f7b87a18acccc"
+    },
+    "cache_tt/RE2-TT_ts-train-service_disk_2.json": {
+      "bytes": 1321,
+      "sha256": "f7b88970a10e1e34b47a728b28d463879dd10109a9cc550996feffd194c8eb2d"
+    },
+    "cache_tt/RE2-TT_ts-train-service_disk_2.npz": {
+      "bytes": 417138,
+      "sha256": "b6a73814fff510b9bf70a0e89d618146fc710c51b1507be1b8c608d69abbce54"
+    },
+    "cache_tt/RE2-TT_ts-train-service_disk_3.json": {
+      "bytes": 1324,
+      "sha256": "af16628e4f523faa127fab26e1d2541e09499c11e3a47b97f5228d3b437cfafe"
+    },
+    "cache_tt/RE2-TT_ts-train-service_disk_3.npz": {
+      "bytes": 452797,
+      "sha256": "3537e0876866b9a8c0094fe702cd8baef7884f79648cb401d631bd578dd3e81b"
+    },
+    "cache_tt/RE2-TT_ts-train-service_loss_1.json": {
+      "bytes": 3374,
+      "sha256": "8d7ac53c51a695fb12ce95b90d79b5af5c07a4738f58769caf9fda18d6bb9bd6"
+    },
+    "cache_tt/RE2-TT_ts-train-service_loss_1.npz": {
+      "bytes": 3016559,
+      "sha256": "326b05519403d59a338be3e8c2ad0fd1ef6b2d22b3c794d341c7944195a48ef1"
+    },
+    "cache_tt/RE2-TT_ts-train-service_loss_2.json": {
+      "bytes": 3374,
+      "sha256": "8f5918a7b5ea0cc459884ce5203644587b2fca670be9dd1e27dd17f81d74e4fe"
+    },
+    "cache_tt/RE2-TT_ts-train-service_loss_2.npz": {
+      "bytes": 2726675,
+      "sha256": "930696c6d37705c313fffe404d69ebf83a2631b5830988fd7fe5d5e7f3b53a8e"
+    },
+    "cache_tt/RE2-TT_ts-train-service_loss_3.json": {
+      "bytes": 3375,
+      "sha256": "af97b17bb44061c962465c2114c668758549812233b4d300581845eccc04ac78"
+    },
+    "cache_tt/RE2-TT_ts-train-service_loss_3.npz": {
+      "bytes": 2850535,
+      "sha256": "70267ffdbdcf4a1688f86f552c77f7012cde7a5e9a849153d9a42ad3efe1df69"
+    },
+    "cache_tt/RE2-TT_ts-train-service_mem_1.json": {
+      "bytes": 3363,
+      "sha256": "f1a37f51bceb7b11a2b6b65004d52e9d2b6e4206b34d06cc26311e5846c25453"
+    },
+    "cache_tt/RE2-TT_ts-train-service_mem_1.npz": {
+      "bytes": 1659232,
+      "sha256": "e6fd2c159a2a513b635ab418d999976d2153a167a4b643c7a449f545955db0c1"
+    },
+    "cache_tt/RE2-TT_ts-train-service_mem_2.json": {
+      "bytes": 3364,
+      "sha256": "a6d71ba4d49a1597738e3de5e73e3e1b45711eaf8db6d357951449aec8e5554d"
+    },
+    "cache_tt/RE2-TT_ts-train-service_mem_2.npz": {
+      "bytes": 1677568,
+      "sha256": "5f4ce500ae0fb6c259b3596e060e2b506bc4528c2a684890a50ba2a9b0777c7f"
+    },
+    "cache_tt/RE2-TT_ts-train-service_mem_3.json": {
+      "bytes": 3360,
+      "sha256": "ad7da72dafb644436d7b50c45eb1e81838a951e4b142c1a1b7a171ec8a2a704d"
+    },
+    "cache_tt/RE2-TT_ts-train-service_mem_3.npz": {
+      "bytes": 2117910,
+      "sha256": "390de1bf4e937ad51dc58ca536c7a0c0cfdddbded2aa8f0240cf91fd7312eb8b"
+    },
+    "cache_tt/RE2-TT_ts-train-service_socket_1.json": {
+      "bytes": 1261,
+      "sha256": "e7cc21a9e506c3c91a1a63385bebccbb0258a3da573b7793ccbaa0d7d46c6224"
+    },
+    "cache_tt/RE2-TT_ts-train-service_socket_1.npz": {
+      "bytes": 4528,
+      "sha256": "3d80d1a1a6bfd47168d0162969f9bb89143c4f901aec51cd98ce1130500468a4"
+    },
+    "cache_tt/RE2-TT_ts-train-service_socket_2.json": {
+      "bytes": 2497,
+      "sha256": "159896faa1165cb56d4b57f98eca1eaac674339b2b1ae5ff125bc79d7506d3e5"
+    },
+    "cache_tt/RE2-TT_ts-train-service_socket_2.npz": {
+      "bytes": 1117081,
+      "sha256": "25e1b36bf06793004ed3bbd1aefd1ce6e03ca521fdccebf068fda18c38080127"
+    },
+    "cache_tt/RE2-TT_ts-train-service_socket_3.json": {
+      "bytes": 1326,
+      "sha256": "166e89b132ade792d7077314b531578599708be5eb14f9d4aaa8c43cbc6af54e"
+    },
+    "cache_tt/RE2-TT_ts-train-service_socket_3.npz": {
+      "bytes": 315276,
+      "sha256": "190bfb609221f5e060971c42af0d1f749ff193b09947c7f0a6804467234aab37"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_cpu_1.json": {
+      "bytes": 1323,
+      "sha256": "ac1e4b8797e593d89471b2a89aa40c4f7bf6e875028225a29251076154a1466e"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_cpu_1.npz": {
+      "bytes": 361530,
+      "sha256": "4053230046cdba8e17fc9c0129434dc32e9402c96ab95527a5a31754e461c29a"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_cpu_2.json": {
+      "bytes": 2636,
+      "sha256": "cd33ddd8bc5638f7749b8039efd8cc7d8246312ca3b0a06b8b99c6b8db435d2a"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_cpu_2.npz": {
+      "bytes": 1105722,
+      "sha256": "f93b51cc07feee06eae10319fc1ac5dd76dea392fd3ed7320048c00a69e5c710"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_cpu_3.json": {
+      "bytes": 2842,
+      "sha256": "81b730bfa2e90010da5d678d2ed3626ffcd22becf1d4a264a1c82788045aa3b4"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_cpu_3.npz": {
+      "bytes": 930184,
+      "sha256": "ebcc5d32308a6ec708d1b45947ebad2de9fef426134420bd19e313b7f1fe3580"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_delay_1.json": {
+      "bytes": 2418,
+      "sha256": "1275a45a106b6b6cc3b695691279cd5866119ad1e4e5d8877a76ed1461e9af58"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_delay_1.npz": {
+      "bytes": 773421,
+      "sha256": "8ad6f56481d5e37745b3fd1e33dd0b488b6c32e07f0bccf540c8f0be0c736147"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_delay_2.json": {
+      "bytes": 2642,
+      "sha256": "233fdebf255074342041ee05f7fbcb57565c246ea396f4026242ac29037e63a6"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_delay_2.npz": {
+      "bytes": 1154442,
+      "sha256": "9395a4cb28553b00d60a3ac6b1bb972ddd824dc771bbdef85646bb6947e1b5e7"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_delay_3.json": {
+      "bytes": 2422,
+      "sha256": "ba2ec34297348691937759fcba52fc04c9d7448233e4d899c04353079e4b038c"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_delay_3.npz": {
+      "bytes": 825972,
+      "sha256": "ba41c5c3b0913beb5294fdac58605c07818e37e88da631ec0720c4b38f1cfe31"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_disk_1.json": {
+      "bytes": 2421,
+      "sha256": "2aac07856f19c7b2b16489fd9e67806c77faa7b105a6a6a56a9662be40608654"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_disk_1.npz": {
+      "bytes": 742427,
+      "sha256": "06f912bd3b902e503f9e1a206c39ae9e6d80f6535467c4c3d667419dd23526e1"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_disk_2.json": {
+      "bytes": 3011,
+      "sha256": "576595b10b0fcfcda6e38ea7975a5a16ad39f95203ea2ee7afc7d3fcfa3bac85"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_disk_2.npz": {
+      "bytes": 580502,
+      "sha256": "5287f2602a9194c35ff376d7255888e4e451d4fa65480c8e55afd66264e228fb"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_disk_3.json": {
+      "bytes": 3220,
+      "sha256": "4d5bf06327eecc50f581ee2fd0e82ede2ccc9435f240d13a11d32b9dd8ebbac8"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_disk_3.npz": {
+      "bytes": 684370,
+      "sha256": "9662ffe6cce9701f5e7593b6f20c2322d59b8a211d2b2dd75113bb89e7567e7e"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_loss_1.json": {
+      "bytes": 3393,
+      "sha256": "24ac054d144c1646227bba959ce06ed39c3b1fd392dad6e3433a9265b9b29e9d"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_loss_1.npz": {
+      "bytes": 2662790,
+      "sha256": "fbbdd9f626a8c6cbb936b3633de0c062fd5789387fe4e037df2695aa83546a4e"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_loss_2.json": {
+      "bytes": 3389,
+      "sha256": "0e66be89addc19fd5200ec84cd461107e0fb0efcab642eb88e875202785b4044"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_loss_2.npz": {
+      "bytes": 3307341,
+      "sha256": "d437902be69ca2a1ad03870c6b20a5651f88411ec37a9f64a613ff9ae1e33baf"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_loss_3.json": {
+      "bytes": 3393,
+      "sha256": "8cc936ba6f17a4a1d44160d39d7ebf428a29939b38d2d7d1fe466a12dfe8480a"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_loss_3.npz": {
+      "bytes": 2936948,
+      "sha256": "6125ec35e44f248fdd977e37350369273033df4c95e438616757b46ee16036ce"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_mem_1.json": {
+      "bytes": 2639,
+      "sha256": "5a14e0e9aa1ea47a21c07a1489fbd35df48220d2cc23d51e2aa133fd1bf5be9a"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_mem_1.npz": {
+      "bytes": 1037310,
+      "sha256": "35f103dba6e3cd713b7b72eb1767bd9ee346babd149d10d3913f7090dea47d02"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_mem_2.json": {
+      "bytes": 3172,
+      "sha256": "4866432c4a023360ef3305bdaca23b8959d8c724a83209d23d75ba8dc0f64a33"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_mem_2.npz": {
+      "bytes": 1959240,
+      "sha256": "0d5ab21844dcb32f97591bbe514ddd5c5c1746e874c9cb70fc886b9972d91f20"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_mem_3.json": {
+      "bytes": 1316,
+      "sha256": "9155dbaaab3108718c72e27ceb7f817a621dc37b6bfa0f0f899c74d2b83175ef"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_mem_3.npz": {
+      "bytes": 293965,
+      "sha256": "b7a68f718125ae848b7d54a7f84b00d9556e2079bb3e4dd55600f52e9806630c"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_socket_1.json": {
+      "bytes": 2858,
+      "sha256": "de746d80defb86c4b4b620f7016c8a312c7f11903d2dd0991a694498fe4433c8"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_socket_1.npz": {
+      "bytes": 467310,
+      "sha256": "6ac415e9c8843e449b7ecc241a0093ed9bd4a7212f1e8c2c89b2e90bd5d7c793"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_socket_2.json": {
+      "bytes": 2428,
+      "sha256": "fce1f19cfedf7d42bd9c12fcf606865859662c04ca0a9be7c8a170c1a8d96c8e"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_socket_2.npz": {
+      "bytes": 635860,
+      "sha256": "c3752ff2d85bd314302b2927e39f495061e5bffedce63deb2ec5110d5556c5c1"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_socket_3.json": {
+      "bytes": 3416,
+      "sha256": "de09312033eb577bcb9f2efd009c0f375d169f477aa0ab7db369508095bce98b"
+    },
+    "cache_tt/RE2-TT_ts-travel-service_socket_3.npz": {
+      "bytes": 2193505,
+      "sha256": "f8ba591a2406021c35fce87a0fe86cb69c13aff462aed2af3787f2ea3c23caff"
+    },
+    "cache_tt/index.json": {
+      "bytes": 298747,
+      "sha256": "79aea0c345e2421695d438750c5b77bf24a02619d3df69daf1a348ba89db839c"
+    },
+    "cache_tt.log": {
+      "bytes": 4255,
+      "sha256": "80e266e63def11e5d1ae0ba23988e3005b87f215e2ef005a980270466a45f075"
+    },
+    "inputs/shapleyiq_old_ob.json": {
+      "bytes": 434105,
+      "sha256": "ac6a21c17e2e575073fb37b5c2f8fb05e19ebfb4be2cfd1d82348b3219d60431"
+    },
+    "inputs/shapleyiq_old_tt.json": {
+      "bytes": 1343195,
+      "sha256": "b28ebe745e67563b8d218b49333ab8ba31ddcd4b23af6f132e5fe7e0882b55d8"
+    },
+    "run_shapley_matched.py": {
+      "bytes": 5702,
+      "sha256": "6abb5e66259810f511fdcfb0f892411dbda1a13769de2bf91c8d6e42fe1b631f"
+    },
+    "shapley_adapter_original.py": {
+      "bytes": 16855,
+      "sha256": "412d7f8c805eb63876163caec9a775009451140ae5fdb1c430452c77f6c7505f"
+    },
+    "shapley_matched_ob.json": {
+      "bytes": 601405,
+      "sha256": "df098421cf353e5589918dc73db55717f7d4e5ccedf73e3db9fd30770efa714b"
+    },
+    "shapley_matched_ob.log": {
+      "bytes": 2659,
+      "sha256": "d75d8b1672571449edc4260e5177a0ab8beacd37ed3f724f12ba949d220a78c4"
+    },
+    "shapley_matched_tt.json": {
+      "bytes": 2500340,
+      "sha256": "2ba7cd6ed10186f147af5cc32b4d0db54b61eb201f34082fca7486a6d147acc4"
+    },
+    "shapley_matched_tt.log": {
+      "bytes": 2689,
+      "sha256": "6343e86ff4b21018b3d05290b99e9f2bdc88df9629d6a069afecaccb9d9e7e3a"
+    },
+    "summarize_audits.log": {
+      "bytes": 3993,
+      "sha256": "753654e50e57193420119c258738bcd5ddcaf0c718f56e482c41d7a80455c555"
+    },
+    "summarize_audits.py": {
+      "bytes": 12295,
+      "sha256": "25857f66ba1a263d9afb0898e6cbabeea750ea7164ac99e9903a159aa7094d95"
+    },
+    "test_freeze_audit.py": {
+      "bytes": 4461,
+      "sha256": "d7d1999c47b584d21ba46a54029e773b1538d2d81eae155fc23cbc4b5598f2f0"
+    },
+    "third_party/shapley_value_rca.py": {
+      "bytes": 20292,
+      "sha256": "0a05f6242d2c56904c0da98c8a83e68a2a86b592b3a132d5c0e3ea255d15384c"
+    },
+    "unify_baselines.log": {
+      "bytes": 5069,
+      "sha256": "caf88ce1687dfdfedb407cb23620982cfb4d3795bacfe33556a2c9bd61c21990"
+    },
+    "unify_baselines.py": {
+      "bytes": 13798,
+      "sha256": "25a755b137b541de043d9483cc060468d0e7fb698cfdded9f50f8ca56b985082"
+    },
+    "verify_freeze.py": {
+      "bytes": 3491,
+      "sha256": "1dfe1a6b28c76c342689e5ae08e6c8b7f56ecfa7d7c67ab8d0c7d7652a2f1a92"
+    }
+  },
+  "note": "Local audit archive; no trained model or raw dataset modified."
+}

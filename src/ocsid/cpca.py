@@ -17,6 +17,7 @@ the feature builder.
 
 from __future__ import annotations
 
+import math
 from collections import defaultdict
 from dataclasses import dataclass
 
@@ -64,14 +65,59 @@ def is_entry(span: Span, dataset: str) -> bool:
     )
 
 
-def decompose_tree(spans: list[Span], dataset: str):
+def entry_component(spans: list[Span], dataset: str):
+    """Keep only nodes connected to one explicit business entry.
+
+    Missing-parent fragments are omitted, never attached using time or labels.
+    Duplicate ids and ambiguous/missing business entries remain unsupported.
+    """
+    ids = {span.sid: span for span in spans}
+    if not spans or len(ids) != len(spans):
+        return None
+    entries = [span for span in spans if span.parent not in ids and is_entry(span, dataset)]
+    if len(entries) != 1:
+        return None
+    children = defaultdict(list)
+    for span in spans:
+        children[span.parent].append(span.sid)
+    seen, stack = set(), [entries[0].sid]
+    while stack:
+        sid = stack.pop()
+        if sid in seen:
+            return None
+        seen.add(sid)
+        stack.extend(children[sid])
+    return [span for span in spans if span.sid in seen]
+
+
+def decompose_tree(spans: list[Span], dataset: str, gap_policy: str = "post",
+                   clock_tolerance_us: float = 0., tree_policy: str = "strict"):
     """Return ``(by_id, children, root, local, pre, post)`` for one request.
 
     ``pre[c.sid]`` / ``post[c.sid]`` are the gaps around child ``c`` inside its
-    parent.  ``local[s.sid]`` is the parent's self time after removing the child
-    union and both gaps, so it is never negative.
+    parent. Every inter-child gap belongs to exactly one edge (post by default).
+    Local is the remaining cost under this ownership assumption, not measured CPU time.
+    Invalid, incomplete or parallel trees return None.
     """
+    if tree_policy not in {"strict", "entry-component"}:
+        raise ValueError("tree_policy must be strict or entry-component")
+    if tree_policy == "entry-component":
+        spans = entry_component(spans, dataset)
+        if spans is None:
+            return None
+    if clock_tolerance_us:
+        from .clocks import align_span_clocks
+        spans = align_span_clocks(spans, clock_tolerance_us)
+        if spans is None:
+            return None
+    if gap_policy not in {"post", "pre"}:
+        raise ValueError("gap_policy must be post or pre")
+    if not spans or any(not math.isfinite(s.start) or not math.isfinite(s.duration)
+                        or s.duration < 0 for s in spans):
+        return None
     by_id = {span.sid: span for span in spans}
+    if len(by_id) != len(spans):
+        return None
     children: dict[str, list[Span]] = defaultdict(list)
     roots: list[Span] = []
     for span in spans:
@@ -79,7 +125,7 @@ def decompose_tree(spans: list[Span], dataset: str):
             roots.append(span)
         else:
             children[span.parent].append(span)
-    if not roots:
+    if len(roots) != 1:
         return None
     entries = [span for span in roots if is_entry(span, dataset)]
     root = (
@@ -87,27 +133,40 @@ def decompose_tree(spans: list[Span], dataset: str):
         if entries
         else max(roots, key=lambda s: s.duration)
     )
-    local: dict[str, float] = {}
-    pre: dict[str, float] = {}
-    post: dict[str, float] = {}
+    # A complete serial tree is required. Disconnected cycles, overlapping
+    # children and clock-skewed/out-of-parent spans are explicitly unsupported.
+    seen, stack = set(), [root]
+    while stack:
+        node = stack.pop()
+        if node.sid in seen:
+            return None
+        seen.add(node.sid)
+        stack.extend(children.get(node.sid, []))
+    if len(seen) != len(spans):
+        return None
+    local, pre, post = {}, {}, {}
     for span in spans:
         kids = sorted(children.get(span.sid, []), key=lambda s: s.start)
         if not kids:
-            local[span.sid] = max(span.duration, 0.0)
+            local[span.sid] = span.duration
             continue
-        child_union = union_length([(c.start, c.end) for c in kids])
-        pre_sum = post_sum = 0.0
         previous_end = span.start
-        for index, child in enumerate(kids):
-            gap = max(child.start - previous_end, 0.0)
-            pre[child.sid] = gap
-            pre_sum += gap
-            next_start = kids[index + 1].start if index + 1 < len(kids) else span.end
-            tail = max(next_start - child.end, 0.0)
-            post[child.sid] = tail
-            post_sum += tail
-            previous_end = max(previous_end, child.end)
-        local[span.sid] = max(span.duration - child_union - pre_sum - post_sum, 0.0)
+        for child in kids:
+            if child.start < previous_end or child.end > span.end:
+                return None
+            pre[child.sid] = 0.0
+            post[child.sid] = 0.0
+            previous_end = child.end
+        pre[kids[0].sid] = kids[0].start - span.start
+        post[kids[-1].sid] = span.end - kids[-1].end
+        for left, right in zip(kids, kids[1:]):
+            gap = right.start - left.end
+            if gap_policy == "post":
+                post[left.sid] = gap
+            else:
+                pre[right.sid] = gap
+        local[span.sid] = max(span.duration - sum(c.duration for c in kids)
+                              - sum(pre[c.sid] + post[c.sid] for c in kids), 0.0)
     return by_id, children, root, local, pre, post
 
 
@@ -120,21 +179,28 @@ def replay(
     service: str | None,
     normal_local: dict[tuple[str, str], float],
     normal_edge: dict[tuple[str, str, str, str], tuple[float, float]],
+    restoration: str = "excess",
 ) -> float:
     """Replay one span tree, optionally restoring one service's cost."""
+    if restoration not in {"replace", "excess"}:
+        raise ValueError("restoration must be replace or excess")
     own_local = local[span.sid]
     if service is not None and span.service == service:
-        own_local = normal_local.get((span.service, span.operation), own_local)
+        reference = normal_local.get((span.service, span.operation), own_local)
+        own_local = min(own_local, reference) if restoration == "excess" else reference
     total = own_local
     for child in children.get(span.sid, []):
         child_duration = replay(
-            child, children, local, pre, post, service, normal_local, normal_edge
+            child, children, local, pre, post, service, normal_local, normal_edge, restoration
         )
         if service is not None and child.service == service:
             edge = (span.service, span.operation, child.service, child.operation)
             gap_pre, gap_post = normal_edge.get(edge, (pre[child.sid], post[child.sid]))
         else:
             gap_pre, gap_post = pre[child.sid], post[child.sid]
+        if restoration == "excess":
+            gap_pre = min(gap_pre, pre[child.sid])
+            gap_post = min(gap_post, post[child.sid])
         total += gap_pre + child_duration + gap_post
     return total
 
@@ -144,23 +210,57 @@ def score_request(
     normal_local: dict[tuple[str, str], float],
     normal_edge: dict[tuple[str, str, str, str], tuple[float, float]],
     dataset: str,
+    restoration: str = "excess",
+    gap_policy: str = "post",
+    clock_tolerance_us: float = 0.,
+    tree_policy: str = "strict",
+    *, components: str = "all", edge_owner: str = "callee",
 ):
     """Return ``(root, deltas, local)`` for one request.
 
     ``deltas[i]`` is the entry-latency drop when service ``i`` is restored.
     """
-    parsed = decompose_tree(spans, dataset)
+    parsed = decompose_tree(spans, dataset, gap_policy, clock_tolerance_us, tree_policy)
+    return score_decomposition(parsed, normal_local, normal_edge, dataset, restoration,
+                               components=components, edge_owner=edge_owner)
+
+
+def score_decomposition(parsed, normal_local, normal_edge, dataset,
+                        restoration="excess", *, components="all", edge_owner="callee"):
+    """Score an already validated tree; optional controls do not alter the tree.
+
+    Components and edge ownership are experimental ablations of the same ledger.
+    """
     if parsed is None:
         return None
     _, children, root, local, pre, post = parsed
-    if root.duration <= 0:
+    # A health-check/internal RPC fragment is not a user entry request.
+    if root.duration <= 0 or not is_entry(root, dataset):
         return None
-    deltas = {}
-    for service in {span.service for span in spans}:
-        restored = replay(
-            root, children, local, pre, post, service, normal_local, normal_edge
-        )
-        deltas[service] = max(root.duration - restored, 0.0)
+    if components not in {"all", "local", "edge"}:
+        raise ValueError("components must be all, local or edge")
+    if edge_owner not in {"callee", "caller"}:
+        raise ValueError("edge_owner must be callee or caller")
+    if restoration not in {"replace", "excess"}:
+        raise ValueError("restoration must be replace or excess")
+    # On a serial additive tree this is algebraically identical to one replay
+    # per service, but O(spans) instead of O(services * spans).
+    by_id = parsed[0]
+    deltas = defaultdict(float)
+    def gain(observed, reference):
+        return max(observed - reference, 0.0) if restoration == "excess" else observed - reference
+    for span in by_id.values():
+        key = (span.service, span.operation)
+        deltas[span.service] += 0.0
+        if components in {"all", "local"}:
+            deltas[span.service] += gain(local[span.sid], normal_local.get(key, local[span.sid]))
+        parent = by_id.get(span.parent)
+        if parent is not None and components in {"all", "edge"}:
+            edge = (parent.service, parent.operation, span.service, span.operation)
+            ref_pre, ref_post = normal_edge.get(edge, (pre[span.sid], post[span.sid]))
+            owner = span.service if edge_owner == "callee" else parent.service
+            deltas[owner] += gain(pre[span.sid], ref_pre) + gain(post[span.sid], ref_post)
+    deltas = {service: max(value, 0.0) for service, value in deltas.items()}
     return root, deltas, local
 
 

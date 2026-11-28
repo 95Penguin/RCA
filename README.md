@@ -11,6 +11,14 @@
 `first-visible` 预测 `(t, t+h]` 内是否首次出现用户可感知故障。当前主结果仍固定为
 `state + 1min`，同一数据和模型入口已经支持 3min、5min 等后续实验。
 
+## 当前方法：OCSID + CPCA
+
+方法代码已集中在 `src/ocsid/`，模型位于 `src/models/ocsid.py`。
+原特征构建、训练、CPCA 审计、融合脚本保留为兼容入口。
+参见 [方法代码地图](docs/ocsid-code-map.md)、[当前四模块方法](docs/2026-11-25-method-v4.md) 与
+[论文前实现审查](docs/2026-11-25-code-review.md)。当前 corrected-v2 已修复主要实现缺陷；
+新旧实验严格分开，时钟量化和入口识别的敏感性结果需在冻结主表前核对。
+
 ## 环境与入口
 
 ```bash

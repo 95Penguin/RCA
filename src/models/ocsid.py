@@ -110,7 +110,7 @@ class OCSIDModel(LTFPBaseline):
         batch, steps, operations, dim = operation_features.shape
         masked_ops = operation_features * operation_mask.unsqueeze(-1)
         hidden, _ = self.operation_encoder(
-            masked_ops.reshape(batch * operations, steps, dim)
+            masked_ops.permute(0, 2, 1, 3).reshape(batch * operations, steps, dim)
         )
         q = torch.sigmoid(
             self.operation_head(self.operation_norm(hidden[:, -1])).reshape(batch, operations)
@@ -124,7 +124,7 @@ class OCSIDModel(LTFPBaseline):
 
         # ---- optional training-only root auxiliary ----
         aux_root_logits = None
-        if self.aux_root:
+        if self.aux_root and self.training:
             source = self.source_mlp(local_state)
             impact = self.impact_mlp(node_state)
             aux_root_logits = self.root_head(

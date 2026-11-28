@@ -15,8 +15,6 @@ Entry points
 - ``scripts/fuse_ocsid_cpca.py``                : learned-head vs CPCA fusion.
 """
 
-from models.ocsid import OCSIDModel
-
 from .cpca import Span, decompose_tree, replay, score_request
 from .features import (
     OP_FEATURE_NAMES,
@@ -36,3 +34,11 @@ __all__ = [
     "load_operation_table",
     "operation_feature_vector",
 ]
+
+
+def __getattr__(name):
+    # Trace-only tools must not require PyTorch or import every neural model.
+    if name == "OCSIDModel":
+        from models.ocsid import OCSIDModel
+        return OCSIDModel
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
